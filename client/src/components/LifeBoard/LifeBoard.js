@@ -6,8 +6,8 @@ function LifeBoard() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.lifeBoard}>
-                <div className={styles.left}><LifeBoardLeft /></div>
-                <div className={styles.right}><LifeBoardRight /></div>
+                <LifeBoardLeft />
+                <LifeBoardRight />
             </div>
         </div>
 
