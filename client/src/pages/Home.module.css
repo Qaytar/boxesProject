@@ -1,0 +1,18 @@
+.landingView {
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    background-color: bisque;
+}
+
+/* using padding vs margin so that scroll button works properly */
+.content {
+    padding-top: 50px;
+}
+
+
+.wrapper {
+    text-align: center;
+}

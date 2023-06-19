@@ -1,0 +1,12 @@
+.wrapper {
+    width: 600px;
+    height: 1200px;
+    border: 3px solid blue;
+    padding-left: 1%;
+    text-align: center;
+}
+
+.boxes {
+    margin-top: 10px;
+    display: flex;
+}
