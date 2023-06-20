@@ -1,11 +1,11 @@
 import LifeBoard from "../components/LifeBoard/LifeBoard"
-import LogInOut from "../components/Session/LogInOut";
+import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn";
 import styles from "./Application.module.css"
 
 function Application() {
     return (
         <div className={styles.wrapper}>
-            <LogInOut />
+            <LogInMyAreaBtn />
             <LifeBoard />
 
         </div>
