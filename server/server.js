@@ -1,13 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const cors = require('cors');
 var router = express.Router();
 const authRoutes = require('./authRoutes');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+// Use cors
+app.use(cors({
+    origin: 'http://localhost:3000', // Allow this origin
+    credentials: true // Allow cookies
+}));
+
 /* Use the router */
 app.use('/auth', authRoutes);
+
 
 
 /*Connects to Mongodb*/

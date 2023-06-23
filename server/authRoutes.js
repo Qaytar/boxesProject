@@ -74,7 +74,10 @@ router.get('/google/callback', async function (req, res, next) {
 
 /*Listents to GET requests and its cookies from the React app when verification is needed */
 /*Replies with either res.redirect if failure or with user data if success*/
-router.get('/auth/verify', (req, res) => {
+router.get('/verify', (req, res) => {
+    res.header("Access-Control-Allow-Origin", 'http://localhost:3000');
+    res.header("Access-Control-Allow-Credentials", 'true');
+    res.header("Referrer-Policy", "no-referrer-when-downgrade");
 
     jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, token) => {
         if (err) {
@@ -86,5 +89,11 @@ router.get('/auth/verify', (req, res) => {
         }
     });
 });
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('http://localhost:3000');
+});
+
 
 module.exports = router;
