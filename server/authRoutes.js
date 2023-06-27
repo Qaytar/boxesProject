@@ -82,7 +82,7 @@ router.get('/verify', (req, res) => {
     jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, token) => {
         if (err) {
             // Token validation failed
-            res.redirect(303, 'http://localhost:3000/auth');
+            res.redirect(303, 'http://localhost:3000/login');
         } else {
             // Token validation successful
             res.json(token.user);

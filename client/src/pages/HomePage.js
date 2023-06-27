@@ -1,10 +1,10 @@
 import { useRef } from "react";
 import LifeBoard from "../components/LifeBoard/LifeBoard";
 import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn"
-import styles from "./Home.module.css"
+import styles from "./HomePage.module.css"
 import { Link } from "react-router-dom";
 
-function Home() {
+function HomePage() {
     const contentRef = useRef();
 
     const scrollToContent = () => {
@@ -19,11 +19,11 @@ function Home() {
                 <button onClick={scrollToContent}>Explore</button>
             </div>
             <div ref={contentRef} className={styles.content}>
-                <h3><Link to="/registration">Log in</Link> to be able to save your changes</h3>
+                <h3><Link to="/login">Log in</Link> to be able to save your changes</h3>
                 <LifeBoard />
             </div>
         </div>
     )
 }
 
-export default Home;
+export default HomePage;
