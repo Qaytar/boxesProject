@@ -85,6 +85,7 @@ router.get('/verify', (req, res) => {
             res.redirect(303, 'http://localhost:3000/login');
         } else {
             // Token validation successful
+            //console.log('user', token.user)
             res.json(token.user);
         }
     });

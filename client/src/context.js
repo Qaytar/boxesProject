@@ -1,11 +1,11 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    const checkAuth = async () => {
+    const checkAuth = useCallback(async () => {
         try {
             const response = await fetch('http://localhost:5000/auth/verify', { credentials: 'include' });
             const data = await response.json();
@@ -16,8 +16,7 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
             return null;
         }
-    };
-
+    }, [setUser]);  // `setUser` is a dependency of this useCallback
 
     return (
         <AuthContext.Provider value={{ user, checkAuth, setUser }}>
