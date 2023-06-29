@@ -1,6 +1,6 @@
 import Backdrop from "./Backdrop";
 import styles from "./MyArea.module.css"
-import { AuthContext } from '../../context';
+import { AuthContext } from '../../contexts/authContext';
 import React, { useContext } from 'react';
 
 function MyArea(props) {

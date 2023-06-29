@@ -23,9 +23,11 @@ for (let i = 1; i <= 100; i++) {
 }
 
 const UserSchema = new Schema({
+    userId: String,
     name: String,
     image: String,
     lifeBoard: lifeBoardSchema
 });
+
 
 module.exports = mongoose.model('User', UserSchema);

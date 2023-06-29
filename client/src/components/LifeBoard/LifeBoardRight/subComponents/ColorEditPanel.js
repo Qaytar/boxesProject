@@ -1,9 +1,26 @@
 import EditPanel from "./EditPanel";
+import React, { useContext } from 'react';
+import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
+import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
 
 function ColorEditPanel() {
+    const { updateModified, saveLifeBoard } = useContext(LifeBoardDataContext);
+    const { selectedBoxes } = useContext(BoxSelectionContext);
+
+
+
     return (
         <div>
-            <EditPanel>Color Edit Panel</EditPanel>
+            <EditPanel>
+                <p>Color Edit Panel</p>
+                <button onClick={() => updateModified(selectedBoxes)}>
+                    Mark as modified
+                </button>
+
+                <button onClick={saveLifeBoard}>
+                    Save
+                </button>
+            </EditPanel>
         </div>
 
     )

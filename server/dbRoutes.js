@@ -26,7 +26,7 @@ router.get('/getLifeBoard', async (req, res) => {
 
             // If there's a user, try to get their lifeBoard from the DB
             if (user) {
-                const userData = await User.findOne({ id: user.id });
+                const userData = await User.findOne({ userId: user.id });
                 return res.json(userData ? userData.lifeBoard : createEmptyLifeBoard());
             }
         }
@@ -39,6 +39,61 @@ router.get('/getLifeBoard', async (req, res) => {
         res.status(500).json({ error: 'Failed to get lifeBoard' });
     }
 });
+
+/*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
+/*Replies with either empty lifeBoard or the one stored in db for that specific user*/
+router.post('/saveLifeBoard', async (req, res) => {
+    console.log('saveLifeBoard route hit');
+    console.log('Request body:', req.body);
+
+    const updatedLifeBoardData = req.body;
+
+    let user;
+
+    if (req.cookies && req.cookies.token) {
+        try {
+            const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            user = decoded.user;
+            console.log('User from token:', user);
+        } catch (error) {
+            console.error('Failed to decode token:', error);
+            return res.status(403).json({ error: 'Failed to decode token' });
+        }
+    }
+
+    if (!user) {
+        console.error('No user info provided');
+        return res.status(403).json({ error: 'No user info provided' });
+    }
+
+    try {
+        let userData = await User.findOne({ userId: user.id });
+
+        if (!userData) {
+            console.log('User not found in DB, creating a new one');
+            userData = new User({
+                userId: user.id,
+                lifeBoard: updatedLifeBoardData,
+            });
+            await userData.save();
+            console.log('New user created and saved in DB');
+        } else {
+            console.log('User found in DB, updating lifeBoard');
+            userData.lifeBoard = updatedLifeBoardData;
+            await userData.save();
+            console.log('User lifeBoard updated in DB');
+        }
+
+        return res.json({ message: 'LifeBoard saved successfully' });
+    } catch (error) {
+        console.error('Error saving lifeBoard:', error);
+        return res.status(500).json({ error: 'Failed to save lifeBoard' });
+    }
+});
+
+
+
+
 
 
 module.exports = router;

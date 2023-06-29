@@ -6,6 +6,7 @@ var router = express.Router();
 const authRoutes = require('./authRoutes');
 const dbRoutes = require('./dbRoutes');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 app.use(cookieParser());
 
 // Use cors
@@ -13,6 +14,10 @@ app.use(cors({
     origin: 'http://localhost:3000', // Allow this origin
     credentials: true // Allow cookies
 }));
+
+//Enables parsing of JSON request bodies 
+app.use(bodyParser.json({ limit: '2mb' })); // Increase limit
+app.use(express.json())
 
 /* Use the router */
 app.use('/auth', authRoutes);

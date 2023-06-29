@@ -8,3 +8,11 @@
     margin: 0.5px;
     text-align: center;
 }
+
+.selectedBox {
+    border: 1px solid red;
+}
+
+.modifiedBox {
+    background-color: red;
+}
