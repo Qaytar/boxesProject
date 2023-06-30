@@ -28,15 +28,16 @@ export const LifeBoardDataProvider = ({ children }) => {
         fetchLifeBoard();
     }, [authContext.user]);
 
-
-
-    const updateModified = (selectedBoxes) => {
+    const updateBox = (row, week, newBoxData) => {
         let newData = { ...lifeBoardData };
-        selectedBoxes.forEach(box => {
-            newData[box.row][box.week].modified = 'y';
-        });
+        newData[row][week] = { ...newData[row][week], ...newBoxData };
+        let box = newData[row][week];
+        if ((box.color && (box.color.colorName || box.color.colorDescription)) || (box.comment && (box.comment.commentText || box.comment.commentIcon))) {
+            box.modified = 'y';
+        }
         setLifeBoardData(newData);
     };
+
 
     const saveLifeBoard = async () => {
         const response = await fetch('http://localhost:5000/db/saveLifeBoard', {
@@ -52,7 +53,7 @@ export const LifeBoardDataProvider = ({ children }) => {
     };
 
     return (
-        <LifeBoardDataContext.Provider value={{ lifeBoardData, updateModified, saveLifeBoard }}>
+        <LifeBoardDataContext.Provider value={{ lifeBoardData, saveLifeBoard, updateBox }}>
             {children}
         </LifeBoardDataContext.Provider>
     );

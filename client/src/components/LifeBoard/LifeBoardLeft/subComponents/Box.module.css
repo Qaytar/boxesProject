@@ -16,3 +16,8 @@
 .modifiedBox {
     background-color: red;
 }
+
+.commentIcon {
+    width: 8px;
+    height: 8px;
+}

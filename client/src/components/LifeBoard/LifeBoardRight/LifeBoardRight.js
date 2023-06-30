@@ -26,9 +26,11 @@ function LifeBoardRight() {
                 checkState={'edit'}
                 options={['legend', 'edit']}
             />
-            <button onClick={deselectAllBoxes}>Deselect All</button>
+            <button onClick={deselectAllBoxes}>
+                Deselect All Boxes
+            </button>
             <button onClick={saveLifeBoard}>
-                Save
+                Save Changes to db
             </button>
             {isMode === 'edit' ? (
                 <div>
