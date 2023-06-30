@@ -16,22 +16,26 @@ function createEmptyLifeBoard() {
     return lifeBoard;
 }
 
-/*Listents to GET requests and its cookies from the React app when lifeBoard data is needed */
+/*Listents to POST requests and its cookies from the React app when lifeBoard data is needed */
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
-router.get('/getLifeBoard', async (req, res) => {
+router.post('/getLifeBoard', async (req, res) => {
     try {
-        // Check if a token exists
-        if (req.cookies && req.cookies.token) {
-            const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+        const { isLoggedIn } = req.body;
 
-            // If there's a user, try to get their lifeBoard from the DB
-            if (user) {
-                const userData = await User.findOne({ userId: user.id });
-                return res.json(userData ? userData.lifeBoard : createEmptyLifeBoard());
+        if (isLoggedIn) {
+            // Check if a token exists
+            if (req.cookies && req.cookies.token) {
+                const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+
+                // If there's a user, try to get their lifeBoard from the DB
+                if (user) {
+                    const userData = await User.findOne({ userId: user.id });
+                    return res.json(userData ? userData.lifeBoard : createEmptyLifeBoard());
+                }
             }
         }
 
-        // No user (or no token), return an empty lifeBoard
+        // If isLoggedIn is false, or no user (or no token), return an empty lifeBoard
         return res.json(createEmptyLifeBoard());
 
     } catch (error) {
@@ -40,11 +44,12 @@ router.get('/getLifeBoard', async (req, res) => {
     }
 });
 
+
 /*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
 router.post('/saveLifeBoard', async (req, res) => {
-    console.log('saveLifeBoard route hit');
-    console.log('Request body:', req.body);
+    //console.log('saveLifeBoard route hit');
+    //console.log('Request body:', req.body);
 
     const updatedLifeBoardData = req.body;
 
@@ -54,7 +59,7 @@ router.post('/saveLifeBoard', async (req, res) => {
         try {
             const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
             user = decoded.user;
-            console.log('User from token:', user);
+            //console.log('User from token:', user);
         } catch (error) {
             console.error('Failed to decode token:', error);
             return res.status(403).json({ error: 'Failed to decode token' });
@@ -70,18 +75,18 @@ router.post('/saveLifeBoard', async (req, res) => {
         let userData = await User.findOne({ userId: user.id });
 
         if (!userData) {
-            console.log('User not found in DB, creating a new one');
+            //console.log('User not found in DB, creating a new one');
             userData = new User({
                 userId: user.id,
                 lifeBoard: updatedLifeBoardData,
             });
             await userData.save();
-            console.log('New user created and saved in DB');
+            //console.log('New user created and saved in DB');
         } else {
-            console.log('User found in DB, updating lifeBoard');
+            //console.log('User found in DB, updating lifeBoard');
             userData.lifeBoard = updatedLifeBoardData;
             await userData.save();
-            console.log('User lifeBoard updated in DB');
+            //console.log('User lifeBoard updated in DB');
         }
 
         return res.json({ message: 'LifeBoard saved successfully' });
