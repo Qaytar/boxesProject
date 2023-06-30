@@ -4,7 +4,7 @@ import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext'
 import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
 
 function ColorEditPanel() {
-    const { updateModified, saveLifeBoard } = useContext(LifeBoardDataContext);
+    const { updateModified } = useContext(LifeBoardDataContext);
     const { selectedBoxes } = useContext(BoxSelectionContext);
 
 
@@ -17,9 +17,7 @@ function ColorEditPanel() {
                     Mark as modified
                 </button>
 
-                <button onClick={saveLifeBoard}>
-                    Save
-                </button>
+
             </EditPanel>
         </div>
 

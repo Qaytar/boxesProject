@@ -1,19 +1,34 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../contexts/authContext';
+
+
+
 
 export const LifeBoardDataContext = createContext();
 
 export const LifeBoardDataProvider = ({ children }) => {
     const [lifeBoardData, setLifeBoardData] = useState(null);
-
+    const authContext = useContext(AuthContext);
     useEffect(() => {
         const fetchLifeBoard = async () => {
-            const response = await fetch('http://localhost:5000/db/getLifeBoard', { credentials: 'include' });
+            const response = await fetch('http://localhost:5000/db/getLifeBoard', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    isLoggedIn: authContext.user ? true : false,
+                }),
+            });
             const data = await response.json();
             setLifeBoardData(data);
         };
 
         fetchLifeBoard();
-    }, []);
+    }, [authContext.user]);
+
+
 
     const updateModified = (selectedBoxes) => {
         let newData = { ...lifeBoardData };

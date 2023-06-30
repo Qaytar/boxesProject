@@ -1,3 +1,5 @@
+// Box.js:
+
 import React, { useContext } from 'react';
 import styles from "./Box.module.css"
 import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
@@ -5,17 +7,16 @@ import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
 function Box(props) {
     const { selectedBoxes, selectBox, deselectBox } = useContext(BoxSelectionContext);
 
-    const isSelected = selectedBoxes.some(box => box.row === props.row && box.week === props.week);
+    const isSelected = selectedBoxes[`${props.row}-${props.week}`];
 
-    const handleClick = () => {
+    const handleClick = (event) => {
         if (isSelected) {
             deselectBox(props.row, props.week);
+
         } else {
-            selectBox(props.row, props.week);
+            selectBox(props.row, props.week, event.shiftKey);
         }
-    }
-
-
+    };
 
     return (
         <div
@@ -27,4 +28,5 @@ function Box(props) {
 }
 
 export default Box;
+
 
