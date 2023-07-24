@@ -16,9 +16,14 @@ function Box(props) {
         }
     };
 
+    const boxStyle = {
+        backgroundColor: props.color?.colorName || 'transparent',
+    };
+
     return (
         <div
-            className={`${styles.box} ${isSelected ? styles.selectedBox : ''} ${props.mod === 'y' ? styles.modifiedBox : ''}`}
+            className={`${styles.box} ${isSelected ? styles.selectedBox : ''}`}
+            style={boxStyle}
             onClick={handleClick}
         >
             {props.comment.commentIcon && (

@@ -46,10 +46,10 @@ router.post('/getLifeBoard', async (req, res) => {
 
 
 /*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
-/*Replies with either empty lifeBoard or the one stored in db for that specific user*/
+/*Replies with a status message of the operation*/
 router.post('/saveLifeBoard', async (req, res) => {
-    console.log('saveLifeBoard route hit');
-    console.log('Request body:', req.body);
+    //console.log('saveLifeBoard route hit');
+    //console.log('Request body:', req.body);
 
     const updatedLifeBoardData = req.body;
 
