@@ -4,3 +4,28 @@
     border: 1px solid gray;
     display: flex;
 }
+
+.colorList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.colorItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.colorSwatch {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000;
+}
+
+.colorInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}

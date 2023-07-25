@@ -5,7 +5,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import styles from './CommentEditPanel.module.css';  // import CSS module
 
 function CommentEditPanel() {
-    const { selectedBoxes } = useContext(BoxSelectionContext);
+    const { selectedBoxes, deselectAllBoxes } = useContext(BoxSelectionContext);
 
     // New state variables
     const [textAreaValue, setTextAreaValue] = useState("");
@@ -31,6 +31,7 @@ function CommentEditPanel() {
                 }
             });
         }
+        deselectAllBoxes();
     };
 
     useEffect(() => {

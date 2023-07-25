@@ -2,12 +2,10 @@ import EditPanel from "./EditPanel";
 import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
-import styles from './ColorEditPanel.module.css';  // import CSS module
-
+import styles from './ColorEditPanel.module.css';
 function ColorEditPanel() {
-    const { selectedBoxes } = useContext(BoxSelectionContext);
 
-    // New state variables
+    // State variables
     const [textAreaValue, setTextAreaValue] = useState("");
     const [selectedColor, setSelectedColor] = useState("");
 
@@ -16,6 +14,7 @@ function ColorEditPanel() {
     const handleColorSelect = (color) => setSelectedColor(color);
 
     const { updateBox } = useContext(LifeBoardDataContext);
+    const { selectedBoxes, deselectAllBoxes } = useContext(BoxSelectionContext);
     const { lifeBoardData } = useContext(LifeBoardDataContext);
 
     const handleSubmit = () => {
@@ -32,6 +31,7 @@ function ColorEditPanel() {
                 }
             });
         });
+        deselectAllBoxes();
     };
 
     useEffect(() => {
@@ -77,7 +77,7 @@ function ColorEditPanel() {
                             key={colorOption.name}
                             className={`${styles.colorOption} ${selectedColor === colorOption.name ? styles.selected : ''}`}
                             style={{ backgroundColor: colorOption.color }}
-                            onClick={() => handleColorSelect(colorOption.name)}
+                            onClick={() => handleColorSelect(colorOption.color)}
                         />
                     ))}
                 </div>
