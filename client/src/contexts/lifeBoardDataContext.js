@@ -22,7 +22,8 @@ export const LifeBoardDataProvider = ({ children }) => {
                 }),
             });
             const data = await response.json();
-            setLifeBoardData(data);
+            setLifeBoardData(data.lifeBoard);
+            setUsedColors(data.usedColors || []);
         };
 
         fetchLifeBoard();
@@ -37,6 +38,7 @@ export const LifeBoardDataProvider = ({ children }) => {
         newData[row][week] = { ...newData[row][week], ...newBoxData };
 
         let box = newData[row][week];
+
         if ((box.color && (box.color.colorName || box.color.colorDescription)) || (box.comment && (box.comment.commentText || box.comment.commentIcon))) {
             box.modified = 'y';
         }
@@ -67,10 +69,10 @@ export const LifeBoardDataProvider = ({ children }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(lifeBoardData)
+            body: JSON.stringify({ lifeBoardData, usedColors })
         });
         const data = await response.json();
-        console.log('response from server after saving in db:', data)
+        console.log('response from server after saving in db:', data);
     };
 
     return (

@@ -30,13 +30,29 @@ router.post('/getLifeBoard', async (req, res) => {
                 // If there's a user, try to get their lifeBoard from the DB
                 if (user) {
                     const userData = await User.findOne({ userId: user.id });
-                    return res.json(userData ? userData.lifeBoard : createEmptyLifeBoard());
+
+                    if (userData) {
+                        // Return lifeBoard and usedColors if the user exists
+                        return res.json({
+                            lifeBoard: userData.lifeBoard,
+                            usedColors: userData.usedColors
+                        });
+                    } else {
+                        // Return an empty lifeBoard and empty usedColors array if the user doesn't exist
+                        return res.json({
+                            lifeBoard: createEmptyLifeBoard(),
+                            usedColors: []
+                        });
+                    }
                 }
             }
         }
 
-        // If isLoggedIn is false, or no user (or no token), return an empty lifeBoard
-        return res.json(createEmptyLifeBoard());
+        // If isLoggedIn is false, or no user (or no token), return an empty lifeBoard and empty usedColors array
+        return res.json({
+            lifeBoard: createEmptyLifeBoard(),
+            usedColors: []
+        });
 
     } catch (error) {
         console.error("Error getting lifeBoard:", error);
@@ -48,10 +64,8 @@ router.post('/getLifeBoard', async (req, res) => {
 /*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
 /*Replies with a status message of the operation*/
 router.post('/saveLifeBoard', async (req, res) => {
-    //console.log('saveLifeBoard route hit');
-    //console.log('Request body:', req.body);
-
-    const updatedLifeBoardData = req.body;
+    const updatedLifeBoardData = req.body.lifeBoardData;
+    const updatedUsedColors = req.body.usedColors;
 
     let user;
 
@@ -59,7 +73,6 @@ router.post('/saveLifeBoard', async (req, res) => {
         try {
             const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
             user = decoded.user;
-            //console.log('User from token:', user);
         } catch (error) {
             console.error('Failed to decode token:', error);
             return res.status(403).json({ error: 'Failed to decode token' });
@@ -75,26 +88,28 @@ router.post('/saveLifeBoard', async (req, res) => {
         let userData = await User.findOne({ userId: user.id });
 
         if (!userData) {
-            //console.log('User not found in DB, creating a new one');
             userData = new User({
                 userId: user.id,
                 lifeBoard: updatedLifeBoardData,
+                usedColors: updatedUsedColors
             });
             await userData.save();
             console.log('New user created and saved in DB');
         } else {
-            console.log('User found in DB, updating lifeBoard');
+            console.log('User found in DB, updating lifeBoard and usedColors');
             userData.lifeBoard = updatedLifeBoardData;
+            userData.usedColors = updatedUsedColors;
             await userData.save();
-            console.log('User lifeBoard updated in DB');
+            console.log('User lifeBoard and usedColors updated in DB');
         }
 
-        return res.json({ message: 'LifeBoard saved successfully' });
+        return res.json({ message: 'LifeBoard and usedColors saved successfully' });
     } catch (error) {
-        console.error('Error saving lifeBoard:', error);
-        return res.status(500).json({ error: 'Failed to save lifeBoard' });
+        console.error('Error saving lifeBoard and usedColors:', error);
+        return res.status(500).json({ error: 'Failed to save lifeBoard and usedColors' });
     }
 });
+
 
 
 

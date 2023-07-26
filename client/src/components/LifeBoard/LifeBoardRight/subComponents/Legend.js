@@ -1,4 +1,3 @@
-import StickyTop from "../../Others/StickyTop";
 import React, { useContext } from 'react';
 import styles from "./Legend.module.css";
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
@@ -8,7 +7,7 @@ function Legend() {
 
     return (
         <div className={styles.legend}>
-            <StickyTop></StickyTop>
+
             {usedColors && usedColors.length > 0 ? (
                 <div className={styles.colorList}>
                     {usedColors.map((color, index) => (
@@ -26,6 +25,7 @@ function Legend() {
             ) : (
                 <div>No colors added yet</div>
             )}
+
         </div>
     );
 }

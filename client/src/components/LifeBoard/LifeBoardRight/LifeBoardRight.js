@@ -16,8 +16,31 @@ function LifeBoardRight() {
     const toggleMode = () => {
         setIsMode(isMode === 'edit' ? 'legend' : 'edit');
     };
-    const { deselectAllBoxes } = useContext(BoxSelectionContext);
-    const { saveLifeBoard } = useContext(LifeBoardDataContext);
+    const { deselectAllBoxes, selectedBoxes } = useContext(BoxSelectionContext);
+    const { saveLifeBoard, updateBox } = useContext(LifeBoardDataContext);
+
+    function resetSelectedBoxes() {
+        Object.keys(selectedBoxes).forEach(key => {
+            const [row, week] = key.split('-');
+
+            updateBox(row, week, {
+                modified: 'n',
+                color: {
+                    colorName: "",
+                    colorDescription: ""
+                },
+                comment: {
+                    commentText: "",
+                    commentIcon: ""
+                }
+            });
+        });
+    }
+
+
+
+
+
     return (
         <div className={styles.content}>
             <Toggle
@@ -31,6 +54,9 @@ function LifeBoardRight() {
             </button>
             <button onClick={saveLifeBoard}>
                 Save Changes to db
+            </button>
+            <button onClick={resetSelectedBoxes}>
+                Delete changes to selected boxes
             </button>
             {isMode === 'edit' ? (
                 <div>

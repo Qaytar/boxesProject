@@ -26,8 +26,16 @@ const UserSchema = new Schema({
     userId: String,
     name: String,
     image: String,
-    lifeBoard: lifeBoardSchema
+    lifeBoard: lifeBoardSchema,
+    birthDate: Date,
+    usedColors: [
+        {
+            colorName: String,
+            colorDescription: String
+        }
+    ]
 });
+
 
 
 module.exports = mongoose.model('User', UserSchema);
