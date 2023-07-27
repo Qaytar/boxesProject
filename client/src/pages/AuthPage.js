@@ -1,7 +1,16 @@
+/**
+ * AuthPage.js
+ * 
+ * Accessed thru the route /login 
+ * Renders the Google Button for users to authenticate via Google
+ */
+
+
 import googleButton from '../assets/btn_google_signin_light_normal_web.png'
 
 
-// Asks the server to contact Google and replies with (and navigaes to) Google URL
+// Reaches /auth/google endpoint responsible for generating (and replying with) a Google URL
+// After getting response from server, it navigates to said Google Url for users to log in to their Google Accounts
 async function auth() {
     const response = await fetch('http://localhost:5000/auth/google', { method: 'post' });
     const data = await response.json();

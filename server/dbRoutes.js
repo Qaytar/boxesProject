@@ -1,9 +1,20 @@
+/**
+ * dbRoutes.js
+ * 
+ * Express.js code containing two endpoints to bridge reactp App with Mongodb
+ * First endpoint post at /getLifeBoard, provides the frontend with data from the database
+ * Second endpoint post at /saveLifeBoard, saves changes from the user into the database 
+ */
+
 const express = require('express');
 const router = express.Router();
 const User = require('./models');
 const jwt = require('jsonwebtoken');
 
 // Function to create an empty lifeBoard
+// returns an object with a 100 properties named r1, r2.. (rows)
+// For each row/property, there is an array of 52 objects with properties of a <Box>: modified, color and comment.
+// So it's a relatively large object, with 5200 objects each with the properties specificed below (modified, color, comment)
 function createEmptyLifeBoard() {
     let lifeBoard = {};
     for (let i = 1; i <= 100; i++) {
@@ -20,14 +31,14 @@ function createEmptyLifeBoard() {
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
 router.post('/getLifeBoard', async (req, res) => {
     try {
-        const { isLoggedIn } = req.body;
+        const isLoggedIn = req.body.isLoggedIn;
 
         if (isLoggedIn) {
-            // Check if a token exists
+            // Check if a token exists to avoid errors when callinf jwt.veritfy()
             if (req.cookies && req.cookies.token) {
                 const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
-                // If there's a user, try to get their lifeBoard from the DB
+                // If there's a user object, try to get their lifeBoard from the DB
                 if (user) {
                     const userData = await User.findOne({ userId: user.id });
 
@@ -38,7 +49,7 @@ router.post('/getLifeBoard', async (req, res) => {
                             usedColors: userData.usedColors
                         });
                     } else {
-                        // Return an empty lifeBoard and empty usedColors array if the user doesn't exist
+                        // Return an empty lifeBoard and empty usedColors array if the user wasn't found in the db
                         return res.json({
                             lifeBoard: createEmptyLifeBoard(),
                             usedColors: []
@@ -48,7 +59,7 @@ router.post('/getLifeBoard', async (req, res) => {
             }
         }
 
-        // If isLoggedIn is false, or no user (or no token), return an empty lifeBoard and empty usedColors array
+        // If isLoggedIn is false, or there wasn't a token or it couldn't be verified, return an empty lifeBoard and empty usedColors array
         return res.json({
             lifeBoard: createEmptyLifeBoard(),
             usedColors: []
@@ -68,25 +79,27 @@ router.post('/saveLifeBoard', async (req, res) => {
     const updatedUsedColors = req.body.usedColors;
 
     let user;
-
+    //First, checks for authorization. 
     if (req.cookies && req.cookies.token) {
         try {
             const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
             user = decoded.user;
+            //If the decoded token from the request contains an object called user, it's assumed the request is legit (even if user isn't in the database, see below)
         } catch (error) {
             console.error('Failed to decode token:', error);
             return res.status(403).json({ error: 'Failed to decode token' });
         }
     }
-
+    //If user object isnt in the decoded token (or decodification fails).. 
     if (!user) {
         console.error('No user info provided');
         return res.status(403).json({ error: 'No user info provided' });
     }
-
+    //Proceeds to find the user in the db and save changes
     try {
         let userData = await User.findOne({ userId: user.id });
-
+        //the case where the user.id isn't found in the database, is expected
+        //users aren't added in the database and the moment of first log in, but here: The moment they save changes for the first time
         if (!userData) {
             userData = new User({
                 userId: user.id,

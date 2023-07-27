@@ -26,7 +26,7 @@ app.use('/db', dbRoutes);
 
 
 /*Connects to Mongodb*/
-//local
+//local. This will need to be changed in production
 const dbUrl = 'mongodb://127.0.0.1:27017/boxesProjectLocal';
 mongoose.connect(dbUrl)
     .then(() => {
@@ -39,5 +39,5 @@ mongoose.connect(dbUrl)
 
 
 /* Server listens on port 5000*/
-//local
+//local. This will need to be changed in production
 app.listen(5000, () => console.log('Server started on port 5000'));
