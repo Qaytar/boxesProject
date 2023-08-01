@@ -42,8 +42,9 @@ router.post('/google', async function (req, res, next) {
 
 /* Listens to get requests from Google after users log in in their Google Accounts
 /* Extracts from Google code and credentials */
-/* Replies with res.redirect to the app with a cokie named 'token' holding a signed JWT */
+/* Replies with res.redirect to the app with a cookie named 'token' holding a signed JWT */
 router.get('/google/callback', async function (req, res, next) {
+    //console.log('/auth/google callback has been hit')
     const code = req.query.code;
 
     try {
@@ -59,10 +60,12 @@ router.get('/google/callback', async function (req, res, next) {
     }
 
     /*Creates JWT to be send in a cookie to the client side*/
+    //.. JWT works in a stateless manner. The server only holding a key and all user and session data being holded (encrypted) in the token/cookie itself, so no session data is stored anywhere else
     const decodedIdToken = jwt.decode(oAuth2Client.credentials.id_token)
     const expiryDate = Math.floor(Date.now() / 1000) + (60 * 60 * 24); // 1 days hour from now
 
     // Create the payload for the JWT
+    // In the React App, this information will be stored in the user state by the checkAuth function in the authContext 
     const payload = {
         user: {
             id: decodedIdToken.sub,
@@ -84,6 +87,7 @@ router.get('/google/callback', async function (req, res, next) {
 /*Listents to GET requests and its cookies from the React app when verification/authorization is needed */
 /*Replies with either res.redirect to login page if failure, or with user data if success*/
 router.get('/verify', (req, res) => {
+    //console.log('/auth/verify has been hit')
     res.header("Access-Control-Allow-Origin", 'http://localhost:3000');
     res.header("Access-Control-Allow-Credentials", 'true');
     res.header("Referrer-Policy", "no-referrer-when-downgrade");
@@ -91,7 +95,7 @@ router.get('/verify', (req, res) => {
     jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, token) => {
         if (err) {
             // Token validation failed
-            res.redirect(303, 'http://localhost:3000/login');
+            res.status(401).json({ error: 'Authentication failed' });
         } else {
             // Token validation successful
             //console.log('user', token.user)

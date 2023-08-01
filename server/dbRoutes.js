@@ -30,11 +30,12 @@ function createEmptyLifeBoard() {
 /*Listents to POST requests and its cookies from the React app when lifeBoard data is needed */
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
 router.post('/getLifeBoard', async (req, res) => {
+    //console.log('/getLifeBoard endpoint got git by a post request')
     try {
         const isLoggedIn = req.body.isLoggedIn;
 
         if (isLoggedIn) {
-            // Check if a token exists to avoid errors when callinf jwt.veritfy()
+            // Check if a token exists to avoid errors when calling jwt.veritfy()
             if (req.cookies && req.cookies.token) {
                 const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
@@ -107,13 +108,13 @@ router.post('/saveLifeBoard', async (req, res) => {
                 usedColors: updatedUsedColors
             });
             await userData.save();
-            console.log('New user created and saved in DB');
+            //console.log('New user created and saved in DB');
         } else {
-            console.log('User found in DB, updating lifeBoard and usedColors');
+            //console.log('User found in DB, updating lifeBoard and usedColors');
             userData.lifeBoard = updatedLifeBoardData;
             userData.usedColors = updatedUsedColors;
             await userData.save();
-            console.log('User lifeBoard and usedColors updated in DB');
+            //console.log('User lifeBoard and usedColors updated in DB');
         }
 
         return res.json({ message: 'LifeBoard and usedColors saved successfully' });

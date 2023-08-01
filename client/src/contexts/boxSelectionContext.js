@@ -1,11 +1,21 @@
-// boxSelectionContext.js:
+/**
+ * boxSelectionContext.js
+ * 
+ * defines BoxSelectionContext and provides { selectedBoxes, selectBox, deselectBox, deselectAllBoxes } to the rest of the App
+ * 
+ */
 
 import { createContext, useState } from 'react';
 
+//creates context
 export const BoxSelectionContext = createContext();
 
+// defines provider
 export const BoxSelectionProvider = ({ children }) => {
+    // main state of the context: the boxes currently selected by the user
     const [selectedBoxes, setSelectedBoxes] = useState({});
+
+    // helper state to facilitate the multi selection of boxes thru pressing shift-key (selectBoxesInRange function)
     const [firstBox, setFirstBox] = useState(null);
 
     const selectBox = (row, week, shiftPressed) => {

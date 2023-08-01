@@ -16,6 +16,9 @@ async function auth() {
     const data = await response.json();
     window.location.href = data.url; //Navigates to Google's URL
 }
+// The Google Auth flow will continue like: Google will send the codes and token from succesfull auth to another endpoint (/callback)
+//.. there, the express server will handle the response from Google and prepare the JWT and reply to this frontend with a cookie named 'token' holding the signed JWT
+
 
 function AuthPages() {
 
