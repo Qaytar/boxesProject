@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     const [loadingAuthCheck, setLoadingAuthCheck] = useState(true);
 
     // reaches /auth/verify endpoint in the express.js server to validate (or not) credential sent within the cookies
-    // the endpoint returns the content of the decoded cookie/token (user object with id, name and picture)
+    // the endpoint returns the content of the decoded  JWT token (user object with id, name and picture)
     // updates user state
     const checkAuth = async () => {
         try {

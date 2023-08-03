@@ -1,9 +1,18 @@
+/**
+ * ColorEditPanel.js
+ * 
+ * 
+ */
+
 import EditPanel from "./EditPanel";
 import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './ColorEditPanel.module.css';
 function ColorEditPanel() {
+    // impot from contexts
+    const { selectedBoxes, deselectAllBoxes } = useContext(BoxSelectionContext);
+    const { lifeBoardData, updateBox } = useContext(LifeBoardDataContext);
 
     // State variables
     const [textAreaValue, setTextAreaValue] = useState("");
@@ -13,12 +22,9 @@ function ColorEditPanel() {
     const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
     const handleColorSelect = (color) => setSelectedColor(color);
 
-    const { updateBox } = useContext(LifeBoardDataContext);
-    const { selectedBoxes, deselectAllBoxes } = useContext(BoxSelectionContext);
-    const { lifeBoardData } = useContext(LifeBoardDataContext);
-
+    // Updates lifeBoardData state using updateBox() from lifeBoardDataContext
     const handleSubmit = () => {
-        // Getting the selected boxes keys
+        // Getting the selected boxes keys in the form of {r2-2} for row 2, week 2
         const selectedBoxKeys = Object.keys(selectedBoxes);
 
         // Update all the selected boxes with the new color data
@@ -34,10 +40,11 @@ function ColorEditPanel() {
         deselectAllBoxes();
     };
 
+    // Displays the color data (name and description) in the editting panel when selecting a box that had already been modified
     useEffect(() => {
-        // If any boxes are selected, update the ColorEditPanel state with their data
+        //console.log('inside usEffect')
         if (selectedBoxes && Object.keys(selectedBoxes).length > 0) {
-            // Get the color data from the first selected box (assuming all selected boxes have the same color)
+            // Get the color data from the first selected box (it will display the color data from the first box selected only)
             const [row, week] = Object.keys(selectedBoxes)[0].split("-");
             const selectedBox = lifeBoardData[row][week];
             if (selectedBox.color) {
@@ -75,7 +82,7 @@ function ColorEditPanel() {
                     {colors.map((colorOption) => (
                         <div
                             key={colorOption.name}
-                            className={`${styles.colorOption} ${selectedColor === colorOption.name ? styles.selected : ''}`}
+                            className={`${styles.colorOption} ${selectedColor === colorOption.color ? styles.selected : ''}`}
                             style={{ backgroundColor: colorOption.color }}
                             onClick={() => handleColorSelect(colorOption.color)}
                         />

@@ -1,3 +1,9 @@
+/**
+ * CommentEditPanel.js
+ * 
+ * 
+ */
+
 import EditPanel from "./EditPanel";
 import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
@@ -5,7 +11,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import styles from './CommentEditPanel.module.css';  // import CSS module
 
 function CommentEditPanel() {
+    // imports from contexts
     const { selectedBoxes, deselectAllBoxes } = useContext(BoxSelectionContext);
+    const { lifeBoardData, updateBox } = useContext(LifeBoardDataContext);
 
     // New state variables
     const [textAreaValue, setTextAreaValue] = useState("");
@@ -15,9 +23,7 @@ function CommentEditPanel() {
     const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
     const handleRadioChange = (event) => setRadioValue(event.target.value);
 
-    const { updateBox } = useContext(LifeBoardDataContext);
-    const { lifeBoardData } = useContext(LifeBoardDataContext);
-
+    // Updates lifeBoardData state using updateBox() from lifeBoardDataContext
     const handleSubmit = () => {
         // Getting the selected box key
         const selectedBoxKey = Object.keys(selectedBoxes)[0];
@@ -34,6 +40,7 @@ function CommentEditPanel() {
         deselectAllBoxes();
     };
 
+    // Displays the color data (name and description) in the editting panel when selecting a box that had already been modified
     useEffect(() => {
         const selectedBoxKeys = Object.keys(selectedBoxes);
         if (selectedBoxKeys.length === 1) {
@@ -62,6 +69,8 @@ function CommentEditPanel() {
         { name: "Work", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
         { name: "Others", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
     ];
+
+    // Only render the comment editting panel if 1 or none boxes are selected. Comment panel it's hidden if multiple boxes are selected
     return (
         selectedBoxesCount <= 1 ?
             <div className={styles.container}>

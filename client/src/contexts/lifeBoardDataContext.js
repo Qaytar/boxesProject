@@ -3,61 +3,61 @@
  * 
  * defines LifeBoardDataContext and provides { lifeBoardData, saveLifeBoard, updateBox, usedColors } to the rest of the App
  *
- * lifeBoardData is the object that renders the grid of the app and holds the data of the 5200 (52 weeks times 100 years) weeks (which are represented by <box> comp.)
+ * lifeBoardData is the object that renders the grid of the app and holds the data of the 5200 (52 weeks times 100 years) weeks (which are represented by the <box> component)
  */
 
-import { createContext, useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../contexts/authContext';
+import { createContext, useState, useEffect } from 'react';
+
 
 // creates context
 export const LifeBoardDataContext = createContext();
 
 // defines provider
 export const LifeBoardDataProvider = ({ children }) => {
-    // main state of the context: the latest version of the lifeBoard
+    // main state of the context: the lifeBoard object
     const [lifeBoardData, setLifeBoardData] = useState(null);
 
     // secondary state: It holds a unique list of all the colors used by a user. To render the legend of all colors
-    // this information is contained in the lifeBoardData of every user but it'd be costy to retrieve so it's decided to keep track of it in a separate state
+    // this information is contained in the lifeBoardData of every user but it'd be costy to retrieve so it has been decided to keep track of it in a separate state
     const [usedColors, setUsedColors] = useState([]);
 
-    //console.log('outside useEffect')
-    // const authContext = useContext(AuthContext);
-    // console.log('outside useEffect')
-    // useEffect(() => {
-    //     console.log('inside useEffect, but outside of async fetchLifeBoard func')
-    //     const fetchLifeBoard = async () => {
-    //         const response = await fetch('http://localhost:5000/db/getLifeBoard', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             credentials: 'include',
-    //             body: JSON.stringify({
-    //                 isLoggedIn: authContext.user ? true : false,
-    //             }),
-    //         });
-    //         const data = await response.json();
-    //         setLifeBoardData(data.lifeBoard);
-    //         setUsedColors(data.usedColors || []);
-    //     };
 
-    //     fetchLifeBoard();
-    // }, [authContext.user]);
+    // reaches out to the server and stores the data of the user (coming from db) in the states
+    useEffect(() => {
+        const fetchLifeBoard = async () => {
+            const response = await fetch('http://localhost:5000/db/getLifeBoard', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            });
+            const data = await response.json();
+            setLifeBoardData(data.lifeBoard);
+            setUsedColors(data.usedColors || []);
+        };
+
+        fetchLifeBoard();
+    }, []);
 
 
-
+    // updateBox() is called to modify the LifeBoardData as the user modifies it by adding colors and comments to its boxes/weeks
+    // takes as arguments the coordinates of the box to be updated and the new data (color, comment, etc.)
+    // it also updates the state usedColors, keeping track of every new color used + it updates the modified 'flag'
     const updateBox = (row, week, newBoxData) => {
-        let newData = { ...lifeBoardData };
-        newData[row][week] = { ...newData[row][week], ...newBoxData };
+        /*Updates the box with the new data */
+        let lifeBoardDataCopy = { ...lifeBoardData };
+        lifeBoardDataCopy[row][week] = { ...lifeBoardDataCopy[row][week], ...newBoxData };
+        setLifeBoardData(lifeBoardDataCopy);
 
-        let box = newData[row][week];
+        let box = lifeBoardDataCopy[row][week];
 
+        /*If any property is truthy sets the modified flag to yes */
         if ((box.color && (box.color.colorName || box.color.colorDescription)) || (box.comment && (box.comment.commentText || box.comment.commentIcon))) {
             box.modified = 'y';
         }
 
-        // Check if the new color is in usedColors array
+        /*Keeps track and updates state usedColors */
         if (box.color) {
             setUsedColors((currentUsedColors) => {
                 if (!currentUsedColors.some(color => color.colorName === box.color.colorName)) {
@@ -73,11 +73,12 @@ export const LifeBoardDataProvider = ({ children }) => {
             });
         }
 
-        setLifeBoardData(newData);
+
     };
 
+    // Reaches endpoint responsible of saving changes made by the user into the db
     const saveLifeBoard = async () => {
-        const response = await fetch('http://localhost:5000/db/saveLifeBoard', {
+        await fetch('http://localhost:5000/db/saveLifeBoard', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -85,8 +86,6 @@ export const LifeBoardDataProvider = ({ children }) => {
             },
             body: JSON.stringify({ lifeBoardData, usedColors })
         });
-        const data = await response.json();
-        //console.log('response from server after saving in db:', data);
     };
 
     return (

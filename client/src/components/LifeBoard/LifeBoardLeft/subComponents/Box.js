@@ -1,3 +1,12 @@
+/**
+ * Box.js
+ * 
+ * Renders an empty rounded div representing a week (or box)
+ * 
+ * Here is one of the main uses of the BoxSelectionContext provider
+ *  
+ */
+
 import React, { useContext } from 'react';
 import styles from "./Box.module.css";
 import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
@@ -5,9 +14,10 @@ import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
 function Box(props) {
     const { selectedBoxes, selectBox, deselectBox } = useContext(BoxSelectionContext);
 
-    // checks if clicked box is already selected or not
+    // Within the array containing all selectedBoxes, tries to access the 'current' box. Meaning if it can access it, it's already selected, other wise it's not
     const isSelected = selectedBoxes[`${props.row}-${props.week}`];
 
+    // calls selectBox and deselectBox onClick
     const handleClick = (event) => {
         if (isSelected) {
             deselectBox(props.row, props.week);
@@ -16,14 +26,12 @@ function Box(props) {
         }
     };
 
-    const boxStyle = {
-        backgroundColor: props.color?.colorName || 'transparent',
-    };
 
+    // renders an icon if it's been commented and a color if it's been colored
     return (
         <div
             className={`${styles.box} ${isSelected ? styles.selectedBox : ''}`}
-            style={boxStyle}
+            style={{ backgroundColor: props.color?.colorName || 'transparent' }}
             onClick={handleClick}
         >
             {props.comment.commentIcon && (

@@ -31,36 +31,34 @@ function createEmptyLifeBoard() {
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
 router.post('/getLifeBoard', async (req, res) => {
     //console.log('/getLifeBoard endpoint got git by a post request')
+
     try {
-        const isLoggedIn = req.body.isLoggedIn;
+        // Check if a token exists to avoid errors when calling jwt.veritfy()
+        if (req.cookies.token) {
+            const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
-        if (isLoggedIn) {
-            // Check if a token exists to avoid errors when calling jwt.veritfy()
-            if (req.cookies && req.cookies.token) {
-                const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            // If there's a user object in the decoded token, user it's authenticated
+            if (user) {
+                const userData = await User.findOne({ userId: user.id });
 
-                // If there's a user object, try to get their lifeBoard from the DB
-                if (user) {
-                    const userData = await User.findOne({ userId: user.id });
-
-                    if (userData) {
-                        // Return lifeBoard and usedColors if the user exists
-                        return res.json({
-                            lifeBoard: userData.lifeBoard,
-                            usedColors: userData.usedColors
-                        });
-                    } else {
-                        // Return an empty lifeBoard and empty usedColors array if the user wasn't found in the db
-                        return res.json({
-                            lifeBoard: createEmptyLifeBoard(),
-                            usedColors: []
-                        });
-                    }
+                if (userData) {
+                    // Return lifeBoard and usedColors if the user exists
+                    return res.json({
+                        lifeBoard: userData.lifeBoard,
+                        usedColors: userData.usedColors
+                    });
+                } else {
+                    // Return an empty lifeBoard and empty usedColors array if the user wasn't found in the db
+                    return res.json({
+                        lifeBoard: createEmptyLifeBoard(),
+                        usedColors: []
+                    });
                 }
             }
         }
 
-        // If isLoggedIn is false, or there wasn't a token or it couldn't be verified, return an empty lifeBoard and empty usedColors array
+
+        // If there wasn't a token or it couldn't be verified, return an empty lifeBoard and empty usedColors array
         return res.json({
             lifeBoard: createEmptyLifeBoard(),
             usedColors: []
@@ -81,7 +79,7 @@ router.post('/saveLifeBoard', async (req, res) => {
 
     let user;
     //First, checks for authorization. 
-    if (req.cookies && req.cookies.token) {
+    if (req.cookies.token) {
         try {
             const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
             user = decoded.user;

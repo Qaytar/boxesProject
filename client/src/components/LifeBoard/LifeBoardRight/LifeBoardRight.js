@@ -1,3 +1,12 @@
+/**
+ * LifeBoardRight.js
+ * 
+ * Renders the RIGHT side of the application (where the grid/LifeBoard is)
+ * 
+ * Contains the editting panels, the legend panel and a toggler to swith between the two
+ * 
+ */
+
 import ColorEditPanel from "./subComponents/ColorEditPanel";
 import CommentEditPanel from "./subComponents/CommentEditPanel";
 import Legend from "./subComponents/Legend";
@@ -9,16 +18,17 @@ import { LifeBoardDataContext } from '../../../contexts/lifeBoardDataContext';
 
 
 function LifeBoardRight() {
-    // Tracks the current mode
+    // state and toggle for the edit vs legend panel
     const [isMode, setIsMode] = useState('edit');
-
-    // Toggles the grading system when clicked
     const toggleMode = () => {
         setIsMode(isMode === 'edit' ? 'legend' : 'edit');
     };
+
+    // imports from contexts
     const { deselectAllBoxes, selectedBoxes } = useContext(BoxSelectionContext);
     const { saveLifeBoard, updateBox } = useContext(LifeBoardDataContext);
 
+    // deletes all color and comment properties of selected boxes
     function resetSelectedBoxes() {
         Object.keys(selectedBoxes).forEach(key => {
             const [row, week] = key.split('-');
@@ -37,10 +47,6 @@ function LifeBoardRight() {
         });
     }
 
-
-
-
-
     return (
         <div className={styles.content}>
             <Toggle
@@ -49,15 +55,12 @@ function LifeBoardRight() {
                 checkState={'edit'}
                 options={['legend', 'edit']}
             />
-            <button onClick={deselectAllBoxes}>
-                Deselect All Boxes
-            </button>
-            <button onClick={saveLifeBoard}>
-                Save Changes to db
-            </button>
-            <button onClick={resetSelectedBoxes}>
-                Delete changes to selected boxes
-            </button>
+            <button onClick={deselectAllBoxes}>Deselect All Boxes</button>
+
+            <button onClick={saveLifeBoard}>Save Changes to db</button>
+
+            <button onClick={resetSelectedBoxes}>Delete changes to selected boxes</button>
+
             {isMode === 'edit' ? (
                 <div>
                     <ColorEditPanel />

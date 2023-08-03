@@ -1,3 +1,9 @@
+/**
+ * EditPanel.js
+ * 
+ * Provides styles to Color and Comment editting panels 
+ */
+
 import styles from "./EditPanel.module.css"
 
 function EditPanel(props) {
