@@ -13,7 +13,7 @@ import Legend from "./subComponents/Legend";
 import styles from "./LifeBoardRight.module.css";
 import React, { useState, useContext } from "react";
 import Toggle from "../../UI/Toggle"
-import { BoxSelectionContext } from '../../../contexts/boxSelectionContext'
+import { WeekSelectionContext } from '../../../contexts/weekSelectionContext'
 import { LifeBoardDataContext } from '../../../contexts/lifeBoardDataContext';
 
 
@@ -25,15 +25,15 @@ function LifeBoardRight() {
     };
 
     // imports from contexts
-    const { deselectAllBoxes, selectedBoxes } = useContext(BoxSelectionContext);
-    const { saveLifeBoard, updateBox } = useContext(LifeBoardDataContext);
+    const { deselectAllWeeks, selectedWeeks } = useContext(WeekSelectionContext);
+    const { saveLifeBoard, updateWeek } = useContext(LifeBoardDataContext);
 
-    // deletes all color and comment properties of selected boxes
-    function resetSelectedBoxes() {
-        Object.keys(selectedBoxes).forEach(key => {
+    // deletes all color and comment properties of selected weeks
+    function resetSelectedWeeks() {
+        Object.keys(selectedWeeks).forEach(key => {
             const [row, week] = key.split('-');
 
-            updateBox(row, week, {
+            updateWeek(row, week, {
                 modified: 'n',
                 color: {
                     colorName: "",
@@ -55,11 +55,11 @@ function LifeBoardRight() {
                 checkState={'edit'}
                 options={['legend', 'edit']}
             />
-            <button onClick={deselectAllBoxes}>Deselect All Boxes</button>
+            <button onClick={deselectAllWeeks}>Deselect All Weeks</button>
 
             <button onClick={saveLifeBoard}>Save Changes to db</button>
 
-            <button onClick={resetSelectedBoxes}>Delete changes to selected boxes</button>
+            <button onClick={resetSelectedWeeks}>Delete changes to selected weeks</button>
 
             {isMode === 'edit' ? (
                 <div>

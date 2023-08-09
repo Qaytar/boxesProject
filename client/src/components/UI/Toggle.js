@@ -11,7 +11,7 @@ function Toggle(props) {
         <section>
             <div className={styles.toggle}>
                 <label className={styles.switch}>
-                    <input onClick={props.onClickFunction} type="checkbox" />
+                    <input onClick={props.onClickFunction} type="checkweek" />
                     <span className={styles.slider}></span>
                 </label>
             </div>

@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
 
 // Function to create an empty lifeBoard
 // returns an object with a 100 properties named r1, r2.. (rows)
-// For each row/property, there is an array of 52 objects with properties of a <Box>: modified, color and comment.
+// For each row/property, there is an array of 52 objects with properties of a <Week>: modified, color and comment.
 // So it's a relatively large object, with 5200 objects each with the properties specificed below (modified, color, comment)
 function createEmptyLifeBoard() {
     let lifeBoard = {};
@@ -45,13 +45,13 @@ router.post('/getLifeBoard', async (req, res) => {
                     // Return lifeBoard and usedColors if the user exists
                     return res.json({
                         lifeBoard: userData.lifeBoard,
-                        usedColors: userData.usedColors
+                        usedColors: userData.usedColors,
+                        birthDate: userData.birthDate
                     });
                 } else {
-                    // Return an empty lifeBoard and empty usedColors array if the user wasn't found in the db
+                    // Create and return an empty lifeBoard if the user wasn't found in the db
                     return res.json({
                         lifeBoard: createEmptyLifeBoard(),
-                        usedColors: []
                     });
                 }
             }
@@ -119,6 +119,47 @@ router.post('/saveLifeBoard', async (req, res) => {
     } catch (error) {
         console.error('Error saving lifeBoard and usedColors:', error);
         return res.status(500).json({ error: 'Failed to save lifeBoard and usedColors' });
+    }
+});
+
+//Saves birthDate in db
+router.post('/saveBirthDate', async (req, res) => {
+    console.log('saveBirthDate has been hit')
+    const updatedBirthDate = req.body.birthDate;
+
+    let user;
+    //First, checks for authorization. 
+    if (req.cookies.token) {
+        try {
+            const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            user = decoded.user;
+            //console.log('user', user)
+            //If the decoded token from the request contains an object called user, it's assumed the request is legit (even if user isn't in the database, see below)
+        } catch (error) {
+            console.error('Failed to decode token:', error);
+            return res.status(403).json({ error: 'Failed to decode token' });
+        }
+    }
+    //If user object isnt in the decoded token (or decodification fails).. 
+    if (!user) {
+        console.error('No user info provided');
+        return res.status(403).json({ error: 'No user info provided' });
+    }
+    //Proceeds to find the user in the db and save changes
+    try {
+
+        let userData = await User.findOne({ userId: user.id });
+        //console.log('userData', userData)
+        if (userData) {
+            console.log('date about to be attempted to save:', updatedBirthDate)
+            userData.birthDate = updatedBirthDate;
+            await userData.save();
+        }
+
+        return res.json({ message: 'birth date saved succesfully' });
+    } catch (error) {
+        console.error('Error saving birth date:', error);
+        return res.status(500).json({ error: 'Failed to save birth date' });
     }
 });
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const BoxSchema = new Schema({
+const WeekSchema = new Schema({
     modified: {
         type: String,
         enum: ['y', 'n'],
@@ -19,7 +19,7 @@ const BoxSchema = new Schema({
 
 let lifeBoardSchema = {};
 for (let i = 1; i <= 100; i++) {
-    lifeBoardSchema[`r${i}`] = [BoxSchema];
+    lifeBoardSchema[`r${i}`] = [WeekSchema];
 }
 
 const UserSchema = new Schema({

@@ -1,0 +1,24 @@
+/*--- pop up styles --- */
+/* the popup itself */
+.popup {
+    position: absolute;
+    display: none;
+    background-Color: #ffb78d;
+    color: white;
+    padding: 20px;
+    border-Radius: 5px;
+    font-Size: 12px;
+    left: 0;
+    top: 100%;
+    margin-bottom: 0vw;
+    margin-right: 0vw;
+    white-Space: normal;
+    width: 200px;
+    text-align: left;
+    z-index: 1000;
+}
+
+/* the hoverable <span> element that shows the popup has to belong to this class */
+/* .hoverableSpan {
+    position: relative;
+} */

@@ -5,15 +5,15 @@
  */
 
 import EditPanel from "./EditPanel";
-import { BoxSelectionContext } from '../../../../contexts/boxSelectionContext';
+import { WeekSelectionContext } from '../../../../contexts/weekSelectionContext';
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './CommentEditPanel.module.css';  // import CSS module
 
 function CommentEditPanel() {
     // imports from contexts
-    const { selectedBoxes, deselectAllBoxes } = useContext(BoxSelectionContext);
-    const { lifeBoardData, updateBox } = useContext(LifeBoardDataContext);
+    const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
+    const { lifeBoardData, updateWeek } = useContext(LifeBoardDataContext);
 
     // New state variables
     const [textAreaValue, setTextAreaValue] = useState("");
@@ -23,32 +23,32 @@ function CommentEditPanel() {
     const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
     const handleRadioChange = (event) => setRadioValue(event.target.value);
 
-    // Updates lifeBoardData state using updateBox() from lifeBoardDataContext
+    // Updates lifeBoardData state using updateWeek() from lifeBoardDataContext
     const handleSubmit = () => {
-        // Getting the selected box key
-        const selectedBoxKey = Object.keys(selectedBoxes)[0];
-        if (selectedBoxKey) {
-            const [row, week] = selectedBoxKey.split("-");
-            // Call updateBox to update the selected box with the new values
-            updateBox(row, week, {
+        // Getting the selected week key
+        const selectedWeekKey = Object.keys(selectedWeeks)[0];
+        if (selectedWeekKey) {
+            const [row, week] = selectedWeekKey.split("-");
+            // Call updateWeek to update the selected week with the new values
+            updateWeek(row, week, {
                 comment: {
                     commentText: textAreaValue,
                     commentIcon: radioValue
                 }
             });
         }
-        deselectAllBoxes();
+        deselectAllWeeks();
     };
 
-    // Displays the color data (name and description) in the editting panel when selecting a box that had already been modified
+    // Displays the color data (name and description) in the editting panel when selecting a week that had already been modified
     useEffect(() => {
-        const selectedBoxKeys = Object.keys(selectedBoxes);
-        if (selectedBoxKeys.length === 1) {
-            const [row, week] = selectedBoxKeys[0].split("-");
-            const selectedBox = lifeBoardData[row][week];
-            if (selectedBox.comment) {
-                setTextAreaValue(selectedBox.comment.commentText);
-                setRadioValue(selectedBox.comment.commentIcon);
+        const selectedWeekKeys = Object.keys(selectedWeeks);
+        if (selectedWeekKeys.length === 1) {
+            const [row, week] = selectedWeekKeys[0].split("-");
+            const selectedWeek = lifeBoardData[row][week];
+            if (selectedWeek.comment) {
+                setTextAreaValue(selectedWeek.comment.commentText);
+                setRadioValue(selectedWeek.comment.commentIcon);
             } else {
                 setTextAreaValue('');
                 setRadioValue("Option 1");
@@ -57,11 +57,11 @@ function CommentEditPanel() {
             setTextAreaValue('');
             setRadioValue("Option 1");
         }
-    }, [selectedBoxes, lifeBoardData]);
+    }, [selectedWeeks, lifeBoardData]);
 
 
 
-    const selectedBoxesCount = Object.keys(selectedBoxes).length;
+    const selectedWeeksCount = Object.keys(selectedWeeks).length;
     const options = [
         { name: "Travel", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
         { name: "Housing", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
@@ -70,9 +70,9 @@ function CommentEditPanel() {
         { name: "Others", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
     ];
 
-    // Only render the comment editting panel if 1 or none boxes are selected. Comment panel it's hidden if multiple boxes are selected
+    // Only render the comment editting panel if 1 or none weeks are selected. Comment panel it's hidden if multiple weeks are selected
     return (
-        selectedBoxesCount <= 1 ?
+        selectedWeeksCount <= 1 ?
             <div className={styles.container}>
                 <EditPanel>
                     <p>Comments Edit Panel</p>
@@ -94,7 +94,7 @@ function CommentEditPanel() {
                     </div>
 
                     {/* Submit button */}
-                    {selectedBoxesCount === 0 ? null : <button onClick={handleSubmit}>Submit</button>}
+                    {selectedWeeksCount === 0 ? null : <button onClick={handleSubmit}>Submit</button>}
                 </EditPanel>
             </div>
             : null
