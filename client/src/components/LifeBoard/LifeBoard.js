@@ -17,7 +17,6 @@ import { LifeBoardDataContext } from '../../contexts/lifeBoardDataContext';
 
 function LifeBoard() {
     const { birthDate } = useContext(LifeBoardDataContext);
-    console.log('birthDate', birthDate)
     //weekSelectionContext is made available to all LifeBoard sub components. It holds an object/state with all selectedWeeks as well as function to select and deselect
     return (
         <WeekSelectionProvider>

@@ -14,6 +14,7 @@ import { getDateDetails } from './weeksHelper'
 function Weeks() {
     // imports from the context retrieving user specific data from db. lifeBoardData is the main object being rendered.
     const { lifeBoardData, birthDate } = useContext(LifeBoardDataContext);
+    //console.log(lifeBoardData)
 
     // loading state
     if (!lifeBoardData) return '';

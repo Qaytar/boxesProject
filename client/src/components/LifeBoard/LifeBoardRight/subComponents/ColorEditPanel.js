@@ -24,7 +24,7 @@ function ColorEditPanel() {
 
     // Updates lifeBoardData state using updateWeek() from lifeBoardDataContext
     const handleSubmit = () => {
-        // Getting the selected weeks keys in the form of {r2-2} for row 2, week 2
+        // Getting the selected weeks keys (for example, {r2-2} for row 2, week 2}
         const selectedWeekKeys = Object.keys(selectedWeeks);
 
         // Update all the selected weeks with the new color data

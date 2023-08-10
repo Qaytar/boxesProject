@@ -40,7 +40,7 @@ router.post('/getLifeBoard', async (req, res) => {
             // If there's a user object in the decoded token, user it's authenticated
             if (user) {
                 const userData = await User.findOne({ userId: user.id });
-
+                //console.log('userData', userData)
                 if (userData) {
                     // Return lifeBoard and usedColors if the user exists
                     return res.json({
@@ -56,8 +56,6 @@ router.post('/getLifeBoard', async (req, res) => {
                 }
             }
         }
-
-
         // If there wasn't a token or it couldn't be verified, return an empty lifeBoard and empty usedColors array
         return res.json({
             lifeBoard: createEmptyLifeBoard(),
@@ -147,16 +145,23 @@ router.post('/saveBirthDate', async (req, res) => {
     }
     //Proceeds to find the user in the db and save changes
     try {
-
         let userData = await User.findOne({ userId: user.id });
         //console.log('userData', userData)
         if (userData) {
             console.log('date about to be attempted to save:', updatedBirthDate)
             userData.birthDate = updatedBirthDate;
             await userData.save();
+        } else if (!userData) { //Logged in user without an account yet. User will be created in db now        
+            userData = new User({
+                userId: user.id,
+                birthDate: updatedBirthDate,
+                lifeBoard: createEmptyLifeBoard()
+            });
+            await userData.save();
+            //console.log('New user created and saved in DB. With its birthDate');
         }
-
         return res.json({ message: 'birth date saved succesfully' });
+
     } catch (error) {
         console.error('Error saving birth date:', error);
         return res.status(500).json({ error: 'Failed to save birth date' });
