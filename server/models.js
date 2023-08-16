@@ -7,10 +7,7 @@ const WeekSchema = new Schema({
         enum: ['y', 'n'],
         default: 'n'
     },
-    color: {
-        colorName: String,
-        colorDescription: String
-    },
+    color: String,
     comment: {
         commentText: String,
         commentIcon: String

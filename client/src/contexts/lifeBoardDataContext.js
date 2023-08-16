@@ -46,59 +46,58 @@ export const LifeBoardDataProvider = ({ children }) => {
 
     // updateWeek() is called to modify the LifeBoardData as the user modifies it by adding colors and comments to its weeks/weeks. So that the updates can be rendered before saved in the db
     // takes as arguments the coordinates of the week to be updated and the new data (color, comment, etc.)
-    // it also updates the state usedColors, keeping track of every new color used + it updates the modified 'flag'
     const updateWeek = (row, week, newWeekData) => {
-        /*Updates the week with the new data */
         let lifeBoardDataCopy = { ...lifeBoardData };
-        lifeBoardDataCopy[row][week] = { ...lifeBoardDataCopy[row][week], ...newWeekData };
-        setLifeBoardData(lifeBoardDataCopy);
+
+        // Merges the existing data with the new data using spread operator
+        lifeBoardDataCopy[row][week] = {
+            ...lifeBoardDataCopy[row][week],
+            ...newWeekData
+        };
 
         let updatedWeek = lifeBoardDataCopy[row][week];
 
-        /*If any property is truthy sets the modified flag to yes */
-        if ((updatedWeek.color && (updatedWeek.color.colorName || updatedWeek.color.colorDescription)) || (updatedWeek.comment && (updatedWeek.comment.commentText || updatedWeek.comment.commentIcon))) {
+        // Checks if any of the properties are truthy and set the modified flag to 'y'
+        if ((updatedWeek.color && updatedWeek.color.colorName) || (updatedWeek.comment && (updatedWeek.comment.commentText || updatedWeek.comment.commentIcon))) {
             updatedWeek.modified = 'y';
         }
 
-        /*Keeps track and updates state usedColors */
-        if (updatedWeek.color) {
-            setUsedColors((currentUsedColors) => {
-                // Check if the color name exists in currentUsedColors
-                const matchingColor = currentUsedColors.find(color => color.colorName === updatedWeek.color.colorName);
+        setLifeBoardData(lifeBoardDataCopy);
+    };
 
-                if (updatedWeek.color.colorName && !matchingColor) {
-                    // If colorName is new, just add it
-                    return [...currentUsedColors, {
-                        colorName: updatedWeek.color.colorName,
-                        colorDescription: updatedWeek.color.colorDescription
-                    }];
-                }
-                else if (matchingColor) {
-                    // If colorName exists but the description is different, update the description
-                    if (matchingColor.colorDescription !== updatedWeek.color.colorDescription) {
-                        return currentUsedColors.map(color => {
-                            if (color.colorName === updatedWeek.color.colorName) {
-                                return {
-                                    ...color,
-                                    colorDescription: updatedWeek.color.colorDescription
-                                };
-                            }
-                            return color;
-                        });
+
+
+    // Updates the state usedColors, keeping track of every new color used
+    const addOrEditColor = (colorName, colorDescription) => {
+        setUsedColors((currentUsedColors) => {
+            // Check if the color name exists in currentUsedColors
+            const matchingColor = currentUsedColors.find(color => color.colorName === colorName);
+
+            if (colorName && !matchingColor) {
+                // If colorName is new, just add it
+                return [...currentUsedColors, {
+                    colorName,
+                    colorDescription
+                }];
+            }
+            else if (matchingColor && matchingColor.colorDescription !== colorDescription) {
+                // If colorName exists but the description is different, update the description
+                return currentUsedColors.map(color => {
+                    if (color.colorName === colorName) {
+                        return {
+                            ...color,
+                            colorDescription
+                        };
                     }
                     // If colorDescription is the same, do nothing
-                    return currentUsedColors;
-                }
-                else {
-                    // If color already exists and its description matches, do nothing
-                    return currentUsedColors;
-                }
-            });
-        }
-
-
-
+                    return color;
+                });
+            }
+            // If color already exists and its description matches, do nothing
+            return currentUsedColors;
+        });
     };
+
 
     // Reaches endpoint responsible of saving changes made by the user into the db
     const saveLifeBoard = async () => {
@@ -125,7 +124,7 @@ export const LifeBoardDataProvider = ({ children }) => {
     };
 
     return (
-        <LifeBoardDataContext.Provider value={{ lifeBoardData, setUsedColors, saveLifeBoard, updateWeek, usedColors, birthDate, setBirthDate, saveBirthDate }}>
+        <LifeBoardDataContext.Provider value={{ lifeBoardData, setUsedColors, saveLifeBoard, updateWeek, addOrEditColor, usedColors, birthDate, setBirthDate, saveBirthDate }}>
             {children}
         </LifeBoardDataContext.Provider>
     );

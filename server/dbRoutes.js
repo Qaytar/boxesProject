@@ -20,7 +20,7 @@ function createEmptyLifeBoard() {
     for (let i = 1; i <= 100; i++) {
         lifeBoard[`r${i}`] = Array(52).fill({
             modified: 'n',
-            color: { colorName: '', colorDescription: '' },
+            color: '',
             comment: { commentText: '', commentIcon: '' },
         });
     }

@@ -17,7 +17,7 @@ function ColorEditPanel() {
 
     // import from contexts
     const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
-    const { updateWeek, usedColors } = useContext(LifeBoardDataContext);
+    const { updateWeek, usedColors, addOrEditColor } = useContext(LifeBoardDataContext);
 
     // State variables
     const [textAreaValue, setTextAreaValue] = useState("");
@@ -43,12 +43,8 @@ function ColorEditPanel() {
         // Update all the selected weeks with the new color data
         selectedWeekKeys.forEach((selectedWeekKey) => {
             const [row, week] = selectedWeekKey.split("-");
-            updateWeek(row, week, {
-                color: {
-                    colorName: selectedColor,
-                    colorDescription: textAreaValue
-                }
-            });
+            updateWeek(row, week, { color: selectedColor });
+            addOrEditColor(selectedColor, textAreaValue);
         });
         deselectAllWeeks();
     };

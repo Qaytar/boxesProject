@@ -38,7 +38,7 @@ export function resetSelectedWeeksV2(selectedWeeks, lifeBoardData, setUsedColors
             const [row, weekIndex] = weekId.split('-');
 
             // Get the color of this week
-            const weekColorName = lifeBoardData[row][weekIndex].color.colorName;
+            const weekColorName = lifeBoardData[row][weekIndex].color;
 
             // Check if the color is valid (non-empty) and hasn't been added to the array yet
             if (weekColorName && !colors.includes(weekColorName)) {
@@ -58,10 +58,7 @@ export function resetSelectedWeeksV2(selectedWeeks, lifeBoardData, setUsedColors
 
             updateWeek(row, week, {
                 modified: 'n',
-                color: {
-                    colorName: "",
-                    colorDescription: ""
-                },
+                color: "",
                 comment: {
                     commentText: "",
                     commentIcon: ""
@@ -83,7 +80,7 @@ export function resetSelectedWeeksV2(selectedWeeks, lifeBoardData, setUsedColors
 
                 // Check if this week is not in the selectedWeeks
                 if (!selectedWeeks[weekId]) {
-                    const currentColor = lifeBoardData[rowName][j].color.colorName;
+                    const currentColor = lifeBoardData[rowName][j].color;
 
                     // Check if color exists and matches the target color
                     if (currentColor && currentColor === color) {
