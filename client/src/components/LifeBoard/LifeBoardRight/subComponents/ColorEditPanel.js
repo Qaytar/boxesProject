@@ -1,6 +1,7 @@
 /**
  * ColorEditPanel.js
  * 
+ * Contains states for the selecting colors and the textArea. Both needed as arguments of updateWeek() which is the main purpose of the component
  * 
  */
 
@@ -10,17 +11,29 @@ import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext'
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './ColorEditPanel.module.css';
 function ColorEditPanel() {
-    // impot from contexts
+    /*
+    * Part 1 - States and side effects
+    */
+
+    // import from contexts
     const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
-    const { lifeBoardData, updateWeek, usedColors } = useContext(LifeBoardDataContext);
+    const { updateWeek, usedColors } = useContext(LifeBoardDataContext);
 
     // State variables
     const [textAreaValue, setTextAreaValue] = useState("");
-    const [selectedColor, setSelectedColor] = useState("");
+    const [selectedColor, setSelectedColor] = useState(null);
 
-    // Update functions
+    // Update functions based on user input (onChange and onClick)
     const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
-    const handleColorSelect = (color) => setSelectedColor(color);
+    // const handleColorSelect = (color) => setSelectedColor(color);
+    const handleColorSelect = (colorName) => {
+        if (selectedColor && selectedColor === colorName) {
+            setSelectedColor(null); // deselect the color
+        } else {
+            setSelectedColor(colorName); // select the clicked color
+        }
+    };
+
 
     // Updates lifeBoardData state using updateWeek() from lifeBoardDataContext
     const handleSubmit = () => {
@@ -40,33 +53,25 @@ function ColorEditPanel() {
         deselectAllWeeks();
     };
 
-    // Displays the color description in the editting panel when selecting a week that has already been modified
-    //..Only works if only one week is selected (otherwise it could have to selct two colors at once which isn't possible)
+    // When selecting a color setTextArea to its description for user to re use or edit
     useEffect(() => {
-        //console.log('inside usEffect')
-        if (selectedWeeks && Object.keys(selectedWeeks).length === 1) {
-            // Get the color data from the first selected week (it will display the color data from the first week selected only)
-            const [row, week] = Object.keys(selectedWeeks)[0].split("-");
-            const selectedWeek = lifeBoardData[row][week];
-            if (selectedWeek.color) {
-                setTextAreaValue(selectedWeek.color.colorDescription);
-                setSelectedColor(selectedWeek.color.colorName);
+        if (selectedColor) {
+            const matchingColor = usedColors.find(color => color.colorName === selectedColor);
+            if (matchingColor) {
+                setTextAreaValue(matchingColor.colorDescription);
             } else {
-                setTextAreaValue('');
-                setSelectedColor("");
+                setTextAreaValue("");
             }
-        }
-        if (Object.keys(selectedWeeks).length < 1 && !selectedColor) {
-            setTextAreaValue('Select a week and a color')
-        }
-        else if (!selectedColor) {
-            setTextAreaValue('Select a color')
-        }
-        else if (Object.keys(selectedWeeks).length < 1) {
-            setTextAreaValue('Select a week')
+        } else {
+            setTextAreaValue("")
         }
 
-    }, [selectedWeeks, lifeBoardData, selectedColor]);
+    }, [selectedColor, usedColors]);
+
+
+    /*
+    * Part 2 - JSX and relevant declaration
+    */
 
     const colors = [
         { name: "Red", color: "#FF0000" },
@@ -76,17 +81,35 @@ function ColorEditPanel() {
         { name: "Purple", color: "#800080" },
     ];
 
+    // Utility functions for better readability in the JSX
+    const isTextAreaEnabled = () => {
+        return Object.keys(selectedWeeks).length > 0 && selectedColor;
+    };
+    const isSubmitEnabled = () => {
+        return Object.keys(selectedWeeks).length > 0 && selectedColor && textAreaValue;
+    };
 
-    console.log('selectedWeeks', selectedWeeks)
-    console.log('selectedColor', selectedColor)
-    console.log('usedColors', usedColors)
+    // For efficient lookup in the JSX, transforming usedColor's array of objects into an object like colorName: colorDescription, ..
+    const colorDescriptions = {};
+    usedColors.forEach(color => {
+        colorDescriptions[color.colorName] = color.colorDescription;
+    });
+
+    // console.log('selectedWeeks', selectedWeeks)
+    // console.log('selectedColor', selectedColor)
+    // console.log('usedColors', usedColors)
+
     return (
         <div className={styles.container}>
             <EditPanel>
                 <p>Color Edit Panel</p>
 
                 {/* Text area */}
-                <textarea value={textAreaValue} onChange={handleTextAreaChange} disabled={Object.keys(selectedWeeks).length > 0 && selectedColor ? false : true} />
+                <textarea
+                    value={textAreaValue}
+                    onChange={handleTextAreaChange}
+                    disabled={!isTextAreaEnabled()}
+                />
 
                 {/* Color selector */}
                 <div className={styles.colorSelector}>
@@ -98,20 +121,18 @@ function ColorEditPanel() {
                             onClick={() => handleColorSelect(colorOption.color)}
                         >
                             {
-                                usedColors.find(obj => Object.values(obj).includes(colorOption.color))
-                                    ? <span>{usedColors.find(obj => Object.values(obj).includes(colorOption.color)).colorDescription}</span>
-                                    : null
+                                /* Renders the colorDescription inside the color, only if that color is being used (hence, present in usedColors) */
+                                colorDescriptions[colorOption.color] ? <span>{colorDescriptions[colorOption.color]}</span> : null
                             }
-
                         </div>
                     ))}
                 </div>
 
                 {/* Submit button */}
-                <button onClick={handleSubmit} disabled={Object.keys(selectedWeeks).length > 0 && selectedColor && textAreaValue ? false : true}>Submit</button>
+                <button onClick={handleSubmit} disabled={!isSubmitEnabled()}>Submit</button>
             </EditPanel>
         </div>
     )
 }
-
 export default ColorEditPanel;
+

@@ -63,18 +63,39 @@ export const LifeBoardDataProvider = ({ children }) => {
         /*Keeps track and updates state usedColors */
         if (updatedWeek.color) {
             setUsedColors((currentUsedColors) => {
-                if (updatedWeek.color.colorName && !currentUsedColors.some(color => color.colorName === updatedWeek.color.colorName)) {
-                    //console.log(`Adding new color: ${updatedWeek.color.colorName}`);
+                // Check if the color name exists in currentUsedColors
+                const matchingColor = currentUsedColors.find(color => color.colorName === updatedWeek.color.colorName);
+
+                if (updatedWeek.color.colorName && !matchingColor) {
+                    // If colorName is new, just add it
                     return [...currentUsedColors, {
                         colorName: updatedWeek.color.colorName,
                         colorDescription: updatedWeek.color.colorDescription
                     }];
-                } else {
-                    //console.log('Color already exists in usedColors');
+                }
+                else if (matchingColor) {
+                    // If colorName exists but the description is different, update the description
+                    if (matchingColor.colorDescription !== updatedWeek.color.colorDescription) {
+                        return currentUsedColors.map(color => {
+                            if (color.colorName === updatedWeek.color.colorName) {
+                                return {
+                                    ...color,
+                                    colorDescription: updatedWeek.color.colorDescription
+                                };
+                            }
+                            return color;
+                        });
+                    }
+                    // If colorDescription is the same, do nothing
+                    return currentUsedColors;
+                }
+                else {
+                    // If color already exists and its description matches, do nothing
                     return currentUsedColors;
                 }
             });
         }
+
 
 
     };
