@@ -63,8 +63,8 @@ export const LifeBoardDataProvider = ({ children }) => {
         /*Keeps track and updates state usedColors */
         if (updatedWeek.color) {
             setUsedColors((currentUsedColors) => {
-                if (!currentUsedColors.some(color => color.colorName === updatedWeek.color.colorName)) {
-                    //console.log(`Adding new color: ${week.color.colorName}`);
+                if (updatedWeek.color.colorName && !currentUsedColors.some(color => color.colorName === updatedWeek.color.colorName)) {
+                    //console.log(`Adding new color: ${updatedWeek.color.colorName}`);
                     return [...currentUsedColors, {
                         colorName: updatedWeek.color.colorName,
                         colorDescription: updatedWeek.color.colorDescription
@@ -104,7 +104,7 @@ export const LifeBoardDataProvider = ({ children }) => {
     };
 
     return (
-        <LifeBoardDataContext.Provider value={{ lifeBoardData, saveLifeBoard, updateWeek, usedColors, birthDate, setBirthDate, saveBirthDate }}>
+        <LifeBoardDataContext.Provider value={{ lifeBoardData, setUsedColors, saveLifeBoard, updateWeek, usedColors, birthDate, setBirthDate, saveBirthDate }}>
             {children}
         </LifeBoardDataContext.Provider>
     );

@@ -12,7 +12,7 @@ import styles from './ColorEditPanel.module.css';
 function ColorEditPanel() {
     // impot from contexts
     const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
-    const { lifeBoardData, updateWeek } = useContext(LifeBoardDataContext);
+    const { lifeBoardData, updateWeek, usedColors } = useContext(LifeBoardDataContext);
 
     // State variables
     const [textAreaValue, setTextAreaValue] = useState("");
@@ -40,10 +40,11 @@ function ColorEditPanel() {
         deselectAllWeeks();
     };
 
-    // Displays the color data (name and description) in the editting panel when selecting a week that had already been modified
+    // Displays the color description in the editting panel when selecting a week that has already been modified
+    //..Only works if only one week is selected (otherwise it could have to selct two colors at once which isn't possible)
     useEffect(() => {
         //console.log('inside usEffect')
-        if (selectedWeeks && Object.keys(selectedWeeks).length > 0) {
+        if (selectedWeeks && Object.keys(selectedWeeks).length === 1) {
             // Get the color data from the first selected week (it will display the color data from the first week selected only)
             const [row, week] = Object.keys(selectedWeeks)[0].split("-");
             const selectedWeek = lifeBoardData[row][week];
@@ -54,12 +55,18 @@ function ColorEditPanel() {
                 setTextAreaValue('');
                 setSelectedColor("");
             }
-        } else {
-            // If no weeks are selected, reset the state
-            setTextAreaValue('');
-            setSelectedColor("");
         }
-    }, [selectedWeeks, lifeBoardData]);
+        if (Object.keys(selectedWeeks).length < 1 && !selectedColor) {
+            setTextAreaValue('Select a week and a color')
+        }
+        else if (!selectedColor) {
+            setTextAreaValue('Select a color')
+        }
+        else if (Object.keys(selectedWeeks).length < 1) {
+            setTextAreaValue('Select a week')
+        }
+
+    }, [selectedWeeks, lifeBoardData, selectedColor]);
 
     const colors = [
         { name: "Red", color: "#FF0000" },
@@ -69,13 +76,17 @@ function ColorEditPanel() {
         { name: "Purple", color: "#800080" },
     ];
 
+
+    console.log('selectedWeeks', selectedWeeks)
+    console.log('selectedColor', selectedColor)
+    console.log('usedColors', usedColors)
     return (
         <div className={styles.container}>
             <EditPanel>
                 <p>Color Edit Panel</p>
 
                 {/* Text area */}
-                <textarea value={textAreaValue} onChange={handleTextAreaChange} />
+                <textarea value={textAreaValue} onChange={handleTextAreaChange} disabled={Object.keys(selectedWeeks).length > 0 && selectedColor ? false : true} />
 
                 {/* Color selector */}
                 <div className={styles.colorSelector}>
@@ -85,12 +96,19 @@ function ColorEditPanel() {
                             className={`${styles.colorOption} ${selectedColor === colorOption.color ? styles.selected : ''}`}
                             style={{ backgroundColor: colorOption.color }}
                             onClick={() => handleColorSelect(colorOption.color)}
-                        />
+                        >
+                            {
+                                usedColors.find(obj => Object.values(obj).includes(colorOption.color))
+                                    ? <span>{usedColors.find(obj => Object.values(obj).includes(colorOption.color)).colorDescription}</span>
+                                    : null
+                            }
+
+                        </div>
                     ))}
                 </div>
 
                 {/* Submit button */}
-                {Object.keys(selectedWeeks).length > 0 && <button onClick={handleSubmit}>Submit</button>}
+                <button onClick={handleSubmit} disabled={Object.keys(selectedWeeks).length > 0 && selectedColor && textAreaValue ? false : true}>Submit</button>
             </EditPanel>
         </div>
     )

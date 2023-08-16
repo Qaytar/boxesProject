@@ -29,6 +29,7 @@ function Legend() {
                             </div>
                         </div>
                     ))}
+
                 </div>
             ) : (
                 <div>No colors added yet</div>

@@ -15,6 +15,7 @@ import React, { useState, useContext } from "react";
 import Toggle from "../../UI/Toggle"
 import { WeekSelectionContext } from '../../../contexts/weekSelectionContext'
 import { LifeBoardDataContext } from '../../../contexts/lifeBoardDataContext';
+import { resetSelectedWeeksV2 } from './LifeBoardRightHelper'
 
 
 function LifeBoardRight() {
@@ -26,26 +27,8 @@ function LifeBoardRight() {
 
     // imports from contexts
     const { deselectAllWeeks, selectedWeeks } = useContext(WeekSelectionContext);
-    const { saveLifeBoard, updateWeek } = useContext(LifeBoardDataContext);
+    const { saveLifeBoard, updateWeek, lifeBoardData, setUsedColors, usedColors } = useContext(LifeBoardDataContext);
 
-    // deletes all color and comment properties of selected weeks
-    function resetSelectedWeeks() {
-        Object.keys(selectedWeeks).forEach(key => {
-            const [row, week] = key.split('-');
-
-            updateWeek(row, week, {
-                modified: 'n',
-                color: {
-                    colorName: "",
-                    colorDescription: ""
-                },
-                comment: {
-                    commentText: "",
-                    commentIcon: ""
-                }
-            });
-        });
-    }
 
     return (
         <div className={styles.content}>
@@ -59,7 +42,10 @@ function LifeBoardRight() {
 
             <button onClick={saveLifeBoard}>Save Changes to db</button>
 
-            <button onClick={resetSelectedWeeks}>Delete changes to selected weeks</button>
+            <button onClick={() => resetSelectedWeeksV2(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, usedColors)}>
+                Delete changes to selected weeks
+            </button>
+
 
             {isMode === 'edit' ? (
                 <div>
