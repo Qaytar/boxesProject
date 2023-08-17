@@ -25,7 +25,8 @@ function CommentEditPanel() {
 
     // Updates lifeBoardData state using updateWeek() from lifeBoardDataContext
     const handleSubmit = () => {
-        // Getting the selected week key
+        // Getting the selected weeks keys (for example, `r2-2` for row 2, week 2}
+        //.. selectedWeeks object looks like {r1-0: true, r1-1: true}
         const selectedWeekKey = Object.keys(selectedWeeks)[0];
         if (selectedWeekKey) {
             const [row, week] = selectedWeekKey.split("-");
