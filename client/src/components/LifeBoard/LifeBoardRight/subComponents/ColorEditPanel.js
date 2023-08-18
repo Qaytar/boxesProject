@@ -10,7 +10,7 @@ import { WeekSelectionContext } from '../../../../contexts/weekSelectionContext'
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './ColorEditPanel.module.css';
-function ColorEditPanel() {
+function ColorEditPanel(props) {
     /*
     * Part 1 - States and side effects
     */
@@ -22,6 +22,7 @@ function ColorEditPanel() {
     // State variables
     const [textAreaValue, setTextAreaValue] = useState("");
     const [selectedColor, setSelectedColor] = useState(null);
+
 
     // Update functions based on user input (onChange and onClick)
     const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
@@ -47,7 +48,9 @@ function ColorEditPanel() {
             updateWeek(row, week, { color: selectedColor });
             addOrEditColor(selectedColor, textAreaValue);
         });
+
         deselectAllWeeks();
+        props.setTriggerSave(true);
     };
 
     // When selecting a color setTextArea to its description for user to re use or edit

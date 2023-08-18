@@ -1,7 +1,7 @@
 /**
- * LifeBoardRightHelper.js
+ * resetSelectedWeeks.js * 
  * 
- * Contains function helper triggered by the onClick of reset selected weeks in LifeBoardRight.js
+ * Contains function resetSelectedWeeks triggered by the onClick of reset selected weeks btn in LifeBoardRight.js
  *  
  */
 
@@ -16,7 +16,7 @@
  * @param {function} updateWeek - Function from the context lifeBoardDataContext. Will updated selected weeks by passing an empty week
  * @param {function} setUsedColors - State Function from the context lifeBoardDataContext. Will remove colors, if no weeks using that color are left
  */
-export function resetSelectedWeeksV2(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, usedColors) {
+export function resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, saveLifeBoard, usedColors) {
 
     /*
     *
@@ -108,15 +108,15 @@ export function resetSelectedWeeksV2(selectedWeeks, lifeBoardData, setUsedColors
     */
 
     const colors = usedColorsInSelectedWeeks();
-
+    console.log('colors in selection:', colors)
     //For each color within selectedWeeks, find out whether the color should be eliminated from usedColors (because color will still be found in lifeBoardData after resetting seletecWeeks) or not.
     colors.forEach((color) => {
         if (!findUsedColorInLifeBoard(color)) { //if the color isn't found anywhere else, meaning it's found only in the selectedWeeks, it should be removed from usedColors, since those weeks are about to be reseted
-            //console.log('inside the if, inside the forEach. This is usedColors before filter:', usedColors)
+            console.log('inside the if, inside the forEach. This is usedColors before filter:', usedColors)
             setUsedColors(prevColors => {
                 return prevColors.filter(usedColor => usedColor.colorName !== color);
             });
-            //console.log('inside the if, inside the forEach. This is usedColors after filter:', usedColors)
+            console.log('inside the if, inside the forEach. This is usedColors after filter:', usedColors)
         }
     })
     cleanSelectedWeeks(); //regardless of colors, all selectedWeeks must be resetted to empty

@@ -10,7 +10,7 @@ import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext'
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './CommentEditPanel.module.css';  // import CSS module
 
-function CommentEditPanel() {
+function CommentEditPanel(props) {
     // imports from contexts
     const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
     const { lifeBoardData, updateWeek } = useContext(LifeBoardDataContext);
@@ -37,6 +37,7 @@ function CommentEditPanel() {
                     commentIcon: radioValue
                 }
             });
+            props.setTriggerSave(true);
         }
         deselectAllWeeks();
     };

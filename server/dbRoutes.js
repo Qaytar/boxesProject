@@ -72,6 +72,7 @@ router.post('/getLifeBoard', async (req, res) => {
 /*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
 /*Replies with a status message of the operation*/
 router.post('/saveLifeBoard', async (req, res) => {
+    console.log('saveLifeBoard got hit');
     const updatedLifeBoardData = req.body.lifeBoardData;
     const updatedUsedColors = req.body.usedColors;
 
@@ -94,6 +95,7 @@ router.post('/saveLifeBoard', async (req, res) => {
     }
     //Proceeds to find the user in the db and save changes
     try {
+        console.log('looking for user in db');
         let userData = await User.findOne({ userId: user.id });
         //the case where the user.id isn't found in the database, is expected
         //users aren't added in the database and the moment of first log in, but here: The moment they save changes for the first time
@@ -104,13 +106,13 @@ router.post('/saveLifeBoard', async (req, res) => {
                 usedColors: updatedUsedColors
             });
             await userData.save();
-            //console.log('New user created and saved in DB');
+            console.log('New user created and saved in DB');
         } else {
-            //console.log('User found in DB, updating lifeBoard and usedColors');
+            console.log('User found in DB, updating lifeBoard and usedColors');
             userData.lifeBoard = updatedLifeBoardData;
             userData.usedColors = updatedUsedColors;
             await userData.save();
-            //console.log('User lifeBoard and usedColors updated in DB');
+            console.log('User lifeBoard and usedColors updated in DB');
         }
 
         return res.json({ message: 'LifeBoard and usedColors saved successfully' });

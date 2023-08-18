@@ -1,7 +1,7 @@
 /**
  * lifeBoardDataContext.js
  * 
- * defines LifeBoardDataContext and provides { lifeBoardData, saveLifeBoard, updateWeek, usedColors, birthDate, setBirthDate, saveBirthDate } to the rest of the App
+ * defines LifeBoardDataContext and provides { lifeBoardData, saveLifeBoard, updateWeek, usedColors, birthDate, setBirthDate, saveBirthDate, setUnsavedChanges, savingStatus } to the rest of the App
  *
  * lifeBoardData is the object that renders the grid of the app and holds the data of the 5200 (52 weeks times 100 years) weeks (which are represented by the <week> component)
  */
@@ -21,10 +21,10 @@ export const LifeBoardDataProvider = ({ children }) => {
     // this information is contained in the lifeBoardData of every user but it'd be costy to retrieve so it has been decided to keep track of it in a separate state
     const [usedColors, setUsedColors] = useState([]);
 
-    // birthDate state
+    // user's birth date to personalize its lifeBoard and add dates to each week
     const [birthDate, setBirthDate] = useState();
 
-    // reaches out to the server and stores the data of the user (coming from db) in the states
+    // reaches out to the server and stores the data of the user (coming from db) in the main states. this context is pretty glogbal so essentially this useEffect runs very early on when the app is mounted
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch('http://localhost:5000/db/getLifeBoard', {
@@ -101,15 +101,32 @@ export const LifeBoardDataProvider = ({ children }) => {
 
     // Reaches endpoint responsible of saving changes made by the user into the db
     const saveLifeBoard = async () => {
-        await fetch('http://localhost:5000/db/saveLifeBoard', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ lifeBoardData, usedColors })
-        });
+        console.log('calling saveLifeBoard');
+        console.log('usedColors inside saveLifeBoard', usedColors);
+
+        try {
+            const response = await fetch('http://localhost:5000/db/saveLifeBoard', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ lifeBoardData, usedColors })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log(data.message);  // This will log the message to the console
+
+            // Use data.message elsewhere as needed, or manage state based on it
+        } catch (error) {
+            console.error("There was an error saving the life board:", error);
+        }
     };
+
 
     // Reaches endpoint responsible of saving user's birthDate
     const saveBirthDate = async () => {

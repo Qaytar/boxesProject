@@ -11,11 +11,11 @@ import ColorEditPanel from "./subComponents/ColorEditPanel";
 import CommentEditPanel from "./subComponents/CommentEditPanel";
 import Legend from "./subComponents/Legend";
 import styles from "./LifeBoardRight.module.css";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Toggle from "../../UI/Toggle"
 import { WeekSelectionContext } from '../../../contexts/weekSelectionContext'
 import { LifeBoardDataContext } from '../../../contexts/lifeBoardDataContext';
-import { resetSelectedWeeksV2 } from './LifeBoardRightHelper'
+import { resetSelectedWeeks } from '../../../helpers/resetSelectedWeeks'
 
 
 function LifeBoardRight() {
@@ -29,6 +29,14 @@ function LifeBoardRight() {
     const { deselectAllWeeks, selectedWeeks } = useContext(WeekSelectionContext);
     const { saveLifeBoard, updateWeek, lifeBoardData, setUsedColors, usedColors } = useContext(LifeBoardDataContext);
 
+    const [triggerSave, setTriggerSave] = useState(false);
+
+    useEffect(() => {
+        if (triggerSave) {
+            saveLifeBoard();
+            setTriggerSave(false); // Reset the flag
+        }
+    }, [triggerSave, saveLifeBoard]);
 
     return (
         <div className={styles.content}>
@@ -42,20 +50,25 @@ function LifeBoardRight() {
 
             <button onClick={saveLifeBoard}>Save Changes to db</button>
 
-            <button onClick={() => resetSelectedWeeksV2(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, usedColors)}>
+            <button onClick={() => {
+                resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, saveLifeBoard, usedColors);
+                setTriggerSave(true);
+            }}>
                 Delete changes to selected weeks
             </button>
 
 
-            {isMode === 'edit' ? (
-                <div>
-                    <ColorEditPanel />
-                    <CommentEditPanel />
-                </div>
-            ) : (
-                <Legend />
-            )}
-        </div>
+            {
+                isMode === 'edit' ? (
+                    <div>
+                        <ColorEditPanel setTriggerSave={setTriggerSave} />
+                        <CommentEditPanel setTriggerSave={setTriggerSave} />
+                    </div>
+                ) : (
+                    <Legend />
+                )
+            }
+        </div >
 
     )
 }
