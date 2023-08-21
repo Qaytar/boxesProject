@@ -1,7 +1,7 @@
 /**
  * weeksHelper.js
  * 
- * Contains 3 functions used in <Weeks> component to perform date calculations
+ * Contains 3 functions used (only) in <Weeks> component to perform date calculations
  * 
  *  
  */

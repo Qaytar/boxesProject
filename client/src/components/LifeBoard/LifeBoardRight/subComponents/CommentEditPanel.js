@@ -37,9 +37,9 @@ function CommentEditPanel(props) {
                     commentIcon: radioValue
                 }
             });
-            props.setTriggerSave(true);
+            props.setTriggerSave(true); // saves it all in db
         }
-        deselectAllWeeks();
+        deselectAllWeeks(); // reset selection
     };
 
     // Displays the color data (name and description) in the editting panel when selecting a week that had already been modified

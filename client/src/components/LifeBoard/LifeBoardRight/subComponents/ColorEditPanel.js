@@ -19,12 +19,11 @@ function ColorEditPanel(props) {
     const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
     const { updateWeek, usedColors, addOrEditColor } = useContext(LifeBoardDataContext);
 
-    // State variables
+    // State variables for input user
     const [textAreaValue, setTextAreaValue] = useState("");
     const [selectedColor, setSelectedColor] = useState(null);
 
-
-    // Update functions based on user input (onChange and onClick)
+    // Update functions for those states (onChange and onClick)
     const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
     // const handleColorSelect = (color) => setSelectedColor(color);
     const handleColorSelect = (colorName) => {
@@ -36,24 +35,24 @@ function ColorEditPanel(props) {
     };
 
 
-    // Updates lifeBoardData state using updateWeek() from lifeBoardDataContext
+    // Upon user submitting changes, updates lifeBoardData state using updateWeek() from lifeBoardDataContext
     const handleSubmit = () => {
         // Getting the selected weeks keys (for example, `r2-2` for row 2, week 2}
         //.. selectedWeeks object looks like {r1-0: true, r1-1: true}
         const selectedWeekKeys = Object.keys(selectedWeeks);
 
-        // Update all the selected weeks with the new color data
+        // Update all the selected weeks with the new color and updates usedColors thru 'addOrEditColor'
         selectedWeekKeys.forEach((selectedWeekKey) => {
             const [row, week] = selectedWeekKey.split("-");
             updateWeek(row, week, { color: selectedColor });
             addOrEditColor(selectedColor, textAreaValue);
         });
 
-        deselectAllWeeks();
-        props.setTriggerSave(true);
+        deselectAllWeeks(); //reset selection
+        props.setTriggerSave(true); //saves it all in db
     };
 
-    // When selecting a color setTextArea to its description for user to re use or edit
+    // When selecting a color, setTextArea to its description for user to easily edit
     useEffect(() => {
         if (selectedColor) {
             const matchingColor = usedColors.find(color => color.colorName === selectedColor);
@@ -65,12 +64,11 @@ function ColorEditPanel(props) {
         } else {
             setTextAreaValue("")
         }
-
     }, [selectedColor, usedColors]);
 
 
     /*
-    * Part 2 - JSX and relevant declaration
+    * Part 2 - JSX and relevant declarations
     */
 
     const colors = [

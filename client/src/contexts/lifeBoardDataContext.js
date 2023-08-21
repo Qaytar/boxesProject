@@ -1,7 +1,7 @@
 /**
  * lifeBoardDataContext.js
  * 
- * defines LifeBoardDataContext and provides { lifeBoardData, saveLifeBoard, updateWeek, usedColors, birthDate, setBirthDate, saveBirthDate, setUnsavedChanges, savingStatus } to the rest of the App
+ * defines LifeBoardDataContext and provides several key functions and states to the rest of the App
  *
  * lifeBoardData is the object that renders the grid of the app and holds the data of the 5200 (52 weeks times 100 years) weeks (which are represented by the <week> component)
  */
@@ -18,13 +18,13 @@ export const LifeBoardDataProvider = ({ children }) => {
     const [lifeBoardData, setLifeBoardData] = useState(null);
 
     // It holds a unique list of all the colors used by a user. To render the legend of all colors
-    // this information is contained in the lifeBoardData of every user but it'd be costy to retrieve so it has been decided to keep track of it in a separate state
+    // this information is contained in the lifeBoardData of every user but it'd be costy to retrieve so it has been decided to keep track of it in a separate state as colors are added and removed from the board
     const [usedColors, setUsedColors] = useState([]);
 
     // user's birth date to personalize its lifeBoard and add dates to each week
     const [birthDate, setBirthDate] = useState();
 
-    // reaches out to the server and stores the data of the user (coming from db) in the main states. this context is pretty glogbal so essentially this useEffect runs very early on when the app is mounted
+    // When app mounts, reaches out to the server and stores the data of the user (coming from db) in the main states. *This context is pretty glogbal so essentially this useEffect runs very early on when the app is mounted
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch('http://localhost:5000/db/getLifeBoard', {
@@ -44,7 +44,7 @@ export const LifeBoardDataProvider = ({ children }) => {
     }, []);
 
 
-    // updateWeek() is called to modify the LifeBoardData as the user modifies it by adding colors and comments to its weeks/weeks. So that the updates can be rendered before saved in the db
+    // updateWeek() is called to modify the LifeBoardData as the user adds colors and comments to its weeks. So that the updates can be rendered before saved in the db
     // takes as arguments the coordinates of the week to be updated and the new data (color, comment, etc.)
     const updateWeek = (row, week, newWeekData) => {
         let lifeBoardDataCopy = { ...lifeBoardData };

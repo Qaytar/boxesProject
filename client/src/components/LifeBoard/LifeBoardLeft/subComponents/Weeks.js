@@ -9,7 +9,7 @@ import React, { useContext } from 'react';
 import styles from "./Weeks.module.css"
 import Week from "./Week"
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
-import { getDateDetails } from './weeksHelper'
+import { getDateDetails } from '../../../../helpers/weeksHelper'
 
 function Weeks() {
     // imports from the context retrieving user specific data from db. lifeBoardData is the main object being rendered.
@@ -19,7 +19,7 @@ function Weeks() {
     // loading state
     if (!lifeBoardData) return '';
 
-
+    // Stores the year the user was born
     const startYear = new Date(birthDate).getFullYear()
     // iterates over rows and weeks to render all Weeks passing by props all its properties
     //.. Also updates weekNumber (from 1 to 5200) and currentYear values

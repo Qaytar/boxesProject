@@ -1,9 +1,9 @@
 /**
  * LifeBoardRight.js
  * 
- * Renders the RIGHT side of the application (where the grid/LifeBoard is)
+ * Renders the RIGHT side of the application (where the editting panels are)
  * 
- * Contains the editting panels, the legend panel and a toggler to swith between the two
+ * Contains the editting panels, the legend panel and a toggler to switch between the two, as well as other buttons
  * 
  */
 
@@ -29,8 +29,11 @@ function LifeBoardRight() {
     const { deselectAllWeeks, selectedWeeks } = useContext(WeekSelectionContext);
     const { saveLifeBoard, updateWeek, lifeBoardData, setUsedColors, usedColors } = useContext(LifeBoardDataContext);
 
+    // defines flag-state to handle saving in db from different components
+    //.. the trigger is connected to onClicks of user submitting changes to the lifeBoard
     const [triggerSave, setTriggerSave] = useState(false);
 
+    // Saves everything to db when trigger changes and is True
     useEffect(() => {
         if (triggerSave) {
             saveLifeBoard();
@@ -38,6 +41,7 @@ function LifeBoardRight() {
         }
     }, [triggerSave, saveLifeBoard]);
 
+    //A the bottom of the JSX, conditionally renders either legend or editting panels (depending on the toggle position)
     return (
         <div className={styles.content}>
             <Toggle
@@ -48,15 +52,12 @@ function LifeBoardRight() {
             />
             <button onClick={deselectAllWeeks}>Deselect All Weeks</button>
 
-            <button onClick={saveLifeBoard}>Save Changes to db</button>
-
             <button onClick={() => {
                 resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, saveLifeBoard, usedColors);
                 setTriggerSave(true);
             }}>
                 Delete changes to selected weeks
             </button>
-
 
             {
                 isMode === 'edit' ? (
