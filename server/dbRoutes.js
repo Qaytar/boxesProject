@@ -3,7 +3,7 @@
  * 
  * Express.js code containing two endpoints to bridge reactp App with Mongodb
  * First endpoint post at /getLifeBoard, provides the frontend with data from the database
- * Second endpoint post at /saveLifeBoard, saves changes from the user into the database 
+ * Second endpoint post at /saveData, saves changes from the user into the database 
  */
 
 const express = require('express');
@@ -19,7 +19,6 @@ function createEmptyLifeBoard() {
     let lifeBoard = {};
     for (let i = 1; i <= 100; i++) {
         lifeBoard[`r${i}`] = Array(52).fill({
-            modified: 'n',
             color: '',
             comment: { commentText: '', commentIcon: '' },
         });
@@ -71,8 +70,8 @@ router.post('/getLifeBoard', async (req, res) => {
 
 /*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
 /*Replies with a status message of the operation*/
-router.post('/saveLifeBoard', async (req, res) => {
-    console.log('saveLifeBoard got hit');
+router.post('/saveData', async (req, res) => {
+    console.log('saveData got hit');
     const updatedLifeBoardData = req.body.lifeBoardData;
     const updatedUsedColors = req.body.usedColors;
 
@@ -126,6 +125,7 @@ router.post('/saveLifeBoard', async (req, res) => {
 router.post('/saveBirthDate', async (req, res) => {
     console.log('saveBirthDate has been hit')
     const updatedBirthDate = req.body.birthDate;
+    console.log('birthdate received', updatedBirthDate)
 
     let user;
     //First, checks for authorization. 
@@ -169,12 +169,6 @@ router.post('/saveBirthDate', async (req, res) => {
         return res.status(500).json({ error: 'Failed to save birth date' });
     }
 });
-
-
-
-
-
-
 
 module.exports = router;
 

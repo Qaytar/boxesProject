@@ -7,13 +7,19 @@
  */
 
 import { createContext, useState, useEffect } from 'react';
-
+import { fetchData } from '../helpers/databaseOpsHelper';
 
 // creates context
 export const LifeBoardDataContext = createContext();
 
 // defines provider
 export const LifeBoardDataProvider = ({ children }) => {
+    /*
+    *
+    * States
+    *
+    */
+
     // main state of the context: the lifeBoard object
     const [lifeBoardData, setLifeBoardData] = useState(null);
 
@@ -24,25 +30,24 @@ export const LifeBoardDataProvider = ({ children }) => {
     // user's birth date to personalize its lifeBoard and add dates to each week
     const [birthDate, setBirthDate] = useState();
 
-    // When app mounts, reaches out to the server and stores the data of the user (coming from db) in the main states. *This context is pretty glogbal so essentially this useEffect runs very early on when the app is mounted
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch('http://localhost:5000/db/getLifeBoard', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include'
-            });
-            const data = await response.json();
-            setLifeBoardData(data.lifeBoard);
-            setUsedColors(data.usedColors || []);
-            setBirthDate(data.birthDate || null);
-        };
+    /*
+    *
+    * App side effecte - load states from db
+    *
+    */
 
-        fetchData();
+
+    // When app mounts, reaches out to the server and stores the data of the user (coming from db) in the main states.
+    //..This context is pretty global so essentially this useEffect runs very early on when the app is mounted
+    useEffect(() => {
+        fetchData(setLifeBoardData, setUsedColors, setBirthDate);
     }, []);
 
+    /*
+    *
+    * Functions to update states
+    *
+    */
 
     // updateWeek() is called to modify the LifeBoardData as the user adds colors and comments to its weeks. So that the updates can be rendered before saved in the db
     // takes as arguments the coordinates of the week to be updated and the new data (color, comment, etc.)
@@ -54,13 +59,6 @@ export const LifeBoardDataProvider = ({ children }) => {
             ...lifeBoardDataCopy[row][week],
             ...newWeekData
         };
-
-        let updatedWeek = lifeBoardDataCopy[row][week];
-
-        // Checks if any of the properties are truthy and set the modified flag to 'y'
-        if ((updatedWeek.color && updatedWeek.color.colorName) || (updatedWeek.comment && (updatedWeek.comment.commentText || updatedWeek.comment.commentIcon))) {
-            updatedWeek.modified = 'y';
-        }
 
         setLifeBoardData(lifeBoardDataCopy);
     };
@@ -98,50 +96,8 @@ export const LifeBoardDataProvider = ({ children }) => {
         });
     };
 
-
-    // Reaches endpoint responsible of saving changes made by the user into the db
-    const saveLifeBoard = async () => {
-        console.log('calling saveLifeBoard');
-        console.log('usedColors inside saveLifeBoard', usedColors);
-
-        try {
-            const response = await fetch('http://localhost:5000/db/saveLifeBoard', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ lifeBoardData, usedColors })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log(data.message);  // This will log the message to the console
-
-            // Use data.message elsewhere as needed, or manage state based on it
-        } catch (error) {
-            console.error("There was an error saving the life board:", error);
-        }
-    };
-
-
-    // Reaches endpoint responsible of saving user's birthDate
-    const saveBirthDate = async () => {
-        await fetch('http://localhost:5000/db/saveBirthDate', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ birthDate })
-        });
-    };
-
     return (
-        <LifeBoardDataContext.Provider value={{ lifeBoardData, setUsedColors, saveLifeBoard, updateWeek, addOrEditColor, usedColors, birthDate, setBirthDate, saveBirthDate }}>
+        <LifeBoardDataContext.Provider value={{ lifeBoardData, usedColors, setUsedColors, birthDate, setBirthDate, updateWeek, addOrEditColor }}>
             {children}
         </LifeBoardDataContext.Provider>
     );

@@ -9,22 +9,21 @@ import Backdrop from "./Backdrop";
 import styles from "./MyArea.module.css"
 import { AuthContext } from '../../contexts/authContext';
 import { LifeBoardDataContext } from '../../contexts/lifeBoardDataContext';
+import { saveBirthDate } from '../../helpers/databaseOpsHelper';
 import React, { useContext } from 'react';
 
 function MyArea(props) {
     const { setUser } = useContext(AuthContext);
-    const { birthDate, setBirthDate, saveBirthDate } = useContext(LifeBoardDataContext)
+    const { birthDate, setBirthDate } = useContext(LifeBoardDataContext)
+
 
     // Function to handle date change in the form
     function handleDateChange(event) {
+        console.log('handleDateChange function is called')
         const updatedDate = event.target.value;
         const formattedDate = new Date(updatedDate).toISOString();
+        console.log('about to update birthDate state with', formattedDate)
         setBirthDate(formattedDate);
-    }
-
-    // Function to save changes when "Save Changes" button is clicked
-    function handleSaveChanges() {
-        saveBirthDate();
     }
 
     //Logs user out
@@ -46,7 +45,7 @@ function MyArea(props) {
                     value={birthDate ? new Date(birthDate).toISOString().substring(0, 10) : ""}
                     onChange={handleDateChange}
                 />
-                <button onClick={handleSaveChanges}>Save Changes</button>
+                <button onClick={() => { saveBirthDate(birthDate) }}>Save Changes</button>
             </div>
         </div>
     )

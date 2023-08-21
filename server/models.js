@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const WeekSchema = new Schema({
-    modified: {
-        type: String,
-        enum: ['y', 'n'],
-        default: 'n'
-    },
     color: String,
     comment: {
         commentText: String,

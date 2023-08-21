@@ -9,7 +9,7 @@ import React, { useContext } from 'react';
 import styles from "./Weeks.module.css"
 import Week from "./Week"
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
-import { getDateDetails } from '../../../../helpers/weeksHelper'
+import { getDateDetails } from '../../../../helpers/datesFunctions'
 
 function Weeks() {
     // imports from the context retrieving user specific data from db. lifeBoardData is the main object being rendered.
@@ -37,7 +37,6 @@ function Weeks() {
                                 week={weekKey}
                                 color={weekData.color}
                                 comment={weekData.comment}
-                                mod={weekData.modified}
                                 date={getDateDetails(weekNumber, birthDate)}
                             />
                         );

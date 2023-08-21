@@ -16,7 +16,7 @@ import Toggle from "../../UI/Toggle"
 import { WeekSelectionContext } from '../../../contexts/weekSelectionContext'
 import { LifeBoardDataContext } from '../../../contexts/lifeBoardDataContext';
 import { resetSelectedWeeks } from '../../../helpers/resetSelectedWeeks'
-
+import { saveData } from '../../../helpers/databaseOpsHelper';
 
 function LifeBoardRight() {
     // state and toggle for the edit vs legend panel
@@ -25,9 +25,10 @@ function LifeBoardRight() {
         setIsMode(isMode === 'edit' ? 'legend' : 'edit');
     };
 
-    // imports from contexts
+    // imports from contexts and hooks
     const { deselectAllWeeks, selectedWeeks } = useContext(WeekSelectionContext);
-    const { saveLifeBoard, updateWeek, lifeBoardData, setUsedColors, usedColors } = useContext(LifeBoardDataContext);
+    const { updateWeek, lifeBoardData, setUsedColors, usedColors } = useContext(LifeBoardDataContext);
+
 
     // defines flag-state to handle saving in db from different components
     //.. the trigger is connected to onClicks of user submitting changes to the lifeBoard
@@ -36,10 +37,10 @@ function LifeBoardRight() {
     // Saves everything to db when trigger changes and is True
     useEffect(() => {
         if (triggerSave) {
-            saveLifeBoard();
+            saveData(lifeBoardData, usedColors);
             setTriggerSave(false); // Reset the flag
         }
-    }, [triggerSave, saveLifeBoard]);
+    }, [triggerSave, saveData]);
 
     //A the bottom of the JSX, conditionally renders either legend or editting panels (depending on the toggle position)
     return (
@@ -53,7 +54,7 @@ function LifeBoardRight() {
             <button onClick={deselectAllWeeks}>Deselect All Weeks</button>
 
             <button onClick={() => {
-                resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, saveLifeBoard, usedColors);
+                resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, usedColors);
                 setTriggerSave(true);
             }}>
                 Delete changes to selected weeks

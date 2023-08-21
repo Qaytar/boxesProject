@@ -16,7 +16,7 @@
  * @param {function} updateWeek - Function from the context lifeBoardDataContext. Will updated selected weeks by passing an empty week
  * @param {function} setUsedColors - State Function from the context lifeBoardDataContext. Will remove colors, if no weeks using that color are left
  */
-export function resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, saveLifeBoard, usedColors) {
+export function resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, updateWeek, deselectAllWeeks, usedColors) {
 
     /*
     *
@@ -29,7 +29,7 @@ export function resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, 
     //Inner Function 1
     //returns a simple array of colorName's within selectedWeeks
     //..output is an array of strings with hexa color codes [#FF0000, #00FF00]
-    const usedColorsInSelectedWeeks = () => {
+    function usedColorsInSelectedWeeks() {
         const colors = [];
 
         // Iterate over each selected week's identifier
@@ -57,7 +57,6 @@ export function resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, 
             const [row, week] = key.split('-');
 
             updateWeek(row, week, {
-                modified: 'n',
                 color: "",
                 comment: {
                     commentText: "",
@@ -69,7 +68,9 @@ export function resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, 
 
     //Inner Function 3
     //Takes a color as an argument and looks for it in lifeBoardData (ignoring the weeks in selectedWeeks) and returns False if the color is not found at all (in 'lifeBoardData minus selectedWeeks), True if at least one week uses that color.
-    function findUsedColorInLifeBoard(color) {
+    function findUsedColorsInLifeBoard() {
+        const usedColorsSet = new Set();
+
         // Iterate over rows r1 to r100
         for (let i = 1; i <= 100; i++) {
             const rowName = 'r' + i;
@@ -82,18 +83,15 @@ export function resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, 
                 if (!selectedWeeks[weekId]) {
                     const currentColor = lifeBoardData[rowName][j].color;
 
-                    // Check if color exists and matches the target color
-                    if (currentColor && currentColor === color) {
-                        //console.log(color, "was found")
-                        return true; // Found a week with the target color
+                    // If color exists, add it to the set
+                    if (currentColor) {
+                        usedColorsSet.add(currentColor);
                     }
                 }
             }
         }
 
-        // If the loops complete without returning, then the color was not found
-        //console.log(color, "wasn't found")
-        return false;
+        return usedColorsSet;
     }
 
 
@@ -102,23 +100,22 @@ export function resetSelectedWeeks(selectedWeeks, lifeBoardData, setUsedColors, 
     /*
     *
     *
-    *MAING LOGIC
+    *MAIN LOGIC
     * 
     * 
     */
 
-    const colors = usedColorsInSelectedWeeks();
-    console.log('colors in selection:', colors)
-    //For each color within selectedWeeks, find out whether the color should be eliminated from usedColors (because color will still be found in lifeBoardData after resetting seletecWeeks) or not.
-    colors.forEach((color) => {
-        if (!findUsedColorInLifeBoard(color)) { //if the color isn't found anywhere else, meaning it's found only in the selectedWeeks, it should be removed from usedColors, since those weeks are about to be reseted
-            console.log('inside the if, inside the forEach. This is usedColors before filter:', usedColors)
+    const colorsInSelection = usedColorsInSelectedWeeks();
+    const foundColors = findUsedColorsInLifeBoard(); //Looks for colorsInSelection in the LifeBoard (excluding selectedWeeks)
+
+    // Loop through selected colors and update usedColors state accordingly
+    colorsInSelection.forEach((color) => {
+        if (!foundColors.has(color)) { // If color is only in selected weeks and not in the rest of the board
             setUsedColors(prevColors => {
-                return prevColors.filter(usedColor => usedColor.colorName !== color);
+                return prevColors.filter(usedColor => usedColor.colorName !== color); //remove the color cause it's about to be deleted
             });
-            console.log('inside the if, inside the forEach. This is usedColors after filter:', usedColors)
         }
-    })
+    });
     cleanSelectedWeeks(); //regardless of colors, all selectedWeeks must be resetted to empty
     deselectAllWeeks();
 }
