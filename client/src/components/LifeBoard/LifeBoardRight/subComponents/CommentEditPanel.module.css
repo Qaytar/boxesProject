@@ -3,12 +3,12 @@
     flex-direction: column;
 }
 
-.radio-group {
-    display: flex;
-    flex-direction: column;
-}
 
 .icon {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
+}
+
+.selected {
+    border: 2px solid #000;
 }

@@ -9,6 +9,7 @@ import { WeekSelectionContext } from '../../../../contexts/weekSelectionContext'
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './CommentEditPanel.module.css';  // import CSS module
+import { icons } from '../../../../helpers/icons'
 
 function CommentEditPanel(props) {
     // imports from contexts
@@ -17,11 +18,17 @@ function CommentEditPanel(props) {
 
     // New state variables
     const [textAreaValue, setTextAreaValue] = useState("");
-    const [radioValue, setRadioValue] = useState("https://cdn-icons-png.flaticon.com/512/105/105220.png");
+    const [selectedIcon, setSelectedIcon] = useState(null);
 
-    // Update functions
+    // Update functions for those
     const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
-    const handleRadioChange = (event) => setRadioValue(event.target.value);
+    const handleIconSelect = (iconKey) => {
+        if (selectedIcon && selectedIcon === iconKey) {
+            setSelectedIcon(null); // deselect the icon
+        } else {
+            setSelectedIcon(iconKey); // select the clicked icon
+        }
+    };
 
     // Updates lifeBoardData state using updateWeek() from lifeBoardDataContext
     const handleSubmit = () => {
@@ -34,7 +41,7 @@ function CommentEditPanel(props) {
             updateWeek(row, week, {
                 comment: {
                     commentText: textAreaValue,
-                    commentIcon: radioValue
+                    commentIcon: selectedIcon
                 }
             });
             props.setTriggerSave(true); // saves it all in db
@@ -50,27 +57,21 @@ function CommentEditPanel(props) {
             const selectedWeek = lifeBoardData[row][week];
             if (selectedWeek.comment) {
                 setTextAreaValue(selectedWeek.comment.commentText);
-                setRadioValue(selectedWeek.comment.commentIcon);
+                setSelectedIcon(selectedWeek.comment.commentIcon);
             } else {
                 setTextAreaValue('');
-                setRadioValue("Option 1");
+                setSelectedIcon("Option 1");
             }
         } else {
             setTextAreaValue('');
-            setRadioValue("Option 1");
+            setSelectedIcon("Option 1");
         }
     }, [selectedWeeks, lifeBoardData]);
 
 
 
     const selectedWeeksCount = Object.keys(selectedWeeks).length;
-    const options = [
-        { name: "Travel", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
-        { name: "Housing", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
-        { name: "Love", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
-        { name: "Work", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
-        { name: "Others", icon: "https://cdn-icons-png.flaticon.com/512/105/105220.png" },
-    ];
+
 
     // Only render the comment editting panel if 1 or none weeks are selected. Comment panel it's hidden if multiple weeks are selected
     return (
@@ -82,15 +83,16 @@ function CommentEditPanel(props) {
                     {/* Text area */}
                     <textarea value={textAreaValue} onChange={handleTextAreaChange} />
 
-                    {/* Radio buttons */}
-                    <div className={styles.radioGroup}>
-                        {options.map(option => (
-                            <div key={option.name}>
-                                <input type="radio" id={option.name} name="radioGroup" value={option.icon}
-                                    checked={radioValue === option.icon}
-                                    onChange={handleRadioChange} />
-                                <label htmlFor={option.name}>{option.name}</label>
-                                <img src={option.icon} alt={option.name} className={styles.icon} />
+                    {/* Icon selector */}
+                    <div>
+                        {Object.entries(icons).map(([key, icon]) => (
+                            <div
+                                key={key}
+                                className={`${selectedIcon === key ? styles.selected : ''}`}
+                                onClick={() => handleIconSelect(key)}
+                            >
+                                <img src={icon} alt={key} className={styles.icon} />
+                                <span>{key}</span>
                             </div>
                         ))}
                     </div>
@@ -102,6 +104,7 @@ function CommentEditPanel(props) {
             : null
     )
 }
+
 
 export default CommentEditPanel;
 

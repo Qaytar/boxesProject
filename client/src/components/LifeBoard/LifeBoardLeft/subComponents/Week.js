@@ -10,6 +10,7 @@
 import React, { useContext, useState } from 'react';
 import styles from "./Week.module.css";
 import { WeekSelectionContext } from '../../../../contexts/weekSelectionContext';
+import { icons } from '../../../../helpers/icons'
 
 function Week(props) {
     const { selectedWeeks, selectWeek, deselectWeek } = useContext(WeekSelectionContext);
@@ -69,7 +70,7 @@ function Week(props) {
                 onMouseLeave={handleMouseLeave}
             >
                 {props.comment.commentIcon && (
-                    <img src={props.comment.commentIcon} alt="icon" className={styles.commentIcon} />
+                    <img src={icons[props.comment.commentIcon]} alt="icon" className={styles.commentIcon} />
                 )}
             </div>
             {renderWeekInfo ? <div className={styles.renderWeekInfo}>

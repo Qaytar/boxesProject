@@ -10,6 +10,9 @@ import { WeekSelectionContext } from '../../../../contexts/weekSelectionContext'
 import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './ColorEditPanel.module.css';
+import { colors } from './../../../../helpers/colors'
+
+
 function ColorEditPanel(props) {
     /*
     * Part 1 - States and side effects
@@ -26,11 +29,11 @@ function ColorEditPanel(props) {
     // Update functions for those states (onChange and onClick)
     const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
     // const handleColorSelect = (color) => setSelectedColor(color);
-    const handleColorSelect = (colorName) => {
-        if (selectedColor && selectedColor === colorName) {
+    const handleColorSelect = (c) => {
+        if (selectedColor && selectedColor === c) {
             setSelectedColor(null); // deselect the color
         } else {
-            setSelectedColor(colorName); // select the clicked color
+            setSelectedColor(c); // select the clicked color
         }
     };
 
@@ -49,13 +52,14 @@ function ColorEditPanel(props) {
         });
 
         deselectAllWeeks(); //reset selection
+        setSelectedColor(null); // deselect the color
         props.setTriggerSave(true); //saves it all in db
     };
 
     // When selecting a color, setTextArea to its description for user to easily edit
     useEffect(() => {
         if (selectedColor) {
-            const matchingColor = usedColors.find(color => color.colorName === selectedColor);
+            const matchingColor = usedColors.find(usedColor => usedColor.colorName === selectedColor);
             if (matchingColor) {
                 setTextAreaValue(matchingColor.colorDescription);
             } else {
@@ -71,14 +75,6 @@ function ColorEditPanel(props) {
     * Part 2 - JSX and relevant declarations
     */
 
-    const colors = [
-        { name: "Red", color: "#FF0000" },
-        { name: "Blue", color: "#0000FF" },
-        { name: "Green", color: "#00FF00" },
-        { name: "Yellow", color: "#FFFF00" },
-        { name: "Purple", color: "#800080" },
-    ];
-
     // Utility functions for better readability in the JSX
     const isTextAreaEnabled = () => {
         return Object.keys(selectedWeeks).length > 0 && selectedColor;
@@ -89,39 +85,39 @@ function ColorEditPanel(props) {
 
     // For efficient lookup in the JSX, transforming usedColor's array of objects into an object like colorName: colorDescription, ..
     const colorDescriptions = {};
-    usedColors.forEach(color => {
-        colorDescriptions[color.colorName] = color.colorDescription;
+    usedColors.forEach(usedColor => {
+        colorDescriptions[usedColor.colorName] = usedColor.colorDescription;
     });
 
     // console.log('selectedWeeks', selectedWeeks)
-    // console.log('selectedColor', selectedColor)
-    // console.log('usedColors', usedColors)
+    //console.log('selectedColor', selectedColor)
+    //console.log('usedColors', usedColors)
 
     return (
         <div className={styles.container}>
             <EditPanel>
                 <p>Color Edit Panel</p>
-
-                {/* Text area */}
                 <textarea
                     value={textAreaValue}
                     onChange={handleTextAreaChange}
                     disabled={!isTextAreaEnabled()}
                 />
-
                 {/* Color selector */}
                 <div className={styles.colorSelector}>
-                    {colors.map((colorOption) => (
-                        <div
-                            key={colorOption.name}
-                            className={`${styles.colorOption} ${selectedColor === colorOption.color ? styles.selected : ''}`}
-                            style={{ backgroundColor: colorOption.color }}
-                            onClick={() => handleColorSelect(colorOption.color)}
-                        >
-                            {
-                                /* Renders the colorDescription inside the color, only if that color is being used (hence, present in usedColors) */
-                                colorDescriptions[colorOption.color] ? <span>{colorDescriptions[colorOption.color]}</span> : null
-                            }
+                    {Object.keys(colors).map(paletteName => (
+                        <div className={styles.paletteGroup} key={paletteName}>
+                            {Object.keys(colors[paletteName]).map(colorName => (
+                                <div
+                                    key={colorName}
+                                    className={`${styles.colorOption} ${selectedColor === colors[paletteName][colorName] ? styles.selected : ''}`}
+                                    style={{ backgroundColor: colors[paletteName][colorName] }}
+                                    onClick={() => handleColorSelect(colors[paletteName][colorName])}
+                                >
+                                    {
+                                        colorDescriptions[colors[paletteName][colorName]] ? <span>{colorDescriptions[colors[paletteName][colorName]]}</span> : null
+                                    }
+                                </div>
+                            ))}
                         </div>
                     ))}
                 </div>

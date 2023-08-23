@@ -1,7 +1,7 @@
 /**
  * databaseOpsHelper.js * 
  * 
- * Contains funtions to save/retrieve data to/from db
+ * Contains funtions to save/retrieve data to/from db triggered at different points of the app
  *  
  */
 

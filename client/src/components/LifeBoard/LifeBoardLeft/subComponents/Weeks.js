@@ -24,7 +24,7 @@ function Weeks() {
     // iterates over rows and weeks to render all Weeks passing by props all its properties
     //.. Also updates weekNumber (from 1 to 5200) and currentYear values
     return (
-        <div>
+        <div className={styles.wrapper}>
             {Object.entries(lifeBoardData).map(([rowKey, weeksData], rowIndex) => (
                 <div key={rowKey} className={styles.row}>
                     <span>{startYear + rowIndex}</span>
