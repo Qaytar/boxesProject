@@ -14,7 +14,8 @@ import { icons } from '../../../../helpers/icons'
 
 function Week(props) {
     const { selectedWeeks, selectWeek, deselectWeek } = useContext(WeekSelectionContext);
-    const [renderWeekInfo, setRenderWeekInfo] = useState();
+    const [renderDateInfo, setrenderDateInfo] = useState();
+    const [renderCommentText, setRenderCommentText] = useState();
 
     // Within the array containing all selectedWeeks, tries to access the 'current' week. Meaning if it can access it, it's already selected, other wise it's not
     const isSelected = selectedWeeks[`${props.row}-${props.week}`];
@@ -45,17 +46,27 @@ function Week(props) {
         } else {
             message = `Week Nr ${props.week + 1} of ${props.date.year}, monday ${props.date.mondayDate}, you were ${props.date.age}`;
         }
-        setRenderWeekInfo(message);
+        setrenderDateInfo(message);
+
+        if (props.comment.commentText) {
+            setRenderCommentText(props.comment.commentText)
+        }
     };
 
 
     const handleMouseLeave = (event) => {
-        setRenderWeekInfo(null)
+        setrenderDateInfo(null)
+        setRenderCommentText(null)
     };
+
+
+    //console.log('renderCommentText', renderCommentText)
+    //console.log('CommentText', props.comment.commentText)
+    // console.log('CommentIcon', props.comment.commentIcon)
 
     // renders an icon if it's been commented and a color if it's been colored
     return (
-        <div>
+        <div className={styles.weekContainer}>
             <div
                 className={`
                     ${styles.week}
@@ -73,8 +84,12 @@ function Week(props) {
                     <img src={icons[props.comment.commentIcon]} alt="icon" className={styles.commentIcon} />
                 )}
             </div>
-            {renderWeekInfo ? <div className={styles.renderWeekInfo}>
-                {renderWeekInfo}
+            {renderDateInfo ? <div className={styles.renderDateInfo}>
+                {renderDateInfo}
+            </div> : null}
+
+            {renderCommentText ? <div className={styles.renderCommentText}>
+                {renderCommentText}
             </div> : null}
 
         </div>
@@ -82,6 +97,6 @@ function Week(props) {
     );
 }
 
-export default React.memo(Week); // Using memo under the belief that may improve performance through saved re-renders
+export default React.memo(Week); // Using memo under the hypothesis that may improve performance through saved re-renders
 
 
