@@ -15,20 +15,23 @@ import { colors } from './../../../../helpers/colors'
 
 function ColorEditPanel(props) {
     /*
-    * Part 1 - States and side effects
+    * Part 1 - States and handlers
     */
 
     // import from contexts
     const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
     const { updateWeek, usedColors, addOrEditColor } = useContext(LifeBoardDataContext);
 
-    // State variables for input user
+    // state variables for inputs (textArea and selectable colors)
     const [textAreaValue, setTextAreaValue] = useState("");
     const [selectedColor, setSelectedColor] = useState(null);
+    const [isTextAreaManuallyEdited, setTextAreaManuallyEdited] = useState(false);
 
-    // Update functions for those states (onChange and onClick)
-    const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
-    // const handleColorSelect = (color) => setSelectedColor(color);
+    // handlers for said inputs
+    const handleTextAreaChange = (event) => {
+        setTextAreaValue(event.target.value);
+        setTextAreaManuallyEdited(true);
+    };
     const handleColorSelect = (c) => {
         if (selectedColor && selectedColor === c) {
             setSelectedColor(null); // deselect the color
@@ -37,11 +40,9 @@ function ColorEditPanel(props) {
         }
     };
 
-
-    // Upon user submitting changes, updates lifeBoardData state using updateWeek() from lifeBoardDataContext
+    // handleSubmit --- Simply updates main state of the app (lifeBoardData) with those weeks whose color have been modified
     const handleSubmit = () => {
-        // Getting the selected weeks keys (for example, `r2-2` for row 2, week 2}
-        //.. selectedWeeks object looks like {r1-0: true, r1-1: true}
+        // Getting the selected weeks keys (for example, `r2-2` for row 2, week 2}. [selectedWeeks object looks like {r1-0: true, r1-1: true}]
         const selectedWeekKeys = Object.keys(selectedWeeks);
 
         // Update all the selected weeks with the new color and updates usedColors thru 'addOrEditColor'
@@ -53,35 +54,64 @@ function ColorEditPanel(props) {
 
         deselectAllWeeks(); //reset selection
         setSelectedColor(null); // deselect the color
+        setTextAreaManuallyEdited(false); //resets flag for guidance text to take over again
         props.setTriggerSave(true); //saves it all in db
     };
 
-    // When selecting a color, setTextArea to its description for user to easily edit
+
+    /*
+    * Part 2 - useEffects
+    */
+
+    // useEffect --- sets textAreaValue to different guidance texts
+    const selectedWeeksCount = Object.keys(selectedWeeks).length;
     useEffect(() => {
+        //resets the flag if no weeks are selected
+        if (selectedWeeksCount === 0) {
+            setTextAreaManuallyEdited(false);
+        }
+
+        // if the flag is True, exit the useEffect. This is done to persist the typing of the user over the guidance texts
+        if (isTextAreaManuallyEdited) return;
+
+        // this is the actual logic of the different guidance texts based on different combintations of selections
+        const matchingColor = usedColors.find(usedColor => usedColor.colorName === selectedColor);
         if (selectedColor) {
-            const matchingColor = usedColors.find(usedColor => usedColor.colorName === selectedColor);
-            if (matchingColor) {
+            // console.log('length of selectedWeeks:', selectedWeeksCount)
+            // console.log('matchingColor', matchingColor)
+            if (selectedWeeksCount <= 0) {
+                setTextAreaValue("Select any number of weeks and a color")
+            }
+            else if (matchingColor && selectedWeeksCount <= 0) {
+                setTextAreaValue("Select any number of weeks and a color")
+            }
+            else if (matchingColor) {
                 setTextAreaValue(matchingColor.colorDescription);
-            } else {
-                setTextAreaValue("");
+            }
+            else {
+                setTextAreaValue('')
             }
         } else {
-            setTextAreaValue("")
+            setTextAreaValue('Select any number of weeks and a color')
         }
-    }, [selectedColor, usedColors]);
+    }, [selectedColor, usedColors, selectedWeeks, isTextAreaManuallyEdited, selectedWeeksCount]);
+
+    // deselects color when no weeks are selected
+    useEffect(() => {
+        if (selectedWeeksCount === 0) {
+            setSelectedColor();
+        }
+    }, [selectedWeeksCount])
+
 
 
     /*
-    * Part 2 - JSX and relevant declarations
+    * Part 3 - JSX and relevant declarations
     */
 
-    // Utility functions for better readability in the JSX
-    const isTextAreaEnabled = () => {
-        return Object.keys(selectedWeeks).length > 0 && selectedColor;
-    };
-    const isSubmitEnabled = () => {
-        return Object.keys(selectedWeeks).length > 0 && selectedColor && textAreaValue;
-    };
+    // Utility variables
+    const isTextAreaEnabled = selectedWeeksCount > 0 && selectedColor;
+    const isSubmitEnabled = selectedWeeksCount > 0 && selectedColor && textAreaValue;
 
     // For efficient lookup in the JSX, transforming usedColor's array of objects into an object like colorName: colorDescription, ..
     const colorDescriptions = {};
@@ -89,7 +119,7 @@ function ColorEditPanel(props) {
         colorDescriptions[usedColor.colorName] = usedColor.colorDescription;
     });
 
-    // console.log('selectedWeeks', selectedWeeks)
+    //console.log('selectedWeeks', selectedWeeks)
     //console.log('selectedColor', selectedColor)
     //console.log('usedColors', usedColors)
 
@@ -100,7 +130,8 @@ function ColorEditPanel(props) {
                 <textarea
                     value={textAreaValue}
                     onChange={handleTextAreaChange}
-                    disabled={!isTextAreaEnabled()}
+                    disabled={!isTextAreaEnabled}
+                    placeholder={isTextAreaEnabled ? 'What do yo want this color to represent in your life?' : null}
                 />
                 {/* Color selector */}
                 <div className={styles.colorSelector}>
@@ -114,7 +145,7 @@ function ColorEditPanel(props) {
                                     onClick={() => handleColorSelect(colors[paletteName][colorName])}
                                 >
                                     {
-                                        colorDescriptions[colors[paletteName][colorName]] ? <span>{colorDescriptions[colors[paletteName][colorName]]}</span> : null
+                                        colorDescriptions[colors[paletteName][colorName]] ? <span className={styles.unselectable}>{colorDescriptions[colors[paletteName][colorName]]}</span> : null
                                     }
                                 </div>
                             ))}
@@ -123,7 +154,7 @@ function ColorEditPanel(props) {
                 </div>
 
                 {/* Submit button */}
-                <button onClick={handleSubmit} disabled={!isSubmitEnabled()}>Submit</button>
+                <button onClick={handleSubmit} disabled={!isSubmitEnabled}>Submit</button>
             </EditPanel>
         </div>
     )

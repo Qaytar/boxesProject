@@ -12,16 +12,31 @@ import styles from './CommentEditPanel.module.css';  // import CSS module
 import { icons } from '../../../../helpers/icons'
 
 function CommentEditPanel(props) {
+
+    /*
+    * Part 1 - States and handlers
+    */
+
     // imports from contexts
     const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
     const { lifeBoardData, updateWeek } = useContext(LifeBoardDataContext);
 
-    // New state variables
+    // variables that are called multiple times in the file
+    const selectedWeekKey = Object.keys(selectedWeeks)[0]; //the key of the first selectedWeek
+    const selectedWeeksCount = Object.keys(selectedWeeks).length;
+    //console.log('selectedWeeksCount', selectedWeeksCount)
+    //console.log('selectedWeekKey', selectedWeekKey)
+
+    // state variables for inputs (textArea and selectable icons)
     const [textAreaValue, setTextAreaValue] = useState("");
     const [selectedIcon, setSelectedIcon] = useState(null);
+    const [isTextAreaManuallyEdited, setTextAreaManuallyEdited] = useState(false); // a flag to track whether textArea's been modified by the user. To give those changes higher priority over the guidance texts
 
-    // Update functions for those
-    const handleTextAreaChange = (event) => setTextAreaValue(event.target.value);
+    /// handlers for said inputs
+    const handleTextAreaChange = (event) => {
+        setTextAreaValue(event.target.value);
+        setTextAreaManuallyEdited(true); // sets the flag to true
+    };
     const handleIconSelect = (iconKey) => {
         if (selectedIcon && selectedIcon === iconKey) {
             setSelectedIcon(null); // deselect the icon
@@ -30,11 +45,10 @@ function CommentEditPanel(props) {
         }
     };
 
-    // Updates lifeBoardData state using updateWeek() from lifeBoardDataContext
+    // handleSubmit --- Simply updates main state of the app (lifeBoardData) with those weeks whose comment have been modified
     const handleSubmit = () => {
         // Getting the selected weeks keys (for example, `r2-2` for row 2, week 2}
         //.. selectedWeeks object looks like {r1-0: true, r1-1: true}
-        const selectedWeekKey = Object.keys(selectedWeeks)[0];
         if (selectedWeekKey) {
             const [row, week] = selectedWeekKey.split("-");
             // Call updateWeek to update the selected week with the new values
@@ -47,32 +61,80 @@ function CommentEditPanel(props) {
             props.setTriggerSave(true); // saves it all in db
         }
         deselectAllWeeks(); // reset selection
+        setTextAreaManuallyEdited(false); //resets flag for guidance text to take over again 
     };
 
-    // Displays the color data (name and description) in the editting panel when selecting a week that had already been modified
+
+    /*
+    * Part 2 - useEffects --- sets textAreaValue to different guidance texts
+    */
+
+    // First useEffect. This one is responsible for setting a guidance text when the textArea is disabled
+    //.. the last clause (else) is messy with that extra if statement but otherwise it overwrites the second useEffect trying to set textAreaValue to the week's comment data
     useEffect(() => {
-        const selectedWeekKeys = Object.keys(selectedWeeks);
-        if (selectedWeekKeys.length === 1) {
-            const [row, week] = selectedWeekKeys[0].split("-");
+        //resets the flag if no weeks are selected
+        if (selectedWeeksCount === 0) {
+            setTextAreaManuallyEdited(false);
+        }
+
+        // if the flag is True, exit the useEffect. This is done to persist the typing of the user over the guidance texts
+        if (isTextAreaManuallyEdited) return;
+
+        // this is the actual logic of the guidance text based on different combintations of selections
+        if (selectedWeeksCount === 0 && !selectedIcon) {
+            setTextAreaValue('select a week (only one) and an Icon');
+        } else if (selectedWeeksCount === 1 && !selectedIcon) {
+            setTextAreaValue('select a week (only one) and an Icon');
+        } else if (selectedWeeksCount === 0 && selectedIcon) {
+            setTextAreaValue('select a week (only one) and an Icon');
+        } else {
+            if (selectedWeekKey) {
+                const [row, week] = selectedWeekKey.split("-");
+                const selectedWeek = lifeBoardData[row][week];
+                if (selectedWeek.comment.commentIcon) {
+                    return;
+                }
+            }
+            //console.log('resetting textAreaValue inside useEffect.nothingSelected')
+            setTextAreaValue('');
+        }
+    }, [selectedWeeksCount, selectedIcon, selectedWeeks, selectedWeekKey, lifeBoardData, isTextAreaManuallyEdited])
+
+    //this useEffect is responsible for setting the textAreaValue and selectedIcon to the selected week's data (if it has data)
+    useEffect(() => {
+        //console.log('inside useEffect')
+        if (selectedWeekKey) {
+            const [row, week] = selectedWeekKey.split("-");
             const selectedWeek = lifeBoardData[row][week];
-            if (selectedWeek.comment) {
+            if (selectedWeek.comment.commentIcon) {
+                //console.log('Setting textAreaValue to commentText inside useEffect.ifComment')
                 setTextAreaValue(selectedWeek.comment.commentText);
                 setSelectedIcon(selectedWeek.comment.commentIcon);
-            } else {
-                setTextAreaValue('');
-                setSelectedIcon("Option 1");
             }
-        } else {
-            setTextAreaValue('');
-            setSelectedIcon("Option 1");
         }
-    }, [selectedWeeks, lifeBoardData]);
+    }, [lifeBoardData, selectedWeekKey]);
 
+    // finally this useEffect, simply reset the icon when no weeks are selected
+    useEffect(() => {
+        if (selectedWeeksCount === 0) {
+            setSelectedIcon();
+        }
+    }, [selectedWeeksCount])
 
+    /*
+    * Part 3 - JSX and relevant declarations
+    */
 
-    const selectedWeeksCount = Object.keys(selectedWeeks).length;
+    // Utility functions for better readability in the JSX
+    const isSubmitEnabled = () => {
+        return selectedWeeksCount === 1 && selectedIcon && textAreaValue;
+    };
+    const isTextAreaEnabled = () => {
+        return selectedWeeksCount === 1 && selectedIcon;
+    };
 
-
+    //console.log('selectedWeeks', selectedWeeks)
+    //console.log('selectedIcon', selectedIcon)
     // Only render the comment editting panel if 1 or none weeks are selected. Comment panel it's hidden if multiple weeks are selected
     return (
         selectedWeeksCount <= 1 ?
@@ -81,7 +143,12 @@ function CommentEditPanel(props) {
                     <p>Comments Edit Panel</p>
 
                     {/* Text area */}
-                    <textarea value={textAreaValue} onChange={handleTextAreaChange} />
+                    <textarea
+                        value={textAreaValue}
+                        onChange={handleTextAreaChange}
+                        disabled={!isTextAreaEnabled()}
+                        placeholder={isTextAreaEnabled() ? 'Type in a short text for your special day' : null}
+                    />
 
                     {/* Icon selector */}
                     <div>
@@ -92,23 +159,16 @@ function CommentEditPanel(props) {
                                 onClick={() => handleIconSelect(key)}
                             >
                                 <img src={icon} alt={key} className={styles.icon} />
-                                <span>{key}</span>
+                                <span className={styles.unselectable}>{key}</span>
                             </div>
                         ))}
                     </div>
 
                     {/* Submit button */}
-                    {selectedWeeksCount === 0 ? null : <button onClick={handleSubmit}>Submit</button>}
+                    <button onClick={handleSubmit} disabled={!isSubmitEnabled()}>Submit</button>
                 </EditPanel>
             </div>
             : null
     )
 }
-
-
 export default CommentEditPanel;
-
-
-
-
-

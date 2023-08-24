@@ -44,7 +44,7 @@ function Weeks() {
             >
                 {Object.entries(lifeBoardData).map(([rowKey, weeksData], rowIndex) => (
                     <div key={rowKey} className={styles.row}>
-                        <span>{startYear + rowIndex}</span>
+                        <span className={styles.unselectable}>{startYear + rowIndex}</span>
                         {weeksData.map((weekData, weekKey) => {
                             const weekNumber = (rowIndex * weeksData.length) + weekKey + 1; //counts total weeks from 1 to 5200. It's key to all the date calculations in getDateDetails() in weeksHelper.js
                             return (
