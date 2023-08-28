@@ -66,7 +66,7 @@ function Week(props) {
 
     // renders an icon if it's been commented and a color if it's been colored
     return (
-        <div className={styles.weekContainer}>
+        <div className={`${styles.weekContainer} ${styles.unselectable}`}>
             <div
                 className={`
                     ${styles.week}
@@ -84,11 +84,11 @@ function Week(props) {
                     <img src={icons[props.comment.commentIcon]} alt="icon" className={styles.commentIcon} />
                 )}
             </div>
-            {renderDateInfo ? <div className={styles.renderDateInfo}>
+            {renderDateInfo ? <div className={`${styles.renderDateInfo} ${styles.unselectable}`}>
                 {renderDateInfo}
             </div> : null}
 
-            {renderCommentText ? <div className={styles.renderCommentText}>
+            {renderCommentText ? <div className={`${styles.renderCommentText} ${styles.unselectable}`}>
                 {renderCommentText}
             </div> : null}
 

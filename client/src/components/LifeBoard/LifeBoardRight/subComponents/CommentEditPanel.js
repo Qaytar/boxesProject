@@ -1,6 +1,13 @@
 /**
  * CommentEditPanel.js
  * 
+ * (the file structure is very similar to colorEditPanel)
+ * 
+ * Big file... is mainly responsible for handling input changes from the textArea and the selection of icons. And then, upon user clicking submit, update those changes to the main state lifeBoardData from its context to render changes instantly
+ * 
+ * Apart from that the file has bit of complexity in the useEffects, because the textArea value is used as kind of a tutorial in form of guidance texts, together with the html placeholder property. There are several state, so many combinations and textArea has a thought-of value in each, for optimal UX
+ * 
+ * Eventho big, the file should be readable as its broken down in different parts
  * 
  */
 
