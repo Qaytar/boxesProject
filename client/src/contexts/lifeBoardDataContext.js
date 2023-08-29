@@ -8,6 +8,7 @@
 
 import { createContext, useState, useEffect } from 'react';
 import { fetchData } from '../helpers/databaseOpsHelper';
+import { getSelectedWeeksColorsCount, updateUsedColorsCounts, addOrEditColor } from '../helpers/updateWeekHelper';
 
 // creates context
 export const LifeBoardDataContext = createContext();
@@ -16,85 +17,87 @@ export const LifeBoardDataContext = createContext();
 export const LifeBoardDataProvider = ({ children }) => {
     /*
     *
-    * States
+    * States (the three states of the app that are saved in the db)
     *
     */
 
     // main state of the context: the lifeBoard object
     const [lifeBoardData, setLifeBoardData] = useState(null);
 
-    // It holds a unique list of all the colors used by a user. To render the legend of all colors
-    // this information is contained in the lifeBoardData of every user but it'd be costy to retrieve so it has been decided to keep track of it in a separate state as colors are added and removed from the board
+    // a unique list of all the colors used by a user. It's an array of objects with properties colorName, colorDescription and count (of how many weeks are using that color, so they can be deleted when is 0)
     const [usedColors, setUsedColors] = useState([]);
 
-    // user's birth date to personalize its lifeBoard and add dates to each week
+    // user's birth date to personalize its lifeBoard
     const [birthDate, setBirthDate] = useState();
 
     /*
     *
-    * App side effecte - load states from db
+    * App side effect - load states from db
     *
     */
 
-
-    // When app mounts, reaches out to the server and stores the data of the user (coming from db) in the main states.
+    // When app mounts, stores the data of the user (from db) in the 3 states.
     //..This context is pretty global so essentially this useEffect runs very early on when the app is mounted
     useEffect(() => {
         fetchData(setLifeBoardData, setUsedColors, setBirthDate);
     }, []);
 
+
     /*
     *
-    * Functions to update states
+    * Main function to update key states
     *
     */
 
-    // updateWeek() is called to modify the LifeBoardData as the user adds colors and comments to its weeks. So that the updates can be rendered before saved in the db
-    // takes as arguments the coordinates of the week to be updated and the new data (color, comment, etc.)
-    const updateWeek = (row, week, newWeekData) => {
+    // Updates states lifeBoardData and usedColors as the user interacts with the app so that the updates can be rendered before saved in the db
+    //..called from 3 places: colorEditting, commentEditting and 'reset week button' (3rd and 4th argument are optional, only used in some of three cases/calls)    
+    const updateWeek = (selectedWeeks, newWeekData, colorDescription, deselectAllWeeks) => {
+
+        // 1) handles calls coming from 'reset weeks button' (both color and comment are passed empty)
+        if ('color' in newWeekData && 'comment' in newWeekData) {
+
+            // for the selection of weeks where content will be eliminated, list already existing colors and count its weeks (prior the change takes effect)
+            const selectedWeeksColorsCount = getSelectedWeeksColorsCount(lifeBoardData, selectedWeeks);
+
+            // updates usedColor's count property by substracting color counts of about-to-be-resetted weeks
+            updateUsedColorsCounts(setUsedColors, usedColors, selectedWeeksColorsCount);
+
+            deselectAllWeeks() // resets selection
+
+        } else if ('color' in newWeekData) { // 2) handles calls coming from colorEditting
+            const colorName = newWeekData.color
+            // for the color that's being used in the update, count how many weeks will it be applied to
+            const updatingColorCount = {
+                colorName: colorName,
+                count: Object.keys(selectedWeeks).filter(key => selectedWeeks[key]).length
+            };
+            // for the selection of weeks where it will be applied to, list already existing colors and count its weeks (prior the change takes effect)
+            const selectedWeeksColorsCount = getSelectedWeeksColorsCount(lifeBoardData, selectedWeeks);
+
+            // updates usedColor count property based on two variables above. Adding updatingColorCount and substracting those that are about to be replaced by the new color
+            updateUsedColorsCounts(setUsedColors, usedColors, selectedWeeksColorsCount, updatingColorCount);
+
+            // adds color to usedColors. Also updates description if needed
+            addOrEditColor(colorName, colorDescription, setUsedColors)
+        }
+
+        // 3) finally handles the simplest case (commentEditting calls). Tho colorEditting and resetWeeks calls also need to update the lifeBoardData and logic is re-used
         let lifeBoardDataCopy = { ...lifeBoardData };
 
-        // Merges the existing data with the new data using spread operator
-        lifeBoardDataCopy[row][week] = {
-            ...lifeBoardDataCopy[row][week],
-            ...newWeekData
-        };
+        for (const selectedWeekKey of Object.keys(selectedWeeks)) {
+            if (selectedWeeks[selectedWeekKey]) { // Check if the week is actually selected
+                const [row, week] = selectedWeekKey.split("-");
 
+                // Merges the existing data with the new data using the spread operator
+                lifeBoardDataCopy[row][week] = {
+                    ...lifeBoardDataCopy[row][week],
+                    ...newWeekData
+                };
+            }
+        }
         setLifeBoardData(lifeBoardDataCopy);
     };
 
-
-
-    // Updates the state usedColors, keeping track of every new color used
-    const addOrEditColor = (colorName, colorDescription) => {
-        setUsedColors((currentUsedColors) => {
-            // Check if the color name exists in currentUsedColors
-            const matchingColor = currentUsedColors.find(color => color.colorName === colorName);
-
-            if (colorName && !matchingColor) {
-                // If colorName is new, just add it
-                return [...currentUsedColors, {
-                    colorName,
-                    colorDescription
-                }];
-            }
-            else if (matchingColor && matchingColor.colorDescription !== colorDescription) {
-                // If colorName exists but the description is different, update the description
-                return currentUsedColors.map(color => {
-                    if (color.colorName === colorName) {
-                        return {
-                            ...color,
-                            colorDescription
-                        };
-                    }
-                    // If colorDescription is the same, do nothing
-                    return color;
-                });
-            }
-            // If color already exists and its description matches, do nothing
-            return currentUsedColors;
-        });
-    };
 
     return (
         <LifeBoardDataContext.Provider value={{ lifeBoardData, usedColors, setUsedColors, birthDate, setBirthDate, updateWeek, addOrEditColor }}>

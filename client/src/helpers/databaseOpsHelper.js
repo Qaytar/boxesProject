@@ -7,8 +7,8 @@
 
 // Reaches endpoint responsible of saving changes made by the user into the db
 export async function saveData(lifeBoardData, usedColors) {
-    console.log('calling saveData');
-    console.log('usedColors inside saveData', usedColors);
+    //console.log('calling saveData');
+    //console.log('usedColors inside saveData', usedColors);
 
     try {
         const response = await fetch('http://localhost:5000/db/saveData', {

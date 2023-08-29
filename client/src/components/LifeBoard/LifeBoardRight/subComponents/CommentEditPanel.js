@@ -54,12 +54,8 @@ function CommentEditPanel(props) {
 
     // handleSubmit --- Simply updates main state of the app (lifeBoardData) with those weeks whose comment have been modified
     const handleSubmit = () => {
-        // Getting the selected weeks keys (for example, `r2-2` for row 2, week 2}
-        //.. selectedWeeks object looks like {r1-0: true, r1-1: true}
-        if (selectedWeekKey) {
-            const [row, week] = selectedWeekKey.split("-");
-            // Call updateWeek to update the selected week with the new values
-            updateWeek(row, week, {
+        if (selectedWeeksCount === 1) {
+            updateWeek(selectedWeeks, {
                 comment: {
                     commentText: textAreaValue,
                     commentIcon: selectedIcon

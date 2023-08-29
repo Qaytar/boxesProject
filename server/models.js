@@ -23,7 +23,8 @@ const UserSchema = new Schema({
     usedColors: [
         {
             colorName: String,
-            colorDescription: String
+            colorDescription: String,
+            count: Number
         }
     ]
 });
