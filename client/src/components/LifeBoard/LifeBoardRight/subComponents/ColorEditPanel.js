@@ -48,17 +48,6 @@ function ColorEditPanel(props) {
 
     // handleSubmit --- Simply updates main state of the app (lifeBoardData) with those weeks whose color have been modified
     const handleSubmit = () => {
-        // // Getting the selected weeks keys (for example, `r2-2` for row 2, week 2}. [selectedWeeks object looks like {r1-0: true, r1-1: true}]
-        // const selectedWeekKeys = Object.keys(selectedWeeks);
-
-
-
-        // // Update all the selected weeks with the new color and updates usedColors thru 'addOrEditColor'
-        // selectedWeekKeys.forEach((selectedWeekKey) => {
-        //     const [row, week] = selectedWeekKey.split("-");
-        //     updateWeek(row, week, { color: selectedColor }, textAreaValue, selectedWeeks);
-        //     //addOrEditColor(selectedColor, textAreaValue);
-        // });
 
         updateWeek(selectedWeeks, { color: selectedColor }, textAreaValue);
 
@@ -131,7 +120,7 @@ function ColorEditPanel(props) {
 
     //console.log('selectedWeeks', selectedWeeks)
     //console.log('selectedColor', selectedColor)
-    console.log('usedColors', usedColors)
+    console.log('usedColors', JSON.stringify(usedColors))
 
     return (
         <div className={styles.container}>

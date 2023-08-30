@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
 
 // Function to create an empty lifeBoard
 // returns an object with a 100 properties named r1, r2.. (rows)
-// For each row/property, there is an array of 52 objects with properties of a <Week>: modified, color and comment.
+// For each row/property, there is an array of 52 objects with properties of a <Week>: color and comment.
 // So it's a relatively large object, with 5200 objects each with the properties specificed below (modified, color, comment)
 function createEmptyLifeBoard() {
     let lifeBoard = {};
@@ -74,6 +74,7 @@ router.post('/saveData', async (req, res) => {
     console.log('saveData got hit');
     const updatedLifeBoardData = req.body.lifeBoardData;
     const updatedUsedColors = req.body.usedColors;
+    console.log('usedColors received:', req.body.usedColors)
 
     let user;
     //First, checks for authorization. 

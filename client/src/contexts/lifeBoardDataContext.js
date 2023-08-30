@@ -8,7 +8,7 @@
 
 import { createContext, useState, useEffect } from 'react';
 import { fetchData } from '../helpers/databaseOpsHelper';
-import { getSelectedWeeksColorsCount, updateUsedColorsCounts, addOrEditColor } from '../helpers/updateWeekHelper';
+import { getSelectedWeeksColorsCount, updateUsedColors, editColorDescription } from '../helpers/updateWeekHelper';
 
 // creates context
 export const LifeBoardDataContext = createContext();
@@ -53,19 +53,26 @@ export const LifeBoardDataProvider = ({ children }) => {
     //..called from 3 places: colorEditting, commentEditting and 'reset week button' (3rd and 4th argument are optional, only used in some of three cases/calls)    
     const updateWeek = (selectedWeeks, newWeekData, colorDescription, deselectAllWeeks) => {
 
-        // 1) handles calls coming from 'reset weeks button' (both color and comment are passed empty)
+        // 1) handles calls coming from 'reset weeks button' (both color and comment are passed empty).
         if ('color' in newWeekData && 'comment' in newWeekData) {
 
             // for the selection of weeks where content will be eliminated, list already existing colors and count its weeks (prior the change takes effect)
             const selectedWeeksColorsCount = getSelectedWeeksColorsCount(lifeBoardData, selectedWeeks);
 
             // updates usedColor's count property by substracting color counts of about-to-be-resetted weeks
-            updateUsedColorsCounts(setUsedColors, usedColors, selectedWeeksColorsCount);
+            updateUsedColors(setUsedColors, usedColors, selectedWeeksColorsCount);
 
             deselectAllWeeks() // resets selection
 
-        } else if ('color' in newWeekData) { // 2) handles calls coming from colorEditting
+        } else if ('color' in newWeekData) { // 2) handles calls coming from user adding a color to the selectedWeeks
+
+            /*
+            * Declare variables
+            */
+
+            // the color that the user added to selectedWeeks
             const colorName = newWeekData.color
+
             // for the color that's being used in the update, count how many weeks will it be applied to
             const updatingColorCount = {
                 colorName: colorName,
@@ -74,11 +81,16 @@ export const LifeBoardDataProvider = ({ children }) => {
             // for the selection of weeks where it will be applied to, list already existing colors and count its weeks (prior the change takes effect)
             const selectedWeeksColorsCount = getSelectedWeeksColorsCount(lifeBoardData, selectedWeeks);
 
-            // updates usedColor count property based on two variables above. Adding updatingColorCount and substracting those that are about to be replaced by the new color
-            updateUsedColorsCounts(setUsedColors, usedColors, selectedWeeksColorsCount, updatingColorCount);
+            /*
+            * Call functions
+            */
 
-            // adds color to usedColors. Also updates description if needed
-            addOrEditColor(colorName, colorDescription, setUsedColors)
+            // updates usedColor state. Add's new color if needed and keeps count property of each color updated
+            updateUsedColors(setUsedColors, usedColors, selectedWeeksColorsCount, updatingColorCount);
+
+            // for the color being used, edits color description if required
+            editColorDescription(colorName, colorDescription, setUsedColors)
+
         }
 
         // 3) finally handles the simplest case (commentEditting calls). Tho colorEditting and resetWeeks calls also need to update the lifeBoardData and logic is re-used
@@ -96,11 +108,24 @@ export const LifeBoardDataProvider = ({ children }) => {
             }
         }
         setLifeBoardData(lifeBoardDataCopy);
+
     };
+
+    // useEffect(() => {
+    //     if (lifeBoardData && usedColors) {
+    //         const sortedColors = sortUsedColors(lifeBoardData, usedColors, setUsedColors);
+    //         if (JSON.stringify(sortedColors) !== JSON.stringify(usedColors)) {
+    //             console.log('calling sortUsedColors inside useEffect');
+    //             setUsedColors(sortedColors);
+    //         }
+    //     }
+    // }, [lifeBoardData, usedColors, setUsedColors]);
+
+
 
 
     return (
-        <LifeBoardDataContext.Provider value={{ lifeBoardData, usedColors, setUsedColors, birthDate, setBirthDate, updateWeek, addOrEditColor }}>
+        <LifeBoardDataContext.Provider value={{ lifeBoardData, usedColors, setUsedColors, birthDate, setBirthDate, updateWeek }}>
             {children}
         </LifeBoardDataContext.Provider>
     );

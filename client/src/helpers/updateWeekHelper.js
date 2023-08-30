@@ -54,11 +54,11 @@ export const getSelectedWeeksColorsCount = (lifeBoardData, selectedWeeks) => {
  */
 
 
-export const updateUsedColorsCounts = (setUsedColors, usedColors, selectedWeeksColorsCount, updatingColorCount) => {
+export const updateUsedColors = (setUsedColors, usedColors, selectedWeeksColorsCount, updatingColorCount) => {
     // First, get a copy of the existing usedColors
     const usedColorsCopy = [...usedColors];
 
-    // Add count for updatingColorCount
+    // Add count for updatingColorCount, effectively adding the new color to usedColors
     if (updatingColorCount) {
         const updatingColorIndex = usedColorsCopy.findIndex(colorObj => colorObj.colorName === updatingColorCount.colorName);
         if (updatingColorIndex !== -1) {
@@ -68,7 +68,7 @@ export const updateUsedColorsCounts = (setUsedColors, usedColors, selectedWeeksC
         }
     }
 
-    // Subtract counts for colors in selectedWeeksColorsCount    
+    // Subtract counts for colors in selectedWeeksColorsCount
     selectedWeeksColorsCount.forEach(({ colorName, count }) => {
         const colorIndex = usedColorsCopy.findIndex(colorObj => colorObj.colorName === colorName);
         if (colorIndex !== -1) {
@@ -85,27 +85,19 @@ export const updateUsedColorsCounts = (setUsedColors, usedColors, selectedWeeksC
 
 
 /**
- * Updates the state usedColors when a new one is added, keeping track of every new color used or modifying the description of an existing color.
+ * Simply checks if the description of an alerady existing color has needs to be updated
  * 
  * @param {string} colorName - The name of the color to add or edit.
  * @param {string} colorDescription - The description for the color.
  * @param {Function} setUsedColors - The state-setting function for the usedColors state.
  */
-export const addOrEditColor = (colorName, colorDescription, setUsedColors) => {
+export const editColorDescription = (colorName, colorDescription, setUsedColors) => {
     setUsedColors((currentUsedColors) => {
 
         // Check if the color name exists in currentUsedColors
         const matchingColor = currentUsedColors.find(color => color.colorName === colorName);
 
-        if (colorName && !matchingColor) {
-            // If colorName is new, just add it                
-            return [...currentUsedColors, {
-                colorName,
-                colorDescription
-            }];
-
-        }
-        else if (matchingColor && matchingColor.colorDescription !== colorDescription) {
+        if (matchingColor && matchingColor.colorDescription !== colorDescription) {
             // If colorName exists but the description is different, update the description
             return currentUsedColors.map(color => {
                 if (color.colorName === colorName) {
@@ -118,7 +110,55 @@ export const addOrEditColor = (colorName, colorDescription, setUsedColors) => {
                 return color;
             });
         }
-        // If color already exists and its description matches, do nothing
-        return currentUsedColors;
+        return currentUsedColors; // If color already exists and its description matches, do nothing
     });
 };
+
+
+/**
+ * Sorts usedColors. Criteria: order of appeareance in lifeBoardData
+ * 
+ * @param {string} lifeBoardData - The main data object containing information about all the weeks.
+ * @param {string} usedColors - The state holding the array of used colors. Renderd as the legend
+ * @param {Function} setUsedColors - The state-setting function for the usedColors state.
+ */
+export function sortUsedColors(lifeBoardData, usedColors) {
+
+    // Create an empty array to hold the sorted colors
+    let sortedColors = [];
+
+    // Create a set to hold unique colors that we've already seen
+    let seenColors = new Set();
+
+    console.log("printing usedColors at the beginning of sortUsedColors: ", JSON.stringify(usedColors));
+
+    // Traverse lifeBoardData row by row and week by week
+    for (let row = 1; row <= 100; row++) {
+        for (let week = 0; week < 52; week++) {
+            const weekData = lifeBoardData[`r${row}`][week];
+
+            // If the week has a color
+            if (weekData.color) {
+                const color = weekData.color;
+
+                // If this color hasn't been seen yet
+                if (!seenColors.has(color)) {
+                    console.log(`New color found: ${color}`);
+
+                    // Mark the color as seen
+                    seenColors.add(color);
+
+                    // Find the matching color object in usedColors
+                    const colorObj = usedColors.find(obj => obj.colorName === color);
+
+                    if (colorObj) {
+                        // Add the color object to sortedColors
+                        sortedColors.push(colorObj);
+                    }
+                }
+            }
+        }
+    }
+    console.log("Sorted usedColors: ", JSON.stringify(sortedColors));
+    return sortedColors;
+}
