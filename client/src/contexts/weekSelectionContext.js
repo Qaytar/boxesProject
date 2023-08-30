@@ -103,9 +103,30 @@ export const WeekSelectionProvider = ({ children }) => {
         setSelectedWeeks({});
     };
 
+    // Selects all weeks that have a given color
+    const selectAllWeeksGivenColor = (lifeBoardData, selectedColor) => {
+        // Initialize an object to hold new selections
+        let newSelectedWeeks = { ...selectedWeeks };
+
+        // Traverse lifeBoardData row by row and week by week
+        for (let row = 1; row <= 100; row++) {
+            for (let week = 0; week < 52; week++) {
+                const weekData = lifeBoardData[`r${row}`][week];
+
+                // If the week has the selected color, mark it as selected
+                if (weekData.color === selectedColor) {
+                    newSelectedWeeks[`r${row}-${week}`] = true;
+                }
+            }
+        }
+
+        // Update the selectedWeeks state with the newly selected weeks
+        setSelectedWeeks(newSelectedWeeks);
+    };
+
 
     return (
-        <WeekSelectionContext.Provider value={{ selectedWeeks, selectWeek, deselectWeek, deselectAllWeeks }}>
+        <WeekSelectionContext.Provider value={{ selectedWeeks, selectWeek, deselectWeek, deselectAllWeeks, selectAllWeeksGivenColor }}>
             {children}
         </WeekSelectionContext.Provider>
     );

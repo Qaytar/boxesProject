@@ -25,13 +25,14 @@ function ColorEditPanel(props) {
     */
 
     // import from contexts
-    const { selectedWeeks, deselectAllWeeks } = useContext(WeekSelectionContext);
-    const { updateWeek, usedColors } = useContext(LifeBoardDataContext);
+    const { selectedWeeks, deselectAllWeeks, selectAllWeeksGivenColor } = useContext(WeekSelectionContext);
+    const { updateWeek, usedColors, lifeBoardData } = useContext(LifeBoardDataContext);
 
     // state variables for inputs (textArea and selectable colors)
     const [textAreaValue, setTextAreaValue] = useState("");
     const [selectedColor, setSelectedColor] = useState(null);
     const [isTextAreaManuallyEdited, setTextAreaManuallyEdited] = useState(false);
+    const [lastClickTime, setLastClickTime] = useState(0); // used for doubleClick feature
 
     // handlers for said inputs
     const handleTextAreaChange = (event) => {
@@ -39,6 +40,20 @@ function ColorEditPanel(props) {
         setTextAreaManuallyEdited(true);
     };
     const handleColorSelect = (c) => {
+        const currentTime = new Date().getTime();
+        const timeDiff = currentTime - lastClickTime;
+        setLastClickTime(currentTime);
+
+        if (timeDiff < 250) { // to be adjusted for different sensitivities
+            // On double-click
+            console.log('doublick working, calling selectAllWeeksGivenColor(lifeBoardData, selectedColor) ')
+            selectAllWeeksGivenColor(lifeBoardData, selectedColor);
+            // Reset click time
+            setLastClickTime(0);
+            return;
+        }
+
+        // single click behaviour
         if (selectedColor && selectedColor === c) {
             setSelectedColor(null); // deselect the color
         } else {
@@ -120,7 +135,7 @@ function ColorEditPanel(props) {
 
     //console.log('selectedWeeks', selectedWeeks)
     //console.log('selectedColor', selectedColor)
-    console.log('usedColors', JSON.stringify(usedColors))
+    //console.log('usedColors', JSON.stringify(usedColors))
 
     return (
         <div className={styles.container}>
