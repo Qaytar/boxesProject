@@ -7,10 +7,11 @@
 
 
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../contexts/authContext';
+import { AuthContext } from '../../contextsAndHooks/authContext';
 import styles from "./LogInMyAreaBtn.module.css"
 import { Link } from 'react-router-dom';
 import MyArea from './MyArea';
+import useDeviceType from '../../contextsAndHooks/useDeviceType';
 
 
 function LogInMyAreaBtn() {
@@ -21,19 +22,22 @@ function LogInMyAreaBtn() {
         setIsMyAreaOpen(isMyAreaOpen === 'closed' ? 'open' : 'closed');
     }
 
-    // Imports user from AuthContext
+
     const { user } = useContext(AuthContext);
+    const { isDesktop } = useDeviceType();
     return (
-        <div className={styles.LogInMyAreaBtn}>
-            {user ? (
-                <>
-                    <span onClick={myAreaToggler}>My Area</span>
-                    {isMyAreaOpen === 'open' ? <MyArea onModalClick={myAreaToggler} /> : null}
-                </>
-            ) : (
-                <Link to="/login">Log In</Link>
-            )}
-        </div >
+        isDesktop ? (
+            <div className={styles.LogInMyAreaBtn}>
+                {user ? (
+                    <>
+                        <span onClick={myAreaToggler}>My Area</span>
+                        {isMyAreaOpen === 'open' ? <MyArea onModalClick={myAreaToggler} /> : null}
+                    </>
+                ) : (
+                    <Link to="/login">Log In</Link>
+                )}
+            </div>
+        ) : null
     );
 
 }

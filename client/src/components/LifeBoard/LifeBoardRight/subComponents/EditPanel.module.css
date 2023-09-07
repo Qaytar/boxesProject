@@ -1,6 +1,6 @@
 .panel {
     width: 300px;
     height: 300PX;
-    border: 1px solid gray;
+    border: 6px solid gray;
     display: flex;
 }

@@ -130,7 +130,7 @@ export function sortUsedColors(lifeBoardData, usedColors) {
     // Create a set to hold unique colors that we've already seen
     let seenColors = new Set();
 
-    console.log("printing usedColors at the beginning of sortUsedColors: ", JSON.stringify(usedColors));
+    //console.log("printing usedColors at the beginning of sortUsedColors: ", JSON.stringify(usedColors));
 
     // Traverse lifeBoardData row by row and week by week
     for (let row = 1; row <= 100; row++) {
@@ -143,7 +143,7 @@ export function sortUsedColors(lifeBoardData, usedColors) {
 
                 // If this color hasn't been seen yet
                 if (!seenColors.has(color)) {
-                    console.log(`New color found: ${color}`);
+                    //console.log(`New color found: ${color}`);
 
                     // Mark the color as seen
                     seenColors.add(color);
@@ -159,6 +159,6 @@ export function sortUsedColors(lifeBoardData, usedColors) {
             }
         }
     }
-    console.log("Sorted usedColors: ", JSON.stringify(sortedColors));
+    //console.log("Sorted usedColors: ", JSON.stringify(sortedColors));
     return sortedColors;
 }

@@ -12,8 +12,8 @@
  */
 
 import EditPanel from "./EditPanel";
-import { WeekSelectionContext } from '../../../../contexts/weekSelectionContext';
-import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
+import { WeekSelectionContext } from '../../../../contextsAndHooks/weekSelectionContext';
+import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './ColorEditPanel.module.css';
 import { colors } from './../../../../helpers/colors'
@@ -61,15 +61,16 @@ function ColorEditPanel(props) {
         }
     };
 
-    // handleSubmit --- Simply updates main state of the app (lifeBoardData) with those weeks whose color have been modified
+    // Updates lifeBoardData thru updateWeek with submited color changes
     const handleSubmit = () => {
 
         updateWeek(selectedWeeks, { color: selectedColor }, textAreaValue);
 
-        deselectAllWeeks(); //reset selection
-        setSelectedColor(null); // deselect the color
-        setTextAreaManuallyEdited(false); //resets flag for guidance text to take over again
-        props.setTriggerSave(true); //saves it all in db
+        // resets flags and selections + triggerSave
+        deselectAllWeeks();
+        setSelectedColor(null);
+        setTextAreaManuallyEdited(false);
+        props.setTriggerSave(true);
     };
 
 
@@ -77,7 +78,7 @@ function ColorEditPanel(props) {
     * Part 2 - useEffects
     */
 
-    // useEffect --- sets textAreaValue to different guidance texts
+    // Sets textAreaValue to different guidance texts
     const selectedWeeksCount = Object.keys(selectedWeeks).length;
     useEffect(() => {
         //resets the flag if no weeks are selected
@@ -139,6 +140,31 @@ function ColorEditPanel(props) {
 
     return (
         <div className={styles.container}>
+            <div>
+                <div>
+                    <button onClick={deselectAllWeeks}>Deselect All Weeks</button>
+
+                    <button onClick={() => {
+                        updateWeek(selectedWeeks, {
+                            color: "",
+                            comment: {
+                                commentText: "",
+                                commentIcon: ""
+                            }
+                        }, undefined, deselectAllWeeks)
+
+                        props.setTriggerSave(true);
+                    }}>
+                        Delete changes to selected weeks
+                    </button>
+                </div>
+                <div>
+                    <span>Once you hace a week selected, use Shift+Click on a second week to select all weeks in between</span>
+                    <p></p>
+                    <span>Double Click on a color to select all weeks using that color. Then you can edit the description or choose a new color</span>
+                </div>
+            </div>
+
             <EditPanel>
                 <p>Color Edit Panel</p>
                 <textarea

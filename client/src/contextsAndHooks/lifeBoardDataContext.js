@@ -111,19 +111,6 @@ export const LifeBoardDataProvider = ({ children }) => {
 
     };
 
-    // useEffect(() => {
-    //     if (lifeBoardData && usedColors) {
-    //         const sortedColors = sortUsedColors(lifeBoardData, usedColors, setUsedColors);
-    //         if (JSON.stringify(sortedColors) !== JSON.stringify(usedColors)) {
-    //             console.log('calling sortUsedColors inside useEffect');
-    //             setUsedColors(sortedColors);
-    //         }
-    //     }
-    // }, [lifeBoardData, usedColors, setUsedColors]);
-
-
-
-
     return (
         <LifeBoardDataContext.Provider value={{ lifeBoardData, usedColors, setUsedColors, birthDate, setBirthDate, updateWeek }}>
             {children}

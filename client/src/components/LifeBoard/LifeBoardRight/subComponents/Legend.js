@@ -8,7 +8,7 @@
 
 import React, { useContext } from 'react';
 import styles from "./Legend.module.css";
-import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
+import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
 
 function Legend() {
     const { usedColors } = useContext(LifeBoardDataContext);

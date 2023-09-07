@@ -10,7 +10,7 @@ import LifeBoard from "../components/LifeBoard/LifeBoard";
 import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn"
 import styles from "./HomePage.module.css"
 import { Link } from "react-router-dom";
-import { AuthContext } from '../contexts/authContext';
+import { AuthContext } from '../contextsAndHooks/authContext';
 import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
@@ -43,7 +43,7 @@ function HomePage() {
             </div>
             <div ref={contentRef} className={styles.content}>
                 <h3><Link to="/login">Log in</Link> to be able to save your changes</h3>
-                <LifeBoard />
+                <LifeBoard location={'homePage'} />
             </div>
         </div>
     )

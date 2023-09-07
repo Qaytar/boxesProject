@@ -12,8 +12,8 @@
  */
 
 import EditPanel from "./EditPanel";
-import { WeekSelectionContext } from '../../../../contexts/weekSelectionContext';
-import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
+import { WeekSelectionContext } from '../../../../contextsAndHooks/weekSelectionContext';
+import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './CommentEditPanel.module.css';  // import CSS module
 import { icons } from '../../../../helpers/icons'

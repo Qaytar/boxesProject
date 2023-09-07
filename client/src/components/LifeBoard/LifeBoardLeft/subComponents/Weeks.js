@@ -8,7 +8,7 @@
 import React, { useContext, useState } from 'react';
 import styles from "./Weeks.module.css"
 import Week from "./Week"
-import { LifeBoardDataContext } from '../../../../contexts/lifeBoardDataContext';
+import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
 import { getDateDetails } from '../../../../helpers/datesFunctions'
 
 function Weeks() {

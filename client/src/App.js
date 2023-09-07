@@ -2,8 +2,8 @@ import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import AppPage from "./pages/AppPage";
 import { Route, Routes } from "react-router-dom";
-import { AuthProvider } from './contexts/authContext';
-import { LifeBoardDataProvider } from "./contexts/lifeBoardDataContext";
+import { AuthProvider } from './contextsAndHooks/authContext';
+import { LifeBoardDataProvider } from "./contextsAndHooks/lifeBoardDataContext";
 
 
 function App() {

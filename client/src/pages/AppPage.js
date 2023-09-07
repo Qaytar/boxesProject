@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import LifeBoard from "../components/LifeBoard/LifeBoard";
 import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn";
 import styles from "./AppPage.module.css";
-import { AuthContext } from '../contexts/authContext';
+import { AuthContext } from '../contextsAndHooks/authContext';
 
 function AppPage() {
     const { setUser } = useContext(AuthContext);
@@ -46,11 +46,10 @@ function AppPage() {
     }, [setUser, navigate]);
 
 
-
     return (
         <div className={styles.wrapper}>
             <LogInMyAreaBtn />
-            <LifeBoard />
+            <LifeBoard location={'appPage'} />
         </div>
     );
 }

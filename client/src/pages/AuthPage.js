@@ -24,13 +24,11 @@ function AuthPages() {
 
 
     return (
-        <>
-            <h3>Google OAuth!</h3>
+        <div>
+            <h3>Log In with Google</h3>
 
-            <button className="btn-auth" type="button" onClick={() => auth()}>
-                <img className="btn-auth-img" src={googleButton} alt='google sign in' />
-            </button>
-        </>
+            <img className="btn-auth-img" src={googleButton} alt='google sign in' onClick={() => auth()} />
+        </div>
     )
 }
 

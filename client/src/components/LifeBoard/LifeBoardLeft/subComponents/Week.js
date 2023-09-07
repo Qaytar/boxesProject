@@ -9,7 +9,7 @@
 
 import React, { useContext, useState } from 'react';
 import styles from "./Week.module.css";
-import { WeekSelectionContext } from '../../../../contexts/weekSelectionContext';
+import { WeekSelectionContext } from '../../../../contextsAndHooks/weekSelectionContext';
 import { icons } from '../../../../helpers/icons'
 
 function Week(props) {

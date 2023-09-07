@@ -7,8 +7,8 @@
 
 import Backdrop from "./Backdrop";
 import styles from "./MyArea.module.css"
-import { AuthContext } from '../../contexts/authContext';
-import { LifeBoardDataContext } from '../../contexts/lifeBoardDataContext';
+import { AuthContext } from '../../contextsAndHooks/authContext';
+import { LifeBoardDataContext } from '../../contextsAndHooks/lifeBoardDataContext';
 import { saveBirthDate } from '../../helpers/databaseOpsHelper';
 import React, { useContext } from 'react';
 
@@ -39,13 +39,19 @@ function MyArea(props) {
         <div>
             <Backdrop onBackdropClick={props.onModalClick} />
             <div className={styles.modal}>
-                <button onClick={logOut}>Logout and back to Homepage</button>
-                <input
-                    type="date"
-                    value={birthDate ? new Date(birthDate).toISOString().substring(0, 10) : ""}
-                    onChange={handleDateChange}
-                />
-                <button onClick={() => { saveBirthDate(birthDate) }}>Save Changes</button>
+                <div>
+                    <button onClick={logOut}>Logout and back to Homepage</button>
+                </div>
+                <div>
+                    <p>Set yor birth date and click save</p>
+                    <input
+                        type="date"
+                        value={birthDate ? new Date(birthDate).toISOString().substring(0, 10) : ""}
+                        onChange={handleDateChange}
+                    />
+                    <button onClick={() => { saveBirthDate(birthDate) }}>Save</button>
+                </div>
+
             </div>
         </div>
     )

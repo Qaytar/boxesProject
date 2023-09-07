@@ -11,6 +11,9 @@ const router = express.Router();
 const User = require('./models');
 const jwt = require('jsonwebtoken');
 
+const lifeBoardSampleFakeUserId = 'dasdasdasdad';
+module.exports.lifeBoardSampleFakeUserId = lifeBoardSampleFakeUserId;
+
 // Function to create an empty lifeBoard
 // returns an object with a 100 properties named r1, r2.. (rows)
 // For each row/property, there is an array of 52 objects with properties of a <Week>: color and comment.
@@ -29,41 +32,55 @@ function createEmptyLifeBoard() {
 /*Listents to POST requests and its cookies from the React app when lifeBoard data is needed */
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
 router.post('/getLifeBoard', async (req, res) => {
-    //console.log('/getLifeBoard endpoint got git by a post request')
+    console.log('/getLifeBoard endpoint got git by a post request')
 
     try {
         // Check if a token exists to avoid errors when calling jwt.veritfy()
         if (req.cookies.token) {
-            const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-
-            // If there's a user object in the decoded token, user it's authenticated
+            const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET); // decodes JWT sent by client in the cookies to acces user and session data
+            // A user is logged in
             if (user) {
                 const userData = await User.findOne({ userId: user.id });
                 //console.log('userData', userData)
                 if (userData) {
-                    // Return lifeBoard and usedColors if the user exists
+                    // User is found in db
                     return res.json({
                         lifeBoard: userData.lifeBoard,
                         usedColors: userData.usedColors,
                         birthDate: userData.birthDate
                     });
                 } else {
-                    // Create and return an empty lifeBoard if the user wasn't found in the db
+                    // A user is logged in but not in db yet
                     return res.json({
                         lifeBoard: createEmptyLifeBoard(),
                     });
                 }
             }
-        }
-        // If there wasn't a token or it couldn't be verified, return an empty lifeBoard and empty usedColors array
-        return res.json({
-            lifeBoard: createEmptyLifeBoard(),
-            usedColors: []
-        });
+        } else if (!req.cookies.token) {
+            // No user is logged in (meaning is the LifeBoard in the HomePage making the request)
 
+            const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId });
+            //console.log('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
+            if (lifeBoardSampleFakeUser) {
+                console.log('fetching and returning lifeBoardDataSample')
+                return res.json({
+                    lifeBoard: lifeBoardSampleFakeUser.lifeBoard,
+                    usedColors: lifeBoardSampleFakeUser.usedColors,
+                    birthDate: lifeBoardSampleFakeUser.birthDate
+                });
+            } else {
+                // lifeBoardSampleFakeUser wasn't found in db so returning empty/valid states to have something to render
+                console.log('No user logged in and no sampleFakeUser found - returning empty states')
+                return res.json({
+                    lifeBoard: createEmptyLifeBoard(),
+                    usedColors: [],
+                    birthDate: '' //PENDING
+                });
+            }
+        }
     } catch (error) {
-        console.error("Error getting lifeBoard:", error);
-        res.status(500).json({ error: 'Failed to get lifeBoard' });
+        console.error("Error getting data from server:", error);
+        res.status(500).json({ error: 'Failed to get data from server' });
     }
 });
 
