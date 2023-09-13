@@ -49,7 +49,7 @@ function LifeBoardRight(props) {
 
     //A the bottom of the JSX, conditionally renders either legend or editting panels (depending on the toggle position)
     return (
-        <div className={styles.content}>
+        <div className={styles.wrapper}>
             <Toggle
                 onClickFunction={toggleMode}
                 isState={isMode}

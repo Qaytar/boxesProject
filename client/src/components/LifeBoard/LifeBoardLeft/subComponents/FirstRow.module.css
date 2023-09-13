@@ -1,4 +1,17 @@
 .content {
-    border: 2px solid rgb(255, 0, 204);
-    background-color: white;
+    /* border: 1px solid rgb(255, 0, 204); */
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-left: 12px;
+}
+
+.spacer {
+    width: 35px;
+    /* border: 1px solid rgb(255, 0, 204); */
+}
+
+.wrapper {
+    display: flex;
 }

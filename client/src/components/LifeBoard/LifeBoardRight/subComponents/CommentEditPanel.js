@@ -11,7 +11,7 @@
  * 
  */
 
-import EditPanel from "./EditPanel";
+
 import { WeekSelectionContext } from '../../../../contextsAndHooks/weekSelectionContext';
 import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
@@ -142,34 +142,34 @@ function CommentEditPanel(props) {
     return (
         selectedWeeksCount <= 1 ?
             <div className={styles.container}>
-                <EditPanel>
-                    <p>Comments Edit Panel</p>
 
-                    {/* Text area */}
-                    <textarea
-                        value={textAreaValue}
-                        onChange={handleTextAreaChange}
-                        disabled={!isTextAreaEnabled()}
-                        placeholder={isTextAreaEnabled() ? 'Type in a short text for your special day' : null}
-                    />
+                <p>Comments Edit Panel</p>
 
-                    {/* Icon selector */}
-                    <div>
-                        {Object.entries(icons).map(([key, icon]) => (
-                            <div
-                                key={key}
-                                className={`${selectedIcon === key ? styles.selected : ''}`}
-                                onClick={() => handleIconSelect(key)}
-                            >
-                                <img src={icon} alt={key} className={styles.icon} />
-                                <span className={styles.unselectable}>{key}</span>
-                            </div>
-                        ))}
-                    </div>
+                {/* Text area */}
+                <textarea
+                    value={textAreaValue}
+                    onChange={handleTextAreaChange}
+                    disabled={!isTextAreaEnabled()}
+                    placeholder={isTextAreaEnabled() ? 'Type in a short text for your special day' : null}
+                />
 
-                    {/* Submit button */}
-                    <button onClick={handleSubmit} disabled={!isSubmitEnabled()}>Submit</button>
-                </EditPanel>
+                {/* Icon selector */}
+                <div>
+                    {Object.entries(icons).map(([key, icon]) => (
+                        <div
+                            key={key}
+                            className={`${selectedIcon === key ? styles.selected : ''}`}
+                            onClick={() => handleIconSelect(key)}
+                        >
+                            <img src={icon} alt={key} className={styles.icon} />
+                            <span className={styles.unselectable}>{key}</span>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Submit button */}
+                <button onClick={handleSubmit} disabled={!isSubmitEnabled()}>Submit</button>
+
             </div>
             : null
     )

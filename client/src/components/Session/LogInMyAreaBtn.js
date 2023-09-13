@@ -12,6 +12,7 @@ import styles from "./LogInMyAreaBtn.module.css"
 import { Link } from 'react-router-dom';
 import MyArea from './MyArea';
 import useDeviceType from '../../contextsAndHooks/useDeviceType';
+import userIcon from '../../assets/icons/others/user.png';
 
 
 function LogInMyAreaBtn() {
@@ -27,10 +28,11 @@ function LogInMyAreaBtn() {
     const { isDesktop } = useDeviceType();
     return (
         isDesktop ? (
-            <div className={styles.LogInMyAreaBtn}>
+            <div className={styles.LogInMyAreaBtn} onClick={myAreaToggler}>
+                <img className={styles.icon} src={userIcon} alt="user icon"></img>
                 {user ? (
                     <>
-                        <span onClick={myAreaToggler}>My Area</span>
+                        <span>My Area</span>
                         {isMyAreaOpen === 'open' ? <MyArea onModalClick={myAreaToggler} /> : null}
                     </>
                 ) : (

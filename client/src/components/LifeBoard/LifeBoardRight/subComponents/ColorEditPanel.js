@@ -11,7 +11,7 @@
  * 
  */
 
-import EditPanel from "./EditPanel";
+
 import { WeekSelectionContext } from '../../../../contextsAndHooks/weekSelectionContext';
 import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
@@ -33,6 +33,7 @@ function ColorEditPanel(props) {
     const [selectedColor, setSelectedColor] = useState(null);
     const [isTextAreaManuallyEdited, setTextAreaManuallyEdited] = useState(false);
     const [lastClickTime, setLastClickTime] = useState(0); // used for doubleClick feature
+
 
     // handlers for said inputs
     const handleTextAreaChange = (event) => {
@@ -72,6 +73,7 @@ function ColorEditPanel(props) {
         setTextAreaManuallyEdited(false);
         props.setTriggerSave(true);
     };
+
 
 
     /*
@@ -139,12 +141,19 @@ function ColorEditPanel(props) {
     //console.log('usedColors', JSON.stringify(usedColors))
 
     return (
-        <div className={styles.container}>
-            <div>
-                <div>
-                    <button onClick={deselectAllWeeks}>Deselect All Weeks</button>
+        <div className={styles.wrapper}>
+            <section className={styles.buttonsSections}>
+                <button
+                    onClick={deselectAllWeeks}
+                    className={styles.mainButton}
+                    disabled={!selectedWeeksCount}
+                >
+                    unselect weeks
+                </button>
 
-                    <button onClick={() => {
+                <button
+                    className={styles.mainButton}
+                    onClick={() => {
                         updateWeek(selectedWeeks, {
                             color: "",
                             comment: {
@@ -152,27 +161,25 @@ function ColorEditPanel(props) {
                                 commentIcon: ""
                             }
                         }, undefined, deselectAllWeeks)
-
                         props.setTriggerSave(true);
-                    }}>
-                        Delete changes to selected weeks
-                    </button>
-                </div>
-                <div>
-                    <span>Once you hace a week selected, use Shift+Click on a second week to select all weeks in between</span>
-                    <p></p>
-                    <span>Double Click on a color to select all weeks using that color. Then you can edit the description or choose a new color</span>
-                </div>
-            </div>
+                    }}
+                    disabled={!selectedWeeksCount}
+                >
+                    delete changes
+                </button>
+            </section>
 
-            <EditPanel>
-                <p>Color Edit Panel</p>
+            <section className={styles.edittingSection}>
+                <p>Add a splash of color to your calendar!</p>
+
                 <textarea
                     value={textAreaValue}
                     onChange={handleTextAreaChange}
                     disabled={!isTextAreaEnabled}
                     placeholder={isTextAreaEnabled ? 'What do yo want this color to represent in your life?' : null}
                 />
+                <button onClick={handleSubmit} disabled={!isSubmitEnabled}>Submit</button>
+
                 {/* Color selector */}
                 <div className={styles.colorSelector}>
                     {Object.keys(colors).map(paletteName => (
@@ -192,10 +199,7 @@ function ColorEditPanel(props) {
                         </div>
                     ))}
                 </div>
-
-                {/* Submit button */}
-                <button onClick={handleSubmit} disabled={!isSubmitEnabled}>Submit</button>
-            </EditPanel>
+            </section>
         </div>
     )
 }

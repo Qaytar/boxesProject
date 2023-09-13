@@ -8,7 +8,7 @@
 import styles from './Toggle.module.css';
 function Toggle(props) {
     return (
-        <section>
+        <div className={styles.wrapper}>
             <div className={styles.toggle}>
                 <label className={styles.switch}>
                     <input onClick={props.onClickFunction} type="checkbox" />
@@ -20,7 +20,7 @@ function Toggle(props) {
                     <i> switch to {props.isState === props.checkState ? props.options[0] : props.options[1]}</i>
                 </label>
             </div>
-        </section>
+        </div>
     )
 }
 

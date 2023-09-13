@@ -1,6 +1,16 @@
 .LogInMyAreaBtn {
     position: absolute;
-    top: 0px;
+    top: 10px;
     right: 10px;
-    color: blue;
+}
+
+.LogInMyAreaBtn:hover {
+    cursor: pointer;
+    border-bottom: 1px solid #ff8e4d;
+}
+
+.icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 3px;
 }

@@ -6,14 +6,14 @@
  */
 
 import React, { useContext } from 'react';
-import LifeBoardLeft from "./LifeBoardLeft/LifeBoardLeft";
-import LifeBoardRight from "./LifeBoardRight/LifeBoardRight";
+import LifeBoardLeft from "../LifeBoardLeft/LifeBoardLeft"
+import LifeBoardRight from "../LifeBoardRight/LifeBoardRight";
 import LifeBoardHomePageText from "./LifeBoardHomePageText"
 import LifeBoardMobile from "./LifeBoardMobile"
 import styles from "./LifeBoard.module.css"
-import { WeekSelectionProvider } from '../../contextsAndHooks/weekSelectionContext';
-import { LifeBoardDataContext } from '../../contextsAndHooks/lifeBoardDataContext';
-import useDeviceType from '../../contextsAndHooks/useDeviceType'
+import { WeekSelectionProvider } from '../../../contextsAndHooks/weekSelectionContext';
+import { LifeBoardDataContext } from '../../../contextsAndHooks/lifeBoardDataContext';
+import useDeviceType from '../../../contextsAndHooks/useDeviceType'
 
 
 

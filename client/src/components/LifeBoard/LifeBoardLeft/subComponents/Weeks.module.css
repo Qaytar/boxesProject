@@ -1,14 +1,17 @@
 .row {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-bottom: 5px; */
 }
 
-/* .wrapper {
-
-} */
+.year {
+    font-size: smaller;
+}
 
 .renderPopupBackground {
     position: fixed;
-    bottom: 10px;
+    bottom: 7px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #f9f9f9;

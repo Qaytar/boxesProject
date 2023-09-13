@@ -2,28 +2,29 @@
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    border: 1px solid gray;
+    border: 1px solid rgb(119, 119, 119);
     display: flex;
     font-size: 7px;
-    margin: 0.5px;
+    margin: 1.5px;
     text-align: center;
 }
 
 .selectedWeek {
-    border: 1px solid red;
+    border: 1px solid black;
 }
 
 .commentIcon {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
 }
 
 .isCurrentWeek {
-    border: 1px solid red;
+    border: 1px solid transparent !important;
 }
 
 .notBornedYet {
-    border: 1px solid red;
+    border: 1px solid darkslategray;
+    background-color: darkslategray !important;
 }
 
 .renderDateInfo {
@@ -44,16 +45,20 @@
     position: absolute;
     top: 100%;
     left: 100%;
-    background-color: #f9f9f9;
-    padding: 8px 16px;
-    display: flex;
-    align-items: center;
-    width: auto;
+    border-radius: 3px;
+    background-color: #999999;
+    color: white;
+    padding: 8px;
     z-index: 9999;
+    text-align: left;
+    width: 100px;
 }
 
 .weekContainer {
     position: relative;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
 }
 
 .unselectable {
@@ -65,4 +70,10 @@
     /* IE/Edge */
     user-select: none;
     /* Standard syntax */
+}
+
+.highLighted {
+    border: 1px solid #ff8e4d;
+    background-color: #ff8e4d;
+
 }

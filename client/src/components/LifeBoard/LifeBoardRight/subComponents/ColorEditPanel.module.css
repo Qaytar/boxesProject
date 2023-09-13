@@ -1,27 +1,52 @@
-.container {
-    margin: 10px;
+.wrapper {
+    max-width: 200px;
+    margin-bottom: 50px;
+}
+
+/* .buttonsSections {
+    border: 2px solid orangered;
+} */
+
+
+
+/* Editting Section Styles  */
+
+.edittingSection {
+    /* border: 2px solid blue; */
+    padding-top: 20px;
+}
+
+.edittingSection>button,
+textarea {
+    width: 100%;
+}
+
+.edittingSection>p {
+    margin-bottom: 30px;
+    color: #ff8e4d;
 }
 
 .colorSelector {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
-    margin-top: 10px;
-}
-
-.colorOption {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.selected {
-    border: 2px solid #000;
+    margin-top: 30px;
 }
 
 .paletteGroup {
     display: flex;
+    flex-direction: column;
+}
+
+.colorOption {
+    width: auto;
+    height: 30px;
+    cursor: pointer;
+    color: white;
+}
+
+.selected {
+    border: 2px solid #000;
 }
 
 .unselectable {
@@ -33,4 +58,34 @@
     /* IE/Edge */
     user-select: none;
     /* Standard syntax */
+}
+
+/* Buttons Section Styles  */
+
+
+.mainButton {
+
+    background: transparent;
+    border: 0.5px solid #ff8e4d;
+    color: #ff8e4d;
+    font-size: 16px;
+    padding: 3px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.mainButton:disabled {
+    cursor: initial;
+    border: 0.5px solid #ccc;
+    color: #ccc;
+}
+
+.mainButton:not(:disabled):hover {
+    background-color: #ff8e4d;
+    border-color: #ff8e4d;
+    color: white;
 }

@@ -33,10 +33,10 @@ function Week(props) {
         let message;
 
         if (props.date.status === 'future') {
-            message = `This is the future.. Week Nr ${props.week + 1} of ${props.date.year}, monday ${props.date.mondayDate}, you will be ${props.date.age}`;
+            message = `This is the future.. Week Nr ${props.week + 1} of ${props.date.year}, monday ${props.date.mondayDate} (you will be ${props.date.age})`;
         }
         else if (props.date.status === 'today') {
-            message = `You are here (.. and ${props.date.age})`
+            message = `You are here`
         } else if (props.date.age === -1) {
             message = 'You were not born yet'
         } else if (props.week === 0) {
@@ -44,7 +44,7 @@ function Week(props) {
         } else if (props.week === 51) {
             message = `Last week of ${props.date.year}`;
         } else {
-            message = `Week Nr ${props.week + 1} of ${props.date.year}, monday ${props.date.mondayDate}, you were ${props.date.age}`;
+            message = `Week Nr ${props.week + 1} of ${props.date.year}, monday ${props.date.mondayDate} (you were ${props.date.age})`;
         }
         setrenderDateInfo(message);
 
@@ -84,13 +84,17 @@ function Week(props) {
                     <img src={icons[props.comment.commentIcon]} alt="icon" className={styles.commentIcon} />
                 )}
             </div>
-            {renderDateInfo ? <div className={`${styles.renderDateInfo} ${styles.unselectable}`}>
-                {renderDateInfo}
-            </div> : null}
+            {renderDateInfo ?
+                <div className={`${styles.renderDateInfo} ${styles.unselectable}`}>
+                    {renderDateInfo}
+                </div>
+                : null}
 
-            {renderCommentText ? <div className={`${styles.renderCommentText} ${styles.unselectable}`}>
-                {renderCommentText}
-            </div> : null}
+            {renderCommentText ?
+                <div className={`${styles.renderCommentText} ${styles.unselectable}`}>
+                    {renderCommentText}
+                </div>
+                : null}
 
         </div>
 

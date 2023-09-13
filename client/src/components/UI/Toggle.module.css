@@ -1,21 +1,14 @@
-.content {
+.wrapper {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .toggleLabel {
     display: flex;
     color: rgb(119, 119, 119);
     font-weight: 300;
-    font-size: smaller;
-}
-
-.gradeToggler {
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
-    align-items: center;
-    margin-top: 10px;
-    margin-right: 30px;
+    font-size: 12px;
 }
 
 .switch {

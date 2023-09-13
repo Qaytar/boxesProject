@@ -9,12 +9,17 @@
 
 import styles from "./Week.module.css";
 
-function WeekMockUp() {
+function WeekMockUp(props) {
+    let className = styles.week;
+
+    // Conditionally add the 'highLighted' class if the prop is true
+    if (props.highLighted) {
+        className += ` ${styles.highLighted}`;
+    }
+
     return (
-        <div className={styles.week} />
-    )
-
-
+        <div className={className} />
+    );
 }
 
 export default WeekMockUp;
