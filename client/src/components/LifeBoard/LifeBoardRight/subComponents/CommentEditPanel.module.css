@@ -64,6 +64,7 @@ textarea:disabled {
 
 .iconWrapper:hover span {
     font-weight: 700;
+    color: #ff8e4d;
 }
 
 .iconSelected {
@@ -73,6 +74,7 @@ textarea:disabled {
 
 .selected {
     font-weight: 700;
+    color: #ff8e4d;
 }
 
 .unselectable {

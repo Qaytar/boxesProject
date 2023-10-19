@@ -1,7 +1,7 @@
 .modal {
     z-index: 1000;
-    height: 400px;
-    width: 600px;
+    height: 200px;
+    width: 400px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -11,4 +11,60 @@
     background-color: white;
     padding: 1rem;
     text-align: center;
+}
+
+.modal:hover {
+    cursor: default;
+}
+
+.dateWrapper {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dateWrapper>p {
+    margin-bottom: 20px;
+}
+
+.dateWrapper>button {
+    margin-top: 10px;
+    margin-bottom: 60px;
+}
+
+.dateWrapper>input,
+dateWrapper>button {
+    max-width: 100px;
+}
+
+.logout {
+    font-size: small;
+    font-style: italic;
+}
+
+.logout:hover {
+    cursor: pointer;
+    border-bottom: 1px solid #ff8e4d;
+}
+
+.mainButton {
+    background: transparent;
+    border: 0.5px solid #ff8e4d;
+    color: #ff8e4d;
+    font-size: 16px;
+    padding: 3px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.mainButton:not(:disabled):hover {
+    background-color: #ff8e4d;
+    border-color: #ff8e4d;
+    color: white;
+    border-radius: 20px;
 }

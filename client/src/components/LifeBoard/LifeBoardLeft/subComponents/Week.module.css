@@ -13,6 +13,10 @@
     align-items: center;
 }
 
+.week:hover {
+    border-radius: 3px;
+}
+
 .selectedWeek {
     border-radius: 3px;
 }

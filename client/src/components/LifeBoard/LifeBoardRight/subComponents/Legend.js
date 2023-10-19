@@ -14,14 +14,14 @@ function Legend() {
     const { usedColors } = useContext(LifeBoardDataContext);
 
     return (
-        <div className={styles.legend}>
+        <div className={styles.wrapper}>
 
             {usedColors && usedColors.length > 0 ? (
-                <div className={styles.colorList}>
+                <div className={styles.colorsWrapper}>
                     {usedColors.map((color, index) => (
-                        <div key={index} className={styles.colorItem}>
+                        <div key={index} className={styles.colorWrapper}>
                             <div
-                                className={styles.colorSwatch}
+                                className={styles.colorColor}
                                 style={{ backgroundColor: color.colorName }}
                             />
                             <div className={styles.colorInfo}>

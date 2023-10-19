@@ -2,6 +2,12 @@
     position: absolute;
     top: 10px;
     right: 10px;
+
+}
+
+.link {
+    color: rgb(119, 119, 119) !important;
+    text-decoration: none !important;
 }
 
 .LogInMyAreaBtn:hover {

@@ -39,19 +39,16 @@ function MyArea(props) {
         <div>
             <Backdrop onBackdropClick={props.onModalClick} />
             <div className={styles.modal}>
-                <div>
-                    <button onClick={logOut}>Logout and back to Homepage</button>
-                </div>
-                <div>
+                <div className={styles.dateWrapper}>
                     <p>Set yor birth date and click save</p>
                     <input
                         type="date"
                         value={birthDate ? new Date(birthDate).toISOString().substring(0, 10) : ""}
                         onChange={handleDateChange}
                     />
-                    <button onClick={() => { saveBirthDate(birthDate) }}>Save</button>
+                    <button className={styles.mainButton} onClick={() => { saveBirthDate(birthDate) }}>Save</button>
                 </div>
-
+                <span className={`${styles.logout}`} onClick={logOut}>Logout and back to Homepage</span>
             </div>
         </div>
     )

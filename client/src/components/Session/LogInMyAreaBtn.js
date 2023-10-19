@@ -36,7 +36,7 @@ function LogInMyAreaBtn() {
                         {isMyAreaOpen === 'open' ? <MyArea onModalClick={myAreaToggler} /> : null}
                     </>
                 ) : (
-                    <Link to="/login">Log In</Link>
+                    <Link className={styles.link} to="/login">Log In</Link>
                 )}
             </div>
         ) : null
