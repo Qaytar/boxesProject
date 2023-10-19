@@ -44,8 +44,9 @@ function LifeBoardHomePageText(props) {
             <div className={styles.separator} />
 
             <div className={styles.text}>
-                <p><span className={styles.highLighted}>Navigate your life in weeks</span> and add a splash of color and notes with our interactive Life Calendar</p>
-                <p>Use it as a tool for both reflection and a wake-up call to the finite nature of time</p>
+                <p><span className={styles.highLighted}>Map out your life week-by-week,</span> enhanced by colors and notes, with our intuitive Life Calendar.</p>
+                <p>Use it for introspection and to confront the limited time you have</p>
+
             </div>
 
             <div className={styles.separator} />

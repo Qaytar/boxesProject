@@ -1,6 +1,6 @@
 .wrapper {
     max-width: 200px;
-    margin-bottom: 50px;
+    margin-bottom: 35px;
 }
 
 /* .buttonsSections {
@@ -12,8 +12,11 @@
 /* Editting Section Styles  */
 
 .edittingSection {
-    /* border: 2px solid blue; */
-    padding-top: 20px;
+    padding-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .edittingSection>button,
@@ -21,16 +24,23 @@ textarea {
     width: 100%;
 }
 
-.edittingSection>p {
+.edittingSection>button {
+    margin: 5px 0 0 0;
+}
+
+/* .edittingSection>p {
     margin-bottom: 30px;
     color: #ff8e4d;
-}
+} */
 
 .colorSelector {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 30px;
+    margin-top: 20px;
+    width: 100%;
+    /* border: 1px solid red; */
+    height: 390px;
+    max-height: 390px;
 }
 
 .paletteGroup {
@@ -43,10 +53,27 @@ textarea {
     height: 30px;
     cursor: pointer;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
+.colorOption:hover {
+    border-radius: 20px;
+    height: 35px;
+}
+
+.colorOption:not(:hover) {
+    flex-shrink: 1;
+}
+
+
 .selected {
-    border: 2px solid #000;
+    /* border: 2px solid #000; */
+    border-radius: 30px;
+    font-weight: 700;
+    height: 35px;
 }
 
 .unselectable {
@@ -88,4 +115,5 @@ textarea {
     background-color: #ff8e4d;
     border-color: #ff8e4d;
     color: white;
+    border-radius: 20px;
 }

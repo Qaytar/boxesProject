@@ -170,15 +170,16 @@ function ColorEditPanel(props) {
             </section>
 
             <section className={styles.edittingSection}>
-                <p>Add a splash of color to your calendar!</p>
+                {/* <p>Add a splash of color to your calendar!</p> */}
 
                 <textarea
                     value={textAreaValue}
                     onChange={handleTextAreaChange}
                     disabled={!isTextAreaEnabled}
-                    placeholder={isTextAreaEnabled ? 'What do yo want this color to represent in your life?' : null}
+                    placeholder={isTextAreaEnabled ? 'Now type a few words description for this color' : null}
+                    maxLength="20"
                 />
-                <button onClick={handleSubmit} disabled={!isSubmitEnabled}>Submit</button>
+                <button onClick={handleSubmit} disabled={!isSubmitEnabled} className={styles.mainButton}>Submit</button>
 
                 {/* Color selector */}
                 <div className={styles.colorSelector}>

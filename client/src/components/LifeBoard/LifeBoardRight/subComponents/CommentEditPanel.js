@@ -16,7 +16,7 @@ import { WeekSelectionContext } from '../../../../contextsAndHooks/weekSelection
 import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './CommentEditPanel.module.css';  // import CSS module
-import { icons } from '../../../../helpers/icons'
+import { greyIcons } from '../../../../helpers/icons'
 
 function CommentEditPanel(props) {
 
@@ -85,11 +85,11 @@ function CommentEditPanel(props) {
 
         // this is the actual logic of the guidance text based on different combintations of selections
         if (selectedWeeksCount === 0 && !selectedIcon) {
-            setTextAreaValue('select a week (only one) and an Icon');
+            setTextAreaValue('select an icon and only one week');
         } else if (selectedWeeksCount === 1 && !selectedIcon) {
-            setTextAreaValue('select a week (only one) and an Icon');
+            setTextAreaValue('select an icon and only one week');
         } else if (selectedWeeksCount === 0 && selectedIcon) {
-            setTextAreaValue('select a week (only one) and an Icon');
+            setTextAreaValue('select an icon and only one week');
         } else {
             if (selectedWeekKey) {
                 const [row, week] = selectedWeekKey.split("-");
@@ -141,35 +141,32 @@ function CommentEditPanel(props) {
     // Only render the comment editting panel if 1 or none weeks are selected. Comment panel it's hidden if multiple weeks are selected
     return (
         selectedWeeksCount <= 1 ?
-            <div className={styles.container}>
-
-                <p>Comments Edit Panel</p>
-
+            <div className={styles.commentWrapper}>
                 {/* Text area */}
                 <textarea
                     value={textAreaValue}
                     onChange={handleTextAreaChange}
                     disabled={!isTextAreaEnabled()}
-                    placeholder={isTextAreaEnabled() ? 'Type in a short text for your special day' : null}
+                    placeholder={isTextAreaEnabled() ? 'Now type in a short text for your special day' : null}
+                    maxLength="125"
                 />
 
+                {/* Submit button */}
+                <button onClick={handleSubmit} disabled={!isSubmitEnabled()} className={styles.mainButton}>Submit</button>
+
                 {/* Icon selector */}
-                <div>
-                    {Object.entries(icons).map(([key, icon]) => (
+                <div className={styles.iconsWrapper}>
+                    {Object.entries(greyIcons).map(([key, icon]) => (
                         <div
                             key={key}
-                            className={`${selectedIcon === key ? styles.selected : ''}`}
+                            className={`${selectedIcon === key ? styles.selected : ''} ${styles.iconWrapper}`}
                             onClick={() => handleIconSelect(key)}
                         >
-                            <img src={icon} alt={key} className={styles.icon} />
+                            <img src={icon} alt={key} className={`${selectedIcon === key ? styles.iconSelected : ''} ${styles.icon}`} />
                             <span className={styles.unselectable}>{key}</span>
                         </div>
                     ))}
                 </div>
-
-                {/* Submit button */}
-                <button onClick={handleSubmit} disabled={!isSubmitEnabled()}>Submit</button>
-
             </div>
             : null
     )

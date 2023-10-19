@@ -1,17 +1,78 @@
-.container {
+.commentWrapper {
     display: flex;
     flex-direction: column;
-    border: 3px solid green;
+    align-items: center;
 }
 
+.commentWrapper>button {
+    margin: 5px 0 10px 0;
+    width: 100%;
+}
+
+.iconWrapper {
+    margin: 10px 0px;
+    display: flex;
+    align-items: center;
+    /* border: 0.5px solid red */
+}
+
+.iconWrapper>span {
+    margin: 7px 0px;
+}
+
+.iconsWrapper {
+    width: 60%;
+}
+
+.commentWrapper>textarea {
+    height: 80px;
+}
+
+textarea {
+    font-family: inherit;
+    color: inherit;
+    font-weight: inherit;
+    border: 1px solid rgb(119, 119, 119);
+    outline: none;
+    resize: none;
+    padding: 4px;
+    transition: all 0.3s ease;
+}
+
+textarea::placeholder {
+    font-style: italic;
+}
+
+textarea:disabled {
+    background-color: rgb(182, 182, 182);
+    border: none;
+    color: white;
+    font-style: italic;
+}
 
 .icon {
     width: 24px;
     height: 24px;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+}
+
+.iconWrapper:hover img {
+    width: 28px;
+    height: 28px;
+}
+
+.iconWrapper:hover span {
+    font-weight: 700;
+}
+
+.iconSelected {
+    width: 28px;
+    height: 28px;
 }
 
 .selected {
-    border: 2px solid #000;
+    font-weight: 700;
 }
 
 .unselectable {
@@ -23,4 +84,35 @@
     /* IE/Edge */
     user-select: none;
     /* Standard syntax */
+}
+
+/* Buttons Section Styles  */
+
+
+.mainButton {
+
+    background: transparent;
+    border: 0.5px solid #ff8e4d;
+    color: #ff8e4d;
+    font-size: 16px;
+    padding: 3px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.mainButton:disabled {
+    cursor: initial;
+    border: 0.5px solid #ccc;
+    color: #ccc;
+}
+
+.mainButton:not(:disabled):hover {
+    background-color: #ff8e4d;
+    border-color: #ff8e4d;
+    color: white;
+    border-radius: 20px;
 }
