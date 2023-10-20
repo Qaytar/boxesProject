@@ -38,6 +38,14 @@ dateWrapper>button {
     max-width: 100px;
 }
 
+.dateWrapper>input {
+    font-family: inherit;
+    color: inherit;
+    border: 1px solid rgb(119, 119, 119);
+    border-radius: 3px;
+
+}
+
 .logout {
     font-size: small;
     font-style: italic;

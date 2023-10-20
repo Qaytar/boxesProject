@@ -28,11 +28,11 @@ function LogInMyAreaBtn() {
     const { isDesktop } = useDeviceType();
     return (
         isDesktop ? (
-            <div className={styles.LogInMyAreaBtn} onClick={myAreaToggler}>
+            <div className={styles.LogInMyAreaBtn} >
                 <img className={styles.icon} src={userIcon} alt="user icon"></img>
                 {user ? (
                     <>
-                        <span>My Area</span>
+                        <span onClick={myAreaToggler}>My Area</span>
                         {isMyAreaOpen === 'open' ? <MyArea onModalClick={myAreaToggler} /> : null}
                     </>
                 ) : (

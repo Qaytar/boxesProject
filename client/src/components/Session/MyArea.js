@@ -35,6 +35,19 @@ function MyArea(props) {
         window.location.href = 'http://localhost:5000/auth/logout';
     }
 
+    // improves usability of date picker
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateInput = document.getElementById('input');
+
+        dateInput.addEventListener('focus', function () {
+            this.type = 'date';
+        });
+
+        dateInput.addEventListener('blur', function () {
+            this.type = 'text';
+        });
+    });
+
     return (
         <div>
             <Backdrop onBackdropClick={props.onModalClick} />
@@ -45,8 +58,9 @@ function MyArea(props) {
                         type="date"
                         value={birthDate ? new Date(birthDate).toISOString().substring(0, 10) : ""}
                         onChange={handleDateChange}
+                        id="input"
                     />
-                    <button className={styles.mainButton} onClick={() => { saveBirthDate(birthDate) }}>Save</button>
+                    <button className={styles.mainButton} onClick={() => { saveBirthDate(birthDate); props.onModalClick(); }}>Save</button>
                 </div>
                 <span className={`${styles.logout}`} onClick={logOut}>Logout and back to Homepage</span>
             </div>

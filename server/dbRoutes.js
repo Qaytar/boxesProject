@@ -11,7 +11,8 @@ const router = express.Router();
 const User = require('./models');
 const jwt = require('jsonwebtoken');
 
-const lifeBoardSampleFakeUserId = 'dasdasdasdad';
+const lifeBoardSampleFakeUserId = '65327e13b665415e36ec0c95';
+const lifeBoardTutorialFakeUserId = '6532823fb665415e36ec0c96';
 module.exports.lifeBoardSampleFakeUserId = lifeBoardSampleFakeUserId;
 
 // Function to create an empty lifeBoard
@@ -51,8 +52,10 @@ router.post('/getLifeBoard', async (req, res) => {
                     });
                 } else {
                     // A user is logged in but not in db yet
+                    const tutorialData = await User.findOne({ _id: lifeBoardTutorialFakeUserId });
                     return res.json({
-                        lifeBoard: createEmptyLifeBoard(),
+                        lifeBoard: tutorialData.lifeBoard,
+                        usedColors: tutorialData.usedColors
                     });
                 }
             }
@@ -62,7 +65,7 @@ router.post('/getLifeBoard', async (req, res) => {
             const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId });
             //console.log('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
             if (lifeBoardSampleFakeUser) {
-                console.log('fetching and returning lifeBoardDataSample')
+                //console.log('fetching and returning lifeBoardDataSample')
                 return res.json({
                     lifeBoard: lifeBoardSampleFakeUser.lifeBoard,
                     usedColors: lifeBoardSampleFakeUser.usedColors,
@@ -70,11 +73,9 @@ router.post('/getLifeBoard', async (req, res) => {
                 });
             } else {
                 // lifeBoardSampleFakeUser wasn't found in db so returning empty/valid states to have something to render
-                console.log('No user logged in and no sampleFakeUser found - returning empty states')
+                //console.log('No user logged in and no sampleFakeUser found - returning empty states')
                 return res.json({
-                    lifeBoard: createEmptyLifeBoard(),
-                    usedColors: [],
-                    birthDate: '' //PENDING
+                    lifeBoard: createEmptyLifeBoard()
                 });
             }
         }
@@ -99,6 +100,7 @@ router.post('/saveData', async (req, res) => {
         try {
             const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
             user = decoded.user;
+            console.log('decoded data:', user);
             //If the decoded token from the request contains an object called user, it's assumed the request is legit (even if user isn't in the database, see below)
         } catch (error) {
             console.error('Failed to decode token:', error);
@@ -120,7 +122,8 @@ router.post('/saveData', async (req, res) => {
             userData = new User({
                 userId: user.id,
                 lifeBoard: updatedLifeBoardData,
-                usedColors: updatedUsedColors
+                usedColors: updatedUsedColors,
+                name: user.name
             });
             await userData.save();
             console.log('New user created and saved in DB');
@@ -128,6 +131,9 @@ router.post('/saveData', async (req, res) => {
             console.log('User found in DB, updating lifeBoard and usedColors');
             userData.lifeBoard = updatedLifeBoardData;
             userData.usedColors = updatedUsedColors;
+            if (!userData.name) {
+                userData.name = user.name;
+            }
             await userData.save();
             console.log('User lifeBoard and usedColors updated in DB');
         }

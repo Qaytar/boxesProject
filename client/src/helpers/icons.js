@@ -35,7 +35,7 @@ import greyhealthIcon from '../assets/icons/grey-icons/health.png';
 
 export const icons = {
     Travel: travelIcon,
-    Housing: homeIcon,
+    Residence: homeIcon,
     Love: loveIcon,
     Work: workIcon,
     Special: specialIcon,
@@ -50,7 +50,7 @@ export const icons = {
 
 export const greyIcons = {
     Travel: greytravelIcon,
-    Housing: greyhomeIcon,
+    Residence: greyhomeIcon,
     Love: greyloveIcon,
     Work: greyworkIcon,
     Special: greyspecialIcon,
