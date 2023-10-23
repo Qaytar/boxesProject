@@ -37,8 +37,7 @@ function HomePage() {
         <div className={styles.wrapper}>
             <LogInMyAreaBtn />
             <div className={styles.landingView}>
-                <h1>Here goes Landing page full screen</h1>
-                <button onClick={scrollToContent}>Explore</button>
+                <button className={styles.mainButton} onClick={scrollToContent}>Explore</button>
             </div>
             <div ref={contentRef} className={styles.content}>
                 <LifeBoard location={'homePage'} />

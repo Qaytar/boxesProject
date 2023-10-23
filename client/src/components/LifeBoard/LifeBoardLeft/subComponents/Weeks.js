@@ -10,6 +10,8 @@ import styles from "./Weeks.module.css"
 import Week from "./Week"
 import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
 import { getDateDetails } from '../../../../helpers/datesFunctions'
+import sheepIcon from "../../../../assets/icons/others/sheep.png"
+import dataIcon from "../../../../assets/icons/others/data.png"
 
 function Weeks() {
     // imports from the context retrieving user specific data from db. lifeBoardData is the main object being rendered.
@@ -28,7 +30,17 @@ function Weeks() {
 
 
     // loading state
-    if (!lifeBoardData) return '';
+    if (!lifeBoardData) return (
+        <div className={styles.loadingState}>
+            <div className={styles.icons}>
+                <img src={sheepIcon} alt={'icon for the loading state'}></img>
+                . . .
+                <img src={dataIcon} alt={'icon for the loading state'}></img>
+            </div>
+            This sheep is gathering your data, 1 second
+
+        </div>
+    );
 
     // Stores the year the user was born
     const startYear = new Date(birthDate).getFullYear()

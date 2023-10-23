@@ -20,7 +20,7 @@ import useDeviceType from '../../../contextsAndHooks/useDeviceType'
 
 
 function LifeBoard(props) {
-    const { birthDate } = useContext(LifeBoardDataContext);
+    const { birthDate, lifeboarddata } = useContext(LifeBoardDataContext);
     const { isDesktop } = useDeviceType();
 
     //weekSelectionContext is made available to all LifeBoard sub components. It holds an object/state with all selectedWeeks as well as function to select and deselect
@@ -31,7 +31,7 @@ function LifeBoard(props) {
                     {props.location === 'homePage' ? (<LifeBoardHomePageText isDesktop={isDesktop} />) : null}
                 </div>
                 <div>
-                    {!birthDate && props.location === 'appPage' ? (
+                    {lifeboarddata && !birthDate && props.location === 'appPage' ? (
                         <p>There's no birthdate registered so this won't work quite as it should. Go to my area and set it in few clicks :)</p>
                     ) : null}
                 </div>

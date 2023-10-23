@@ -1,3 +1,24 @@
+.loadingState {
+    width: 1163px;
+    text-align: center;
+    font-size: 60px;
+    font-weight: 100;
+}
+
+.icons>img {
+    height: 200px;
+    width: 200px;
+    margin: 0 30px;
+}
+
+.icons {
+    margin-top: 100px;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .row {
     display: flex;
     align-items: center;

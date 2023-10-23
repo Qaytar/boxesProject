@@ -37,14 +37,14 @@ function LifeBoardHomePageText(props) {
                         </div>
                     </div>
 
-                    <p>And this <span className={styles.highLighted}>half a year</span>.. Not that many weeks, huh?</p>
+                    <p>And this, <span className={styles.highLighted}>half a year</span>.. Not that many weeks, huh?</p>
                 </section>
             </div >
 
             <div className={styles.separator} />
 
             <div className={styles.text}>
-                <p><span className={styles.highLighted}>Map out your life week-by-week,</span> enhanced by colors and notes, with our intuitive Life Calendar.</p>
+                <p><span className={styles.highLighted}>Map out your life</span> with vibrant colors and personal notes</p>
                 <p>Use it for introspection and to confront the limited time you have</p>
 
             </div>
@@ -54,16 +54,16 @@ function LifeBoardHomePageText(props) {
             {
                 props.isDesktop ? (
                     <div className={styles.callToAction}>
-                        <p>Play around with the Life Calendar below</p>
+                        <p>Play around with the demo Life Calendar below</p>
                         <p className={styles.comment}>Careful, changes won't be saved</p>
                         <p>or</p>
                         <p className={styles.highLighted}><Link to="/login" className={styles.highLighted}>Log in</Link>  to access your own</p>
-                        <p className={` ${styles.comment}`}>Customize it freely and let it acompany you over the weeks and years</p>
+                        <p className={` ${styles.comment}`}>Credit to Tim Urban since the core idea of this project is originally his (
+                            <a className={styles.timUrbanLink} href="https://waitbutwhy.com/2014/05/life-weeks.html" target="_blank" rel="noreferrer">check his blogpost from 2014</a>)
+                        </p>
                     </div>
                 ) : null
             }
-
-            <p className={styles.credit}>Credit to Tim Urban since the core idea of this project is originally his (check his blogpost from 2014)</p>
         </div >
     )
 

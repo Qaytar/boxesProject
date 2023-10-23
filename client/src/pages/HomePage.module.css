@@ -1,11 +1,15 @@
 .landingView {
+    width: 100vw;
     height: 100vh;
+    background: url('.././assets/mainImageLarge.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
-    background-color: bisque;
 }
+
 
 /* using padding vs margin so that scroll button works properly */
 .content {
@@ -15,4 +19,32 @@
 
 .wrapper {
     text-align: center;
+}
+
+.mainButton {
+    background: transparent;
+    border: 0.5px solid #ff8e4d;
+    color: #ff8e4d;
+    font-size: 16px;
+    padding: 6px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 100;
+    font-size: 20px;
+    margin-top: 60vh;
+    margin-right: 60vh;
+}
+
+.mainButton:disabled {
+    cursor: initial;
+    border: 0.5px solid #ccc;
+    color: #ccc;
+}
+
+.mainButton:not(:disabled):hover {
+    background-color: #ff8e4d;
+    border-color: #ff8e4d;
+    color: white;
+    border-radius: 20px;
 }

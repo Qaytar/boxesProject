@@ -9,6 +9,11 @@
     /* border: 1px solid orangered */
 }
 
+.weeksWrapper p {
+    font-weight: 100;
+    font-size: 18px;
+}
+
 .weeksContainer {
     display: flex;
     justify-content: center;
@@ -35,9 +40,17 @@
     }
 }
 
-.text p {
+.text>p {
     margin-bottom: 40px;
-    font-size: large;
+    font-size: 30px;
+    font-weight: 100;
+}
+
+
+
+.callToAction p {
+    font-size: 30px;
+    font-weight: 100;
 }
 
 
@@ -46,13 +59,22 @@
 }
 
 .callToAction {
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 
 .comment {
     font-style: italic;
-    font-size: smaller;
-    color: #6b7785
+    font-size: 14px !important;
+    color: #6b7785;
+}
+
+.timUrbanLink {
+    color: #6b7785 !important;
+
+}
+
+.timUrbanLink:hover {
+    text-decoration: none !important;
 }
 
 
@@ -64,12 +86,11 @@
     margin-top: 100px;
 }
 
-.credit {
-    font-size: smaller;
-    font-style: italic;
-}
-
-
 .highLighted {
     color: #ff8e4d;
+    transition: all 0.3s ease;
+}
+
+.highLighted>.highLighted:hover {
+    text-decoration: none;
 }
