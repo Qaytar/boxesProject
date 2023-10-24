@@ -10,49 +10,62 @@
 import styles from "./LifeBoardHomePageText.module.css";
 import WeekMockUp from "../LifeBoardLeft/subComponents/WeekMockUp"
 import { Link } from "react-router-dom";
+import useDeviceType from '../../../contextsAndHooks/useDeviceType'
 
-function LifeBoardHomePageText(props) {
+function LifeBoardHomePageText() {
+    const { isDesktop } = useDeviceType();
+
+    // const contentRef = useRef();
+
+    // const scrollToContent = () => {
+    //     contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // }
+
+
     return (
-        <div >
-            <div className={styles.weeksWrapper}>
-                <section>
-                    <div className={`${styles.weeksContainer}`}>
-                        <WeekMockUp highLighted={true} />
-                    </div>
-                    <p>This represents a <span className={styles.highLighted}>week</span> of your life</p>
-                </section>
-                <section>
-                    <div className={`${styles.weeksContainer}`}>
-                        <WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp highLighted={true} />
-                    </div>
-                    <p>Here's a <span className={styles.highLighted}>month</span></p>
-                </section>
-                <section>
-                    <div className={`${styles.weeksContainer} ${styles.halfYear}`}>
-                        <div className={`${styles.weeksContainer3months}`}>
-                            <WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />&nbsp;&nbsp;<WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />&nbsp;&nbsp;<WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />
+        <div className={styles.wrapper}>
+            <div className={styles.secondLandingView}>
+                <div className={styles.text}>
+                    <p><span className={styles.highLighted}>Map out your life</span> with vibrant colors and personal notes</p>
+                    <p>Use it for introspection and to confront the <span className={styles.highLighted}>limited time</span> you have</p>
+
+                </div>
+
+                <div className={styles.separator} />
+
+                <div className={styles.weeksWrapper}>
+                    <section>
+                        <div className={`${styles.weeks}`}>
+                            <WeekMockUp highLighted={true} />
                         </div>
-                        <div className={`${styles.weeksContainer3months}`}>
-                            <WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />&nbsp;&nbsp;<WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />&nbsp;&nbsp;<WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp highLighted={true} />
+                        <p>This represents a week of your life</p>
+                    </section>
+                    <section>
+                        <div className={`${styles.weeks}`}>
+                            <WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp highLighted={true} />
                         </div>
-                    </div>
+                        <p>A month</p>
+                    </section>
+                    <section>
+                        <div className={`${styles.weeks} ${styles.halfYear}`}>
+                            <div className={`${styles.weeks3months}`}>
+                                <WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />&nbsp;&nbsp;<WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />&nbsp;&nbsp;<WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />
+                            </div>
+                            <div className={`${styles.weeks3months}`}>
+                                <WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />&nbsp;&nbsp;<WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp />&nbsp;&nbsp;<WeekMockUp /><WeekMockUp /><WeekMockUp /><WeekMockUp highLighted={true} />
+                            </div>
+                        </div>
 
-                    <p>And this, <span className={styles.highLighted}>half a year</span>.. Not that many weeks, huh?</p>
-                </section>
-            </div >
-
-            <div className={styles.separator} />
-
-            <div className={styles.text}>
-                <p><span className={styles.highLighted}>Map out your life</span> with vibrant colors and personal notes</p>
-                <p>Use it for introspection and to confront the limited time you have</p>
-
+                        <p><span className={styles.highLighted}>Not that many weeks</span> in half a year huh?</p>
+                    </section>
+                </div >
             </div>
+            <button className={styles.smallButton}>more</button>
 
             <div className={styles.separator} />
 
             {
-                props.isDesktop ? (
+                isDesktop ? (
                     <div className={styles.callToAction}>
                         <p>Play around with the demo Life Calendar below</p>
                         <p className={styles.comment}>Careful, changes won't be saved</p>

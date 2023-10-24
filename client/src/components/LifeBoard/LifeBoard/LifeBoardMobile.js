@@ -7,12 +7,12 @@
  *  
  */
 
-//import styles from "./LifeBoardMobile.module.css";
+import styles from "./LifeBoardMobile.module.css";
 
 
 function LifeBoardMobile() {
     return (
-        <div>
+        <div className={styles.wrapper}>
             <p>We are sorry, the interactive part of this website isn't available for mobile devices</p>
             <p>INSERT HERE COOL IMAGE</p>
         </div>
