@@ -15,7 +15,7 @@ import React, { useContext } from 'react';
 function MyArea(props) {
     const { setUser } = useContext(AuthContext);
     const { birthDate, setBirthDate } = useContext(LifeBoardDataContext)
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
     // Function to handle date change in the form
     function handleDateChange(event) {

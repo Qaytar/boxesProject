@@ -4,7 +4,7 @@
  * Contains funtions to save/retrieve data to/from db triggered at different points of the app
  *  
  */
-const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
 // Reaches endpoint responsible of saving changes made by the user into the db
 export async function saveData(lifeBoardData, usedColors) {

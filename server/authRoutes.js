@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
 
 const { OAuth2Client } = require('google-auth-library');
 
-const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 const redirectURL = `${backendUrl}/auth/google/callback`;
 
 const oAuth2Client = new OAuth2Client(

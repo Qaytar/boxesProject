@@ -13,7 +13,7 @@ export const AuthContext = createContext();
 
 //defines provider
 export const AuthProvider = ({ children }) => {
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
     // state variable to hold user data of the currently logged user
     //.. user will be an object with 3 properties {id, name, picture} (User's picture of their Google account)

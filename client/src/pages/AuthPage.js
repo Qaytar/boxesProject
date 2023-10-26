@@ -8,7 +8,7 @@
 
 import styles from "./AuthPage.module.css"
 
-const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
 // Reaches /auth/google endpoint responsible for generating (and replying with) a Google URL
 // After getting response from server, it navigates to said Google Url for users to log in to their Google Accounts
