@@ -19,6 +19,12 @@ const oAuth2Client = new OAuth2Client(
     redirectURL
 );
 
+//endpoint used to test server once deployed
+router.get('/test', async function (req, res, next) {
+    res.json({ response: "OK" });
+})
+
+
 /*
 The two endpoints that follow allow Google Authentification. /google and /google/callback
 */
