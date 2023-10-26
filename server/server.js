@@ -28,8 +28,8 @@ app.use('/db', dbRoutes);
 
 /*Connects to Mongodb*/
 
-const dbUrl = 'mongodb://127.0.0.1:27017/boxesProjectLocal';
-//const dbUrl = process.env.MONGODB_URL;
+//const dbUrl = 'mongodb://127.0.0.1:27017/boxesProjectLocal';
+const dbUrl = process.env.MONGODB_URL;
 
 mongoose.connect(dbUrl)
     .then(() => {
