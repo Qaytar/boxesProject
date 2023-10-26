@@ -13,11 +13,14 @@ import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn";
 import styles from "./AppPage.module.css";
 import { AuthContext } from '../contextsAndHooks/authContext';
 import questionIcon from '../assets/icons/others/interrogation.png'
+import useDeviceType from '../contextsAndHooks/useDeviceType';
 
 function AppPage() {
     const { setUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const [displayTutorial, setDisplayTutorial] = useState(null);
+
+    const { isDesktop } = useDeviceType();
 
     // Protects this page from non-authenticated users. Redirecting those non-identified to /login (AuthPage.js)
     // Can't use the user state (and instead a new check is done) because most of the times this page is reached from succesful Google Auth BUT there isn't a chance to update user state before users hit this page so it's done now even if redundant)

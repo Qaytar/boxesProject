@@ -13,10 +13,29 @@ import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn"
 import styles from "./HomePage.module.css"
 import { AuthContext } from '../contextsAndHooks/authContext';
 import { useNavigate, Link } from 'react-router-dom';
-import useDeviceType from '../contextsAndHooks/useDeviceType'
+import useDeviceType from '../contextsAndHooks/useDeviceType';
+import screenshotApp from '../assets/screnshootAppLong.png';
 
 function HomePage() {
     const { isDesktop } = useDeviceType();
+
+
+    // Scroll to feature when 'explore btn' (.largeButton) is pressed
+
+    // const scrollToContent = () => {
+    //     secondViewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // }
+
+    // State and handler for 'more btn' (.smallButton)
+    const [isLargeButtonClicked, setisLargeButtonClicked] = useState(false);
+    const secondViewRef = useRef();
+    const largeButtonHandler = () => {
+        setisLargeButtonClicked(isLargeButtonClicked === 'false' ? 'true' : 'true');
+
+        setTimeout(() => {
+            secondViewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 320); // Adjust the delay as needed
+    };
 
     // State and handler for 'more btn' (.smallButton)
     const [isThirdViewOn, setisThirdViewOn] = useState(false);
@@ -26,17 +45,13 @@ function HomePage() {
 
         setTimeout(() => {
             thirdViewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 10); // Adjust the delay as needed
+        }, 320); // Adjust the delay as needed
     };
 
 
 
 
-    // Scroll to feature when 'explore btn' (.largeButton) is pressed
-    const secondViewRef = useRef();
-    const scrollToContent = () => {
-        secondViewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+
 
     // this code 'protects' the homepage from authenticaded users (better for them to skip it and go straigh to the application itself)
     const { user, loadingAuthCheck } = useContext(AuthContext);
@@ -54,7 +69,7 @@ function HomePage() {
         <div className={styles.wrapper}>
             <LogInMyAreaBtn />
             <div className={styles.landingView}>
-                <button className={styles.largeButton} onClick={scrollToContent}>Explore</button>
+                <button className={`${styles.largeButton} ${isLargeButtonClicked ? styles.buttonClicked : ''}`} onClick={largeButtonHandler}>Explore</button>
             </div>
 
             <div className={styles.secondView} ref={secondViewRef}>
@@ -93,7 +108,27 @@ function HomePage() {
                 </div >
             </div>
 
-            <button className={styles.smallButton} onClick={smallButtonHandler} >more</button>
+            {/* Will only be rendered in mobile */}
+            {!isDesktop ?
+                <div className={styles.mobileView}>
+                    <div className={styles.separator} />
+                    <div className={styles.sorryMessage}>
+                        <p>We are sorry, at the moment our <span className={styles.highLighted}>Life Calendar</span> is not available on mobile devices</p>
+                        <p>Save the link, and <span className={styles.highLighted}>come back soon with your laptop :)</span></p>
+                        <p><span className={styles.highLighted}>Spoiler</span>. Here's a zoomed in screenshot of the app</p>
+                        <img src={screenshotApp} alt="screenshot of the web-app"></img>
+                    </div>
+                </div> : null}
+
+
+            {/* From here untill the end, will only be rendered in desktops */}
+            <button
+                className={`${styles.smallButton} ${isThirdViewOn ? styles.buttonClicked : ''}`}
+                onClick={smallButtonHandler}
+            >
+                more
+            </button>
+
 
             <div className={styles.thirdView} ref={thirdViewRef}>
                 {isThirdViewOn ? <div>

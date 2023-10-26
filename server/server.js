@@ -7,6 +7,7 @@ const authRoutes = require('./authRoutes');
 const dbRoutes = require('./dbRoutes');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 app.use(cookieParser());
 
 // Use cors
@@ -26,8 +27,10 @@ app.use('/db', dbRoutes);
 
 
 /*Connects to Mongodb*/
-//local. This will need to be changed in production
+
 const dbUrl = 'mongodb://127.0.0.1:27017/boxesProjectLocal';
+//const dbUrl = process.env.MONGODB_URL;
+
 mongoose.connect(dbUrl)
     .then(() => {
         console.error('mongo connection open')
