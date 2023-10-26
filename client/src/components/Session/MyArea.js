@@ -15,7 +15,7 @@ import React, { useContext } from 'react';
 function MyArea(props) {
     const { setUser } = useContext(AuthContext);
     const { birthDate, setBirthDate } = useContext(LifeBoardDataContext)
-
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
 
     // Function to handle date change in the form
     function handleDateChange(event) {
@@ -32,7 +32,7 @@ function MyArea(props) {
         setUser(null);
 
         //sends request to delete cookie and redirect to homepage
-        window.location.href = 'http://localhost:5000/auth/logout';
+        window.location.href = `${backendUrl}/auth/logout`;
     }
 
     // improves usability of date picker

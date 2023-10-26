@@ -20,7 +20,7 @@ function AppPage() {
     const navigate = useNavigate();
     const [displayTutorial, setDisplayTutorial] = useState(null);
 
-    const { isDesktop } = useDeviceType();
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
 
     // Protects this page from non-authenticated users. Redirecting those non-identified to /login (AuthPage.js)
     // Can't use the user state (and instead a new check is done) because most of the times this page is reached from succesful Google Auth BUT there isn't a chance to update user state before users hit this page so it's done now even if redundant)
@@ -28,7 +28,7 @@ function AppPage() {
         const checkAuthAndNavigate = async () => {
             try {
                 // send request for express.js server to decode/look for the JWT token, decrypt it and reply with its payload content
-                const response = await fetch('http://localhost:5000/auth/verify', { credentials: 'include' });
+                const response = await fetch(`${backendUrl}/auth/verify`, { credentials: 'include' });
 
                 // If unauthorized, set user to null and navigate to login
                 if (response.status === 401) {

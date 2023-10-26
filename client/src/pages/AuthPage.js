@@ -8,12 +8,12 @@
 
 import styles from "./AuthPage.module.css"
 
-
+const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
 
 // Reaches /auth/google endpoint responsible for generating (and replying with) a Google URL
 // After getting response from server, it navigates to said Google Url for users to log in to their Google Accounts
 async function auth() {
-    const response = await fetch('http://localhost:5000/auth/google', { method: 'post' });
+    const response = await fetch(`${backendUrl}/auth/google`, { method: 'post' });
     const data = await response.json();
     window.location.href = data.url; //Navigates to Google's URL
 }

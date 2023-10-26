@@ -13,6 +13,8 @@ export const AuthContext = createContext();
 
 //defines provider
 export const AuthProvider = ({ children }) => {
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+
     // state variable to hold user data of the currently logged user
     //.. user will be an object with 3 properties {id, name, picture} (User's picture of their Google account)
     const [user, setUser] = useState(null);
@@ -29,7 +31,7 @@ export const AuthProvider = ({ children }) => {
         try {
             setLoadingAuthCheck(true);
             // send request for express.js server to decode/look for the JWT token, decrypt it and reply with its payload content
-            const response = await fetch('http://localhost:5000/auth/verify', { credentials: 'include' });
+            const response = await fetch(`${backendUrl}/auth/verify`, { credentials: 'include' });
 
             if (response.ok) {
                 const data = await response.json();

@@ -4,6 +4,7 @@
  * Contains funtions to save/retrieve data to/from db triggered at different points of the app
  *  
  */
+const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
 
 // Reaches endpoint responsible of saving changes made by the user into the db
 export async function saveData(lifeBoardData, usedColors) {
@@ -11,7 +12,7 @@ export async function saveData(lifeBoardData, usedColors) {
     //console.log('usedColors inside saveData', usedColors);
 
     try {
-        const response = await fetch('http://localhost:5000/db/saveData', {
+        const response = await fetch(`${backendUrl}/db/saveData`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -40,7 +41,7 @@ export async function saveBirthDate(birthDate) {
     console.log('calling saveBirthDate, with argument:', birthDate);
 
     try {
-        const response = await fetch('http://localhost:5000/db/saveBirthDate', {
+        const response = await fetch(`${backendUrl}/db/saveBirthDate`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -65,7 +66,7 @@ export async function saveBirthDate(birthDate) {
 // Loads main states from db by reaching to endpoint
 export async function fetchData(setLifeBoardData, setUsedColors, setBirthDate) {
     try {
-        const response = await fetch('http://localhost:5000/db/getLifeBoard', {
+        const response = await fetch(`${backendUrl}/db/getLifeBoard`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

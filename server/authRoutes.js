@@ -12,7 +12,10 @@ const jwt = require('jsonwebtoken');
 
 
 const { OAuth2Client } = require('google-auth-library');
-const redirectURL = 'http://localhost:5000/auth/google/callback';
+
+const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+const redirectURL = `${backendUrl}/auth/google/callback`;
+
 const oAuth2Client = new OAuth2Client(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
