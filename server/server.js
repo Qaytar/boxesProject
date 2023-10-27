@@ -12,8 +12,9 @@ app.use(cookieParser());
 
 // Use cors
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow this origin
-    credentials: true // Allow cookies
+    origin: 'https://boxesproject-client.vercel.app', // Allow this origin
+    credentials: true, // Allow cookies
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }));
 
 //Enables parsing of JSON request bodies 

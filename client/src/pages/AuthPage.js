@@ -13,7 +13,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 // Reaches /auth/google endpoint responsible for generating (and replying with) a Google URL
 // After getting response from server, it navigates to said Google Url for users to log in to their Google Accounts
 async function auth() {
-    const response = await fetch(`${backendUrl}/auth/google`, { method: 'post' });
+    const response = await fetch(`${backendUrl}/auth/google`, { method: 'post' }, { credentials: 'include' });
     const data = await response.json();
     window.location.href = data.url; //Navigates to Google's URL
 }

@@ -38,7 +38,7 @@ router.post('/google', async function (req, res, next) {
     console.log('/google endpoing has been hit')
     try {
         // Setting response headers
-        res.header("Access-Control-Allow-Origin", 'http://localhost:3000');
+        res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
         res.header("Access-Control-Allow-Credentials", 'true');
         res.header("Referrer-Policy", "no-referrer-when-downgrade");
 
@@ -109,7 +109,7 @@ router.get('/google/callback', async function (req, res, next) {
         }
 
         res.cookie('token', token, { httpOnly: true });
-        res.redirect(303, 'http://localhost:3000/app');
+        res.redirect(303, 'https://boxesproject-client.vercel.app');
 
     } catch (err) {
         console.log('Error in /google/callback:', err);
@@ -123,7 +123,7 @@ router.get('/google/callback', async function (req, res, next) {
 /*Replies with either res.redirect to login page if failure, or with user data if success*/
 router.get('/verify', (req, res) => {
     //console.log('/auth/verify has been hit')
-    res.header("Access-Control-Allow-Origin", 'http://localhost:3000');
+    res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
     res.header("Access-Control-Allow-Credentials", 'true');
     res.header("Referrer-Policy", "no-referrer-when-downgrade");
 
@@ -145,7 +145,7 @@ router.get('/verify', (req, res) => {
 router.get('/logout', (req, res) => {
     try {
         res.clearCookie('token');
-        res.redirect('http://localhost:3000');
+        res.redirect('https://boxesproject-client.vercel.app');
     } catch (err) {
         // In case clearing the cookie fails
         console.error('Failed to clear token cookie:', err);
