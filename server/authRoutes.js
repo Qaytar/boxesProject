@@ -109,7 +109,7 @@ router.get('/google/callback', async function (req, res, next) {
         }
 
         res.cookie('token', token, { httpOnly: true });
-        res.redirect(303, 'https://boxesproject-client.vercel.app');
+        res.redirect(303, 'https://boxesproject-client.vercel.app/app');
 
     } catch (err) {
         console.log('Error in /google/callback:', err);
