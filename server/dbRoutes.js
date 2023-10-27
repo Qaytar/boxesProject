@@ -13,6 +13,7 @@ const jwt = require('jsonwebtoken');
 
 const lifeBoardSampleFakeUserId = '65327e13b665415e36ec0c95';
 const lifeBoardTutorialFakeUserId = '6532823fb665415e36ec0c96';
+const ObjectId = require('mongoose').Types.ObjectId;
 module.exports.lifeBoardSampleFakeUserId = lifeBoardSampleFakeUserId;
 
 // Function to create an empty lifeBoard
@@ -61,14 +62,16 @@ router.post('/getLifeBoard', async (req, res) => {
             }
         } else if (!req.cookies.token) {
             // No user is logged in (meaning is the LifeBoard in the HomePage making the request)
+            console.info('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
 
-            const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId })
+            //const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId })
+            const lifeBoardSampleFakeUser = await User.findOne({ _id: new ObjectId(lifeBoardSampleFakeUserId) })
                 .catch(err => {
                     console.error("Error while fetching fake user:", err);
                     return null;
                 });
 
-            //console.log('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
+            console.info('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
             if (lifeBoardSampleFakeUser) {
                 //console.log('fetching and returning lifeBoardDataSample')
                 return res.json({
