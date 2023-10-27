@@ -35,7 +35,10 @@ The two endpoints that follow allow Google Authentification. /google and /google
 /* Listens to post request from the React app when user presses Google Log In button */
 /* Replies with Google Url for user to select account and Log In*/
 router.post('/google', async function (req, res, next) {
-    console.log('/google endpoing has been hit')
+    console.info('/google endpoing has been hit')
+    console.info('process.env.CLIENT_ID', process.env.CLIENT_ID)
+    console.info('process.env.CLIENT_SECRET', process.env.CLIENT_SECRET)
+    console.info('redirectURL', redirectURL)
     try {
         // Setting response headers
         res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
@@ -48,7 +51,7 @@ router.post('/google', async function (req, res, next) {
             scope: 'https://www.googleapis.com/auth/userinfo.profile  openid ',
             prompt: 'consent'
         });
-        console.log('/google endpoint. Got the Google URL:', authorizeUrl)
+        //console.log('/google endpoint. Got the Google URL:', authorizeUrl)
         // Send the authorize URL in the response
         res.json({ url: authorizeUrl });
 
