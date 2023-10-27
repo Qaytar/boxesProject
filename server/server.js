@@ -2,26 +2,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
-var router = express.Router();
 const authRoutes = require('./authRoutes');
 const dbRoutes = require('./dbRoutes');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 require('dotenv').config();
-app.use(cookieParser());
 
-// Use cors
+//middleware
+app.use(cookieParser());
 app.use(cors({
     origin: 'https://boxesproject-client.vercel.app', // Allow this origin
     credentials: true, // Allow cookies
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }));
-
-//Enables parsing of JSON request bodies 
 app.use(bodyParser.json({ limit: '2mb' })); // Increase limit
 app.use(express.json())
 
-/* Use the router */
+//router
 app.use('/auth', authRoutes);
 app.use('/db', dbRoutes);
 
@@ -34,7 +31,7 @@ const dbUrl = process.env.MONGODB_URL;
 
 mongoose.connect(dbUrl)
     .then(() => {
-        console.error('mongo connection open')
+        console.info('mongo connection open')
     })
     .catch((err) => {
         console.error('mongo connection error')
@@ -44,4 +41,7 @@ mongoose.connect(dbUrl)
 
 /* Server listens on port 5000*/
 //local. This will need to be changed in production
-app.listen(5000, () => console.log('Server started on port 5000'));
+//app.listen(5000, () => console.log('Server started on port 5000'));
+
+/* Vercel's serverless-ness works better with exporting vs listening*/
+module.exports = app;
