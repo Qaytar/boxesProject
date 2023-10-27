@@ -62,7 +62,12 @@ router.post('/getLifeBoard', async (req, res) => {
         } else if (!req.cookies.token) {
             // No user is logged in (meaning is the LifeBoard in the HomePage making the request)
 
-            const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId });
+            const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId })
+                .catch(err => {
+                    console.error("Error while fetching fake user:", err);
+                    return null;
+                });
+
             //console.log('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
             if (lifeBoardSampleFakeUser) {
                 //console.log('fetching and returning lifeBoardDataSample')
