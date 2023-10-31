@@ -40,11 +40,6 @@ router.post('/google', async function (req, res, next) {
     //console.info('process.env.CLIENT_SECRET', process.env.CLIENT_SECRET)
     //console.info('redirectURL', redirectURL)
     try {
-        // Setting response headers
-        res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
-        res.header("Access-Control-Allow-Credentials", 'true');
-        res.header("Referrer-Policy", "no-referrer-when-downgrade");
-
         // Generates the 'google url' users will go to sign up to their Google Accounts
         const authorizeUrl = oAuth2Client.generateAuthUrl({
             access_type: 'offline',
@@ -130,13 +125,9 @@ router.get('/google/callback', async function (req, res, next) {
 /*Listents to GET requests and its cookies from the React app when verification/authorization is needed */
 /*Replies with either res.redirect to login page if failure, or with user data if success*/
 router.get('/verify', (req, res) => {
-    console.info('/auth/verify has been hit')
-    res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
-    res.header("Access-Control-Allow-Credentials", 'true');
-    res.header("Referrer-Policy", "no-referrer-when-downgrade");
-
-    console.info('req.cookies.token', req.cookies.token);
-    console.info('process.env.JWT_SECRET', process.env.JWT_SECRET);
+    // console.info('/auth/verify has been hit')   
+    // console.info('req.cookies.token', req.cookies.token);
+    // console.info('process.env.JWT_SECRET', process.env.JWT_SECRET);
 
     jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, token) => {
         if (err) {
