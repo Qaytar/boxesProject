@@ -17,7 +17,7 @@ try {
     const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId });
     //console.log('userData', userData)
     if (lifeBoardSampleFakeUser) {
-        console.log('sample data about to be loaded', updatedBirthDate)
+        //console.log('sample data about to be loaded', updatedBirthDate)
 
         lifeBoardSampleFakeUser.birthDate = '';
         lifeBoardSampleFakeUser.lifeBoard = '';

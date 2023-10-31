@@ -19,10 +19,10 @@ function MyArea(props) {
 
     // Function to handle date change in the form
     function handleDateChange(event) {
-        console.log('handleDateChange function is called')
+        //console.log('handleDateChange function is called')
         const updatedDate = event.target.value;
         const formattedDate = new Date(updatedDate).toISOString();
-        console.log('about to update birthDate state with', formattedDate)
+        //console.log('about to update birthDate state with', formattedDate)
         setBirthDate(formattedDate);
     }
 

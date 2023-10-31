@@ -33,11 +33,11 @@ const dbUrl = process.env.MONGODB_URL;
 
 mongoose.connect(dbUrl)
     .then(() => {
-        console.info('mongo connection open')
+        //console.info('mongo connection open')
     })
     .catch((err) => {
         console.error('mongo connection error')
-        console.info(err)
+        //console.info(err)
     })
 
 

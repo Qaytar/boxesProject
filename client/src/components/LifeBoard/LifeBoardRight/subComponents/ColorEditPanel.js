@@ -47,7 +47,7 @@ function ColorEditPanel(props) {
 
         if (timeDiff < 250) { // to be adjusted for different sensitivities
             // On double-click
-            console.log('doublick working, calling selectAllWeeksGivenColor(lifeBoardData, selectedColor) ')
+            //console.log('doublick working, calling selectAllWeeksGivenColor(lifeBoardData, selectedColor) ')
             selectAllWeeksGivenColor(lifeBoardData, selectedColor);
             // Reset click time
             setLastClickTime(0);

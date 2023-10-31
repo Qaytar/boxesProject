@@ -26,7 +26,7 @@ export async function saveData(lifeBoardData, usedColors) {
         }
 
         const data = await response.json();
-        console.log(data.message);  // This will log the message to the console
+        //console.log(data.message);  // This will log the message to the console
 
         // Use data.message elsewhere as needed, or manage state based on it
     } catch (error) {
@@ -38,7 +38,7 @@ export async function saveData(lifeBoardData, usedColors) {
 
 // Reaches endpoint responsible of saving user's birthDate
 export async function saveBirthDate(birthDate) {
-    console.log('calling saveBirthDate, with argument:', birthDate);
+    //console.log('calling saveBirthDate, with argument:', birthDate);
 
     try {
         const response = await fetch(`${backendUrl}/db/saveBirthDate`, {
@@ -55,7 +55,7 @@ export async function saveBirthDate(birthDate) {
         }
 
         const data = await response.json();
-        console.log(data.message);  // This will log the message to the console
+        //console.log(data.message);  // This will log the message to the console
 
         // Use data.message elsewhere as needed, or manage state based on it
     } catch (error) {
