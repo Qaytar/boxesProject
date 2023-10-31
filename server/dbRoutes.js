@@ -34,7 +34,7 @@ function createEmptyLifeBoard() {
 /*Listents to POST requests and its cookies from the React app when lifeBoard data is needed */
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
 router.post('/getLifeBoard', async (req, res) => {
-    console.log('/getLifeBoard endpoint got git by a post request')
+    //console.log('/getLifeBoard endpoint got git by a post request')
 
     try {
         // Check if a token exists to avoid errors when calling jwt.veritfy()
@@ -63,7 +63,7 @@ router.post('/getLifeBoard', async (req, res) => {
         } else if (!req.cookies.token) {
             // No user is logged in (meaning is the LifeBoard in the HomePage making the request)
 
-            console.info('lifeBoardSampleFakeUserId', lifeBoardSampleFakeUserId)
+            //console.info('lifeBoardSampleFakeUserId', lifeBoardSampleFakeUserId)
             //const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId })
             const lifeBoardSampleFakeUser = await User.findOne({ _id: new ObjectId(lifeBoardSampleFakeUserId) })
                 .catch(err => {
@@ -71,7 +71,7 @@ router.post('/getLifeBoard', async (req, res) => {
                     return null;
                 });
 
-            console.info('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
+            // console.info('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
             if (lifeBoardSampleFakeUser) {
                 //console.log('fetching and returning lifeBoardDataSample')
                 return res.json({
@@ -97,10 +97,10 @@ router.post('/getLifeBoard', async (req, res) => {
 /*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
 /*Replies with a status message of the operation*/
 router.post('/saveData', async (req, res) => {
-    console.log('saveData got hit');
+    //console.log('saveData got hit');
     const updatedLifeBoardData = req.body.lifeBoardData;
     const updatedUsedColors = req.body.usedColors;
-    console.log('usedColors received:', req.body.usedColors)
+    //console.log('usedColors received:', req.body.usedColors)
 
     let user;
     //First, checks for authorization. 
@@ -108,7 +108,7 @@ router.post('/saveData', async (req, res) => {
         try {
             const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
             user = decoded.user;
-            console.log('decoded data:', user);
+            //console.log('decoded data:', user);
             //If the decoded token from the request contains an object called user, it's assumed the request is legit (even if user isn't in the database, see below)
         } catch (error) {
             console.error('Failed to decode token:', error);
@@ -122,7 +122,7 @@ router.post('/saveData', async (req, res) => {
     }
     //Proceeds to find the user in the db and save changes
     try {
-        console.log('looking for user in db');
+        //console.log('looking for user in db');
         let userData = await User.findOne({ userId: user.id });
         //the case where the user.id isn't found in the database, is expected
         //users aren't added in the database and the moment of first log in, but here: The moment they save changes for the first time
@@ -134,16 +134,16 @@ router.post('/saveData', async (req, res) => {
                 name: user.name
             });
             await userData.save();
-            console.log('New user created and saved in DB');
+            //console.log('New user created and saved in DB');
         } else {
-            console.log('User found in DB, updating lifeBoard and usedColors');
+            //console.log('User found in DB, updating lifeBoard and usedColors');
             userData.lifeBoard = updatedLifeBoardData;
             userData.usedColors = updatedUsedColors;
             if (!userData.name) {
                 userData.name = user.name;
             }
             await userData.save();
-            console.log('User lifeBoard and usedColors updated in DB');
+            //console.log('User lifeBoard and usedColors updated in DB');
         }
 
         return res.json({ message: 'LifeBoard and usedColors saved successfully' });
@@ -155,9 +155,9 @@ router.post('/saveData', async (req, res) => {
 
 //Saves birthDate in db
 router.post('/saveBirthDate', async (req, res) => {
-    console.log('saveBirthDate has been hit')
+    //console.log('saveBirthDate has been hit')
     const updatedBirthDate = req.body.birthDate;
-    console.log('birthdate received', updatedBirthDate)
+    //console.log('birthdate received', updatedBirthDate)
 
     let user;
     //First, checks for authorization. 
@@ -182,7 +182,7 @@ router.post('/saveBirthDate', async (req, res) => {
         let userData = await User.findOne({ userId: user.id });
         //console.log('userData', userData)
         if (userData) {
-            console.log('date about to be attempted to save:', updatedBirthDate)
+            //console.log('date about to be attempted to save:', updatedBirthDate)
             userData.birthDate = updatedBirthDate;
             await userData.save();
         } else if (!userData) { //Logged in user without an account yet. User will be created in db now        

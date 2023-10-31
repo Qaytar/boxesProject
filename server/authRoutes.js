@@ -35,10 +35,10 @@ The two endpoints that follow allow Google Authentification. /google and /google
 /* Listens to post request from the React app when user presses Google Log In button */
 /* Replies with Google Url for user to select account and Log In*/
 router.post('/google', async function (req, res, next) {
-    console.info('/google endpoing has been hit')
-    console.info('process.env.CLIENT_ID', process.env.CLIENT_ID)
-    console.info('process.env.CLIENT_SECRET', process.env.CLIENT_SECRET)
-    console.info('redirectURL', redirectURL)
+    //console.info('/google endpoing has been hit')
+    //console.info('process.env.CLIENT_ID', process.env.CLIENT_ID)
+    //console.info('process.env.CLIENT_SECRET', process.env.CLIENT_SECRET)
+    //console.info('redirectURL', redirectURL)
     try {
         // Setting response headers
         res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
@@ -66,11 +66,11 @@ router.post('/google', async function (req, res, next) {
 /* Extracts from Google code and credentials */
 /* Replies with res.redirect to the app with a cookie named 'token' holding a signed JWT */
 router.get('/google/callback', async function (req, res, next) {
-    console.log('/google/callback endpoint been hit')
+    console.info('/google/callback endpoint been hit')
     const code = req.query.code;
 
     if (!code) {
-        console.log('No code provided');
+        console.info('No code provided');
         return res.status(400).json({ error: 'No code provided' });
     }
 
@@ -87,7 +87,7 @@ router.get('/google/callback', async function (req, res, next) {
         //.. JWT works in a stateless manner. The server only holding a key and all user and session data being holded (encrypted) in the token/cookie itself, so no session data is stored anywhere else
         const decodedIdToken = jwt.decode(user.id_token);
         if (!decodedIdToken) {
-            console.log('Error decoding ID token');
+            console.info('Error decoding ID token');
             return res.status(400).json({ error: 'Error decoding ID token' });
         }
 
@@ -107,7 +107,7 @@ router.get('/google/callback', async function (req, res, next) {
         // Sign the JWT
         const token = jwt.sign(payload, process.env.JWT_SECRET);
         if (!token) {
-            console.log('Error signing JWT token');
+            console.info('Error signing JWT token');
             return res.status(500).json({ error: 'Error signing JWT token' });
         }
 
@@ -115,7 +115,7 @@ router.get('/google/callback', async function (req, res, next) {
         res.redirect(303, 'https://boxesproject-client.vercel.app/app');
 
     } catch (err) {
-        console.log('Error in /google/callback:', err);
+        console.info('Error in /google/callback:', err);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -125,14 +125,18 @@ router.get('/google/callback', async function (req, res, next) {
 /*Listents to GET requests and its cookies from the React app when verification/authorization is needed */
 /*Replies with either res.redirect to login page if failure, or with user data if success*/
 router.get('/verify', (req, res) => {
-    //console.log('/auth/verify has been hit')
+    console.info('/auth/verify has been hit')
     res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
     res.header("Access-Control-Allow-Credentials", 'true');
     res.header("Referrer-Policy", "no-referrer-when-downgrade");
 
+    console.info('req.cookies.token', req.cookies.token);
+    console.info('process.env.JWT_SECRET', process.env.JWT_SECRET);
+
     jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, token) => {
         if (err) {
             // Token validation failed
+            console.info('error message:', err);
             res.status(401).json({ error: 'Authentication failed' });
         } else {
             // Token validation successful
