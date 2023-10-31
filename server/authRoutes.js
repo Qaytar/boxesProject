@@ -81,7 +81,7 @@ router.get('/google/callback', async function (req, res, next) {
 
         //console.info('Tokens from Google acquired.');
         const user = oAuth2Client.credentials;
-        //console.log('credentials', user);
+        console.info('credentials', user);
 
         /*Creates JWT to be send in a cookie to the client side*/
         //.. JWT works in a stateless manner. The server only holding a key and all user and session data being holded (encrypted) in the token/cookie itself, so no session data is stored anywhere else
@@ -111,7 +111,12 @@ router.get('/google/callback', async function (req, res, next) {
             return res.status(500).json({ error: 'Error signing JWT token' });
         }
 
-        res.cookie('token', token, { httpOnly: true });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none'
+        });
+
         res.redirect(303, 'https://boxesproject-client.vercel.app/app');
 
     } catch (err) {
