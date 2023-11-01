@@ -113,7 +113,7 @@ router.get('/google/callback', async function (req, res, next) {
             sameSite: 'none'
         });
 
-        res.redirect(303, 'https://boxesproject-client.vercel.app/app');
+        res.redirect(303, 'https://www.lifecalendarapp.com/app');
 
     } catch (err) {
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -151,7 +151,7 @@ router.get('/logout', (req, res) => {
     res.header("Access-Control-Allow-Credentials", 'true');
     try {
         res.clearCookie('token');
-        res.redirect('https://boxesproject-client.vercel.app');
+        res.redirect('https://www.lifecalendarapp.com');
     } catch (err) {
         // In case clearing the cookie fails        
         return res.status(500).json({ error: 'Failed to clean cookie' });
