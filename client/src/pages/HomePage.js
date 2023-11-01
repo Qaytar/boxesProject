@@ -6,8 +6,6 @@
  */
 
 import { useRef, useContext, useEffect, useState } from "react";
-import LifeBoard from "../components/LifeBoard/LifeBoard/LifeBoard";
-import LifeBoardMobile from "../components/LifeBoard/LifeBoard/LifeBoardMobile";
 import WeekMockUp from "../components/LifeBoard/LifeBoardLeft/subComponents/WeekMockUp"
 import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn"
 import styles from "./HomePage.module.css"
@@ -145,12 +143,6 @@ function HomePage() {
                             </div>
                         ) : null
                     }
-
-                    <div className={styles.lifeBoard}>
-                        {isDesktop ?
-                            <LifeBoard location={'homePage'} />
-                            : <LifeBoardMobile />}
-                    </div>
                 </div> : ""}
             </div>
         </div>

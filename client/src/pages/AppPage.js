@@ -13,7 +13,6 @@ import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn";
 import styles from "./AppPage.module.css";
 import { AuthContext } from '../contextsAndHooks/authContext';
 import questionIcon from '../assets/icons/others/interrogation.png'
-import useDeviceType from '../contextsAndHooks/useDeviceType';
 
 function AppPage() {
     const { setUser } = useContext(AuthContext);
@@ -48,7 +47,7 @@ function AppPage() {
 
         // Calling function and setting dependencies for good practice
         checkAuthAndNavigate();
-    }, [setUser, navigate]);
+    }, [setUser, navigate, backendUrl]);
 
 
     //mouse handlers for tutorial popup

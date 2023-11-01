@@ -38,7 +38,6 @@ function Weeks() {
                 <img src={dataIcon} alt={'icon for the loading state'}></img>
             </div>
             This sheep is gathering your data, 1 second
-
         </div>
     );
 

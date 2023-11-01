@@ -219,13 +219,14 @@
     }
 
     .secondView {
-        height: 100vh;
         width: auto;
+        height: auto;
+        /* border: 1px solid blue; */
     }
 
-    /* In mobile, 'the second view' is only the .text class */
     .text {
-        height: auto;
+        margin-top: 75px;
+        /* border: 1px solid red; */
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -250,14 +251,16 @@
         margin-top: 0px;
     }
 
-    /* In mobile, 'the third view' is only the .weeksWrapper class */
+
     .weeksWrapper {
         flex-direction: column;
         height: auto;
+        /* border: 1px solid green; */
     }
 
     .weeksWrapper>section {
         margin-bottom: 50px;
+        width: auto;
     }
 
     .weeksWrapper>:last-child {
@@ -280,7 +283,8 @@
     /* mobile exclusive section */
     .sorryMessage {
         margin-bottom: 100px;
-        height: 100vh;
+        height: auto;
+        /* border: 1px solid purple */
     }
 
     .sorryMessage p {
@@ -299,22 +303,6 @@
         max-width: 350px;
     }
 
-    .landingView {
-        width: 100%;
-    }
+    /* .landingView {} */
 
 }
-
-/* Adjust the background image position for smaller screens */
-/* @media screen and (max-width: 1100px) {
-    .landingView {
-        background-position: 7% 0%
-    }
-
-    .largeButton {
-        margin-top: 110%;
-        margin-right: -20%;
-        font-size: 25px;
-    }
-
-} */

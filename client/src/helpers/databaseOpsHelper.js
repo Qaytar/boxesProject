@@ -25,8 +25,8 @@ export async function saveData(lifeBoardData, usedColors) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
-        //console.log(data.message);  // This will log the message to the console
+        //const data = await response.json();
+        //console.log(data.message);  
 
         // Use data.message elsewhere as needed, or manage state based on it
     } catch (error) {
@@ -54,8 +54,8 @@ export async function saveBirthDate(birthDate) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
-        //console.log(data.message);  // This will log the message to the console
+        //const data = await response.json();
+        //console.log(data.message);  
 
         // Use data.message elsewhere as needed, or manage state based on it
     } catch (error) {
