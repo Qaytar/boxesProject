@@ -6,6 +6,7 @@
  */
 
 import { useRef, useContext, useEffect, useState } from "react";
+import LifeBoard from "../components/LifeBoard/LifeBoard/LifeBoard";
 import WeekMockUp from "../components/LifeBoard/LifeBoardLeft/subComponents/WeekMockUp"
 import LogInMyAreaBtn from "../components/Session/LogInMyAreaBtn"
 import styles from "./HomePage.module.css"
@@ -132,15 +133,20 @@ function HomePage() {
                 {isThirdViewOn ? <div>
                     {
                         isDesktop ? (
-                            <div className={styles.callToAction}>
-                                <p>Play around with the demo Life Calendar below</p>
-                                <p className={styles.comment}>Careful, changes won't be saved</p>
-                                <p>or</p>
-                                <p className={styles.highLighted}><Link to="/login" className={styles.highLighted}>Log in</Link>  to access your own</p>
-                                <p className={` ${styles.comment}`}>Credit to Tim Urban since the core idea of this project is originally his (
-                                    <a className={styles.timUrbanLink} href="https://waitbutwhy.com/2014/05/life-weeks.html" target="_blank" rel="noreferrer">check his blogpost from 2014</a>)
-                                </p>
-                            </div>
+                            <>
+                                <div className={styles.callToAction}>
+                                    <p>Play around with the demo Life Calendar below</p>
+                                    <p className={styles.comment}>Careful, changes won't be saved</p>
+                                    <p>or</p>
+                                    <p className={styles.highLighted}><Link to="/login" className={styles.highLighted}>Log in</Link>  to access your own</p>
+                                    <p className={` ${styles.comment}`}>Credit to Tim Urban since the core idea of this project is originally his (
+                                        <a className={styles.timUrbanLink} href="https://waitbutwhy.com/2014/05/life-weeks.html" target="_blank" rel="noreferrer">check his blogpost from 2014</a>)
+                                    </p>
+                                </div>
+                                <div className={styles.lifeBoard}>
+                                    <LifeBoard location={'homePage'} />
+                                </div>
+                            </>
                         ) : null
                     }
                 </div> : ""}
