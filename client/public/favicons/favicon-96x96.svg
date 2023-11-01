@@ -1,11 +1,1 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="96.000000pt" height="96.000000pt" viewBox="0 0 96.000000 96.000000"
- preserveAspectRatio="xMidYMid meet">
-
-<g transform="translate(0.000000,96.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-</g>
-</svg>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="96.000000pt" height="96.000000pt" viewBox="0,0,256,256"><g fill="#ff8e4d" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="translate(0.31022,0.12395) scale(2.66667,2.66667)"><g transform="translate(0,96) scale(0.1,-0.1)"><path d="M783,954c-8,-4 -9,-13 -4,-28c15,-37 -11,-77 -111,-171c-112,-106 -149,-153 -159,-203c-8,-35 -8,-35 -5,9c4,56 31,97 145,224c92,101 100,128 41,133c-45,4 -150,-56 -330,-187c-102,-74 -130,-99 -130,-117c0,-31 32,-47 79,-39c83,14 90,-46 22,-189c-41,-88 -62,-112 -109,-125c-26,-8 -34,-5 -54,16c-51,55 -113,68 -148,31c-26,-28 -26,-68 1,-102c27,-35 62,-52 133,-65c46,-8 67,-19 106,-54c54,-49 104,-76 154,-84c27,-4 37,0 58,26c41,48 67,132 77,244c5,56 15,118 24,138c8,20 47,65 93,105c205,182 250,232 279,308c23,61 14,91 -35,116c-36,18 -98,25 -127,14zM121,270c16,-9 49,-58 49,-75c0,-10 -40,-5 -79,11c-39,15 -59,43 -46,64c8,13 51,13 76,0z"></path></g></g></g></svg>
