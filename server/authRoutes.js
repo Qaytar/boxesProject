@@ -35,7 +35,7 @@ The two endpoints that follow allow Google Authentification. /google and /google
 /* Listens to post request from the React app when user presses Google Log In button */
 /* Replies with Google Url for user to select account and Log In*/
 router.post('/google', async function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
+    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
     res.header("Access-Control-Allow-Credentials", 'true');
     //console.info('/google endpoing has been hit')
     //console.info('process.env.CLIENT_ID', process.env.CLIENT_ID)
@@ -63,7 +63,7 @@ router.post('/google', async function (req, res, next) {
 /* Extracts from Google code and credentials */
 /* Replies with res.redirect to the app with a cookie named 'token' holding a signed JWT */
 router.get('/google/callback', async function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
+    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
     res.header("Access-Control-Allow-Credentials", 'true');
     //console.info('/google/callback endpoint been hit')
     const code = req.query.code;
@@ -125,7 +125,7 @@ router.get('/google/callback', async function (req, res, next) {
 /*Listents to GET requests and its cookies from the React app when verification/authorization is needed */
 /*Replies with either res.redirect to login page if failure, or with user data if success*/
 router.get('/verify', (req, res) => {
-    res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
+    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
     res.header("Access-Control-Allow-Credentials", 'true');
     // console.info('/auth/verify has been hit')  
     // console.info('req.cookies.token', req.cookies.token);
@@ -147,7 +147,7 @@ router.get('/verify', (req, res) => {
 /*Listents to GET requests from the React app when log out is needed */
 /*Eliminates cookies name 'token' and redirects to the homepage of the app*/
 router.get('/logout', (req, res) => {
-    res.header("Access-Control-Allow-Origin", 'https://boxesproject-client.vercel.app');
+    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
     res.header("Access-Control-Allow-Credentials", 'true');
     try {
         res.clearCookie('token');
