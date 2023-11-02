@@ -16,30 +16,51 @@ import dataIcon from "../../../../assets/icons/others/data.png"
 function Weeks() {
     // imports from the context retrieving user specific data from db. lifeBoardData is the main object being rendered.
     const { lifeBoardData, birthDate } = useContext(LifeBoardDataContext);
-    //console.log(lifeBoardData)
 
     //Boolean state to render 'onHover' a background for the popup in <Week>. Otherwise when the user hovers over the space between weeks, that popup flickers and it's not good UX
-    const [renderPopupBackground, setrenderPopupBackground] = useState(false);
+    const [renderPopupBackground, setRenderPopupBackground] = useState(false);
     // onMouseEnter and Leave handlers
     const handleMouseEnter = (event) => {
-        setrenderPopupBackground(true)
+        setRenderPopupBackground(true)
     };
     const handleMouseLeave = (event) => {
-        setrenderPopupBackground(false)
+        setRenderPopupBackground(false)
     };
 
+    //State to switch from 'gathering data message' to 'please refresh page' whenever lifeboardData hasn't arrived from the server yet
+    //.. this is implemented due to a bug with very low frequency that causes data never to arrive
+    const [isTooLong, setIsTooLong] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (!lifeBoardData) {
+                setIsTooLong(true);
+            }
+        }, 500); // 0.5 seconds
+
+        return () => clearTimeout(timer); // Clear timeout if the component unmounts
+    }, [lifeBoardData]);
 
     // loading state
     if (!lifeBoardData) return (
         <div className={styles.loadingState}>
-            <div className={styles.icons}>
-                <img src={sheepIcon} alt={'icon for the loading state'}></img>
-                . . .
-                <img src={dataIcon} alt={'icon for the loading state'}></img>
-            </div>
-            This sheep is gathering your data, 1 second
+            {isTooLong ?
+                <div>
+                    This is taking too long, it happens sometimes sorry about that. Please refresh and it should work fine
+                </div>
+                :
+                (<>
+                    <div className={styles.icons}>
+                        <img src={sheepIcon} alt={'icon for the loading state'} />
+                        . . .
+                        <img src={dataIcon} alt={'icon for the loading state'} />
+                    </div>
+                    This sheep is gathering your data, 1 second
+                </>
+                )}
         </div>
     );
+
 
     // Stores the year the user was born
     const startYear = new Date(birthDate).getFullYear()
