@@ -110,7 +110,8 @@ router.get('/google/callback', async function (req, res, next) {
         res.cookie('token', token, {
             httpOnly: true,
             secure: true,
-            sameSite: 'none'
+            sameSite: 'none',
+            partitioned: true,
         });
 
         res.redirect(303, 'https://www.lifecalendarapp.com/app');
