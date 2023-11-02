@@ -5,7 +5,7 @@
  *  
  */
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styles from "./Weeks.module.css"
 import Week from "./Week"
 import { LifeBoardDataContext } from '../../../../contextsAndHooks/lifeBoardDataContext';
@@ -32,14 +32,22 @@ function Weeks() {
     const [isTooLong, setIsTooLong] = useState(false);
 
     useEffect(() => {
+        console.log("Setting up the timer");
+
         const timer = setTimeout(() => {
+            console.log("Checking if lifeBoardData is still not available");
             if (!lifeBoardData) {
+                console.log("Setting isTooLong to true");
                 setIsTooLong(true);
             }
-        }, 500); // 0.5 seconds
+        }, 500); // 0.5 seconds for testing
 
-        return () => clearTimeout(timer); // Clear timeout if the component unmounts
-    }, [lifeBoardData]);
+        return () => {
+            console.log("Clearing the timer");
+            clearTimeout(timer);
+        };
+    }, [lifeBoardData]); // Dependency on lifeBoardData
+
 
     // loading state
     if (!lifeBoardData) return (
