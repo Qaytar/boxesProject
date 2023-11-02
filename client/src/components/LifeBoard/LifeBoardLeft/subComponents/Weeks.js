@@ -32,30 +32,30 @@ function Weeks() {
     const [isTooLong, setIsTooLong] = useState(false);
 
     useEffect(() => {
-        console.log("Setting up the timer");
-
         const timer = setTimeout(() => {
-            console.log("Checking if lifeBoardData is still not available");
             if (!lifeBoardData) {
-                console.log("Setting isTooLong to true");
                 setIsTooLong(true);
             }
-        }, 500); // 0.5 seconds for testing
+        }, 5000); // After 5 seconds, a fallback message asking the user to refresh will render
 
         return () => {
-            console.log("Clearing the timer");
             clearTimeout(timer);
         };
-    }, [lifeBoardData]); // Dependency on lifeBoardData
+    }, [lifeBoardData]);
 
 
     // loading state
     if (!lifeBoardData) return (
         <div className={styles.loadingState}>
             {isTooLong ?
-                <div>
-                    This is taking too long, it happens sometimes sorry about that. Please refresh and it should work fine
-                </div>
+                <>
+                    <div className={styles.fallbackMessage}>
+                        This is taking too long, sorry about that
+                    </div>
+                    <div className={styles.fallbackMessage}>
+                        Please, refresh the page and it should work fine
+                    </div>
+                </>
                 :
                 (<>
                     <div className={styles.icons}>
