@@ -68,14 +68,13 @@ function Week(props) {
     return (
         <div className={`${styles.weekContainer} ${styles.unselectable}`}>
             <div
+                style={{ backgroundColor: props.color || 'transparent', borderColor: props.color || 'rgb(119, 119, 119)' }}
                 className={`
                     ${styles.week}
                     ${isSelected ? styles.selectedWeek : ''}
                     ${props.date.status === 'today' ? styles.isCurrentWeek : ''}
                     ${props.date.age === -1 ? styles.notBornedYet : ''}
-
                     `}
-                style={{ backgroundColor: props.color || 'transparent', borderColor: props.color || 'rgb(119, 119, 119)' }}
                 onClick={handleClick}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
