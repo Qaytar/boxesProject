@@ -29,45 +29,45 @@ function Weeks() {
 
     //State to switch from 'gathering data message' to 'please refresh page' whenever lifeboardData hasn't arrived from the server yet
     //.. this is implemented due to a bug with very low frequency that causes data never to arrive
-    const [isTooLong, setIsTooLong] = useState(false);
+    // const [isTooLong, setIsTooLong] = useState(false);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (!lifeBoardData) {
-                setIsTooLong(true);
-            }
-        }, 5000); // After 5 seconds, a fallback message asking the user to refresh will render
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         if (!lifeBoardData) {
+    //             setIsTooLong(true);
+    //         }
+    //     }, 5000); // After 5 seconds, a fallback message asking the user to refresh will render
 
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [lifeBoardData]);
+    //     return () => {
+    //         clearTimeout(timer);
+    //     };
+    // }, [lifeBoardData]);
 
 
     // loading state
-    if (!lifeBoardData) return (
-        <div className={styles.loadingState}>
-            {isTooLong ?
-                <>
-                    <div className={styles.fallbackMessage}>
-                        This is taking too long, sorry about that
-                    </div>
-                    <div className={styles.fallbackMessage}>
-                        Please, refresh the page and it should work fine
-                    </div>
-                </>
-                :
-                (<>
-                    <div className={styles.icons}>
-                        <img src={sheepIcon} alt={'icon for the loading state'} />
-                        . . .
-                        <img src={dataIcon} alt={'icon for the loading state'} />
-                    </div>
-                    This sheep is gathering your data, 1 second
-                </>
-                )}
-        </div>
-    );
+    // if (!lifeBoardData) return (
+    //     <div className={styles.loadingState}>
+    //         {isTooLong ?
+    //             <>
+    //                 <div className={styles.fallbackMessage}>
+    //                     This is taking too long, sorry about that
+    //                 </div>
+    //                 <div className={styles.fallbackMessage}>
+    //                     Please, refresh the page and it should work fine
+    //                 </div>
+    //             </>
+    //             :
+    //             (<>
+    //                 <div className={styles.icons}>
+    //                     <img src={sheepIcon} alt={'icon for the loading state'} />
+    //                     . . .
+    //                     <img src={dataIcon} alt={'icon for the loading state'} />
+    //                 </div>
+    //                 This sheep is gathering your data, 1 second
+    //             </>
+    //             )}
+    //     </div>
+    // );
 
 
     // Stores the year the user was born
