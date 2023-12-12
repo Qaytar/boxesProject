@@ -2,7 +2,7 @@
     height: 17px;
     width: 17px;
     border-radius: 50%;
-    border: 1px solid rgb(119, 119, 119);
+    border: 1px solid rgba(119, 119, 119, 0);
     display: flex;
     /* margin: 1.5px; */
     text-align: center;
@@ -18,8 +18,10 @@
 
 .selectedWeek {
     border-radius: 3px;
+    border: 1px solid black;
     height: 13px;
     width: 13px;
+
 }
 
 .commentIcon {
