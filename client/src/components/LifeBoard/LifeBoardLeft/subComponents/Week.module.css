@@ -5,7 +5,7 @@
     border: 1px solid rgb(119, 119, 119);
     display: flex;
     font-size: 7px;
-    margin: 1.5px;
+    /* margin: 1.5px; */
     text-align: center;
     transition: all 0.3s ease;
     display: flex;
@@ -67,11 +67,11 @@
 
 .weekContainer {
     position: relative;
-    height: 18.5px;
-    width: 18.5px;
-    /* display: flex;
+    height: 20px;
+    width: 20px;
+    display: flex;
     align-items: center;
-    justify-content: center; */
+    justify-content: center;
 }
 
 .unselectable {
