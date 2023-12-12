@@ -69,10 +69,10 @@ function Weeks() {
     //     </div>
     // );
 
-    // loading state
+    // to render before data arrives
     if (!lifeBoardData) return (
         <div className={styles.loadingState}>
-
+            fetching data
         </div>
     );
 
