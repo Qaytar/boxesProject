@@ -1,6 +1,7 @@
 .week {
     height: 17px;
     width: 17px;
+    will-change: auto;
     border-radius: 50%;
     border: 1px solid rgb(119, 119, 119);
     display: flex;
@@ -24,8 +25,8 @@
 }
 
 .commentIcon {
-    width: 13px;
-    height: 13px;
+    width: 11px;
+    height: 11px;
 }
 
 .isCurrentWeek {
@@ -66,8 +67,8 @@
 }
 
 .weekContainer {
-    height: 22px;
-    width: 22px;
+    height: 21px;
+    width: 21px;
     display: flex;
     align-items: center;
     justify-content: center;
