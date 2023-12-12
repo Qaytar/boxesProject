@@ -69,6 +69,12 @@ function Weeks() {
     //     </div>
     // );
 
+    // loading state
+    if (!lifeBoardData) return (
+        <div className={styles.loadingState}>
+
+        </div>
+    );
 
     // Stores the year the user was born
     const startYear = new Date(birthDate).getFullYear()
