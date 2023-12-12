@@ -45,7 +45,7 @@ function Week(props) {
             message = `Last week of ${props.date.year}`;
         } else {
             // message = `Week Nr ${props.week + 1} of ${props.date.year}, monday ${props.date.mondayDate} (you were ${props.date.age})`;
-            message = `Monday ${props.date.mondayDate} of ${props.date.year} (Week Nr ${props.week + 1}) - You were ${props.date.age})`;
+            message = `Monday ${props.date.mondayDate} of ${props.date.year} (Week Nr ${props.week + 1}) - You were ${props.date.age}`;
         }
         setrenderDateInfo(message);
 
