@@ -75,7 +75,7 @@ function Week(props) {
                     ${props.date.age === -1 ? styles.notBornedYet : ''}
 
                     `}
-                style={{ backgroundColor: props.color || 'transparent' }}
+                style={{ backgroundColor: props.color || 'transparent', borderColor: props.color || 'rgb(119, 119, 119)' }}
                 onClick={handleClick}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
