@@ -53,11 +53,10 @@ router.post('/getLifeBoard', async (req, res) => {
                         birthDate: userData.birthDate
                     });
                 } else {
-                    // A user is logged in but not in db yet
-                    const tutorialData = await User.findOne({ _id: lifeBoardTutorialFakeUserId });
+                    // A user is logged in but not in db yet. Return empty lifeboard
+                    //const tutorialData = await User.findOne({ _id: lifeBoardTutorialFakeUserId }); Old code returning tutorial data
                     return res.json({
-                        lifeBoard: tutorialData.lifeBoard,
-                        usedColors: tutorialData.usedColors
+                        lifeBoard: createEmptyLifeBoard()
                     });
                 }
             }
