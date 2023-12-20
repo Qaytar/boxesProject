@@ -33,7 +33,7 @@ function Week(props) {
         let message;
 
         if (props.date.status === 'future') {
-            message = `This is the future.. Week Nr ${props.week + 1} of ${props.date.year}, monday ${props.date.mondayDate} (you will be ${props.date.age})`;
+            message = `This is the future.. Monday ${props.date.mondayDate} of ${props.date.year} (Week Nr ${props.week + 1}) - You will be ${props.date.age}`;
         }
         else if (props.date.status === 'today') {
             message = `You are here`
