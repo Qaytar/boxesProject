@@ -8,6 +8,7 @@
 
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contextsAndHooks/authContext';
+import { LifeBoardDataContext } from '../../contextsAndHooks/lifeBoardDataContext';
 import styles from "./LogInMyAreaBtn.module.css"
 import { Link } from 'react-router-dom';
 import MyArea from './MyArea';
@@ -16,16 +17,18 @@ import userIcon from '../../assets/icons/others/user.png';
 
 
 function LogInMyAreaBtn() {
+    const { user } = useContext(AuthContext);
+    const { birthDate } = useContext(LifeBoardDataContext);
+    const { isDesktop } = useDeviceType();
 
     // State variable and toggler to control 'my area' menu is opened or not
-    const [isMyAreaOpen, setIsMyAreaOpen] = useState('open');
+    const [isMyAreaOpen, setIsMyAreaOpen] = useState(birthDate ? 'closed' : 'open');
     function myAreaToggler() {
         setIsMyAreaOpen(isMyAreaOpen === 'closed' ? 'open' : 'closed');
     }
 
 
-    const { user } = useContext(AuthContext);
-    const { isDesktop } = useDeviceType();
+    
     return (
         isDesktop ? (
             <div className={styles.LogInMyAreaBtn} >
