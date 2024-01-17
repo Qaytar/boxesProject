@@ -16,7 +16,7 @@ function MyArea(props) {
     const { setUser } = useContext(AuthContext);
     const { birthDate, setBirthDate } = useContext(LifeBoardDataContext)
     const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
-
+    console.log('birthDate',birthDate)
     // Function to handle date change in the form
     function handleDateChange(event) {
         //console.log('handleDateChange function is called')
@@ -54,6 +54,7 @@ function MyArea(props) {
             <div className={styles.modal}>
                 <div className={styles.dateWrapper}>
                     <p>Set yor birth date and click save</p>
+                    <p className={styles.tutorialLocation}>If you need help to navigate the app, you can find the tutorial on the top right corner of the screen</p>
                     <input
                         type="date"
                         value={birthDate ? new Date(birthDate).toISOString().substring(0, 10) : ""}

@@ -1,6 +1,6 @@
 .modal {
     z-index: 1000;
-    width: 300px;
+    width: 400px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -23,7 +23,13 @@
 }
 
 .dateWrapper>p {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
+}
+
+.tutorialLocation {
+    margin-bottom: 15px;
+    font-size: smaller;
+    font-style: italic;
 }
 
 .dateWrapper>button {
