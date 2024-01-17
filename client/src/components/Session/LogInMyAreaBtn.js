@@ -19,13 +19,18 @@ import userIcon from '../../assets/icons/others/user.png';
 function LogInMyAreaBtn() {
     const { user } = useContext(AuthContext);
     const { birthDate } = useContext(LifeBoardDataContext);
-    const { isDesktop } = useDeviceType();
+    const { isDesktop } = useDeviceType();  
+    
 
     // State variable and toggler to control 'my area' menu is opened or not
-    const [isMyAreaOpen, setIsMyAreaOpen] = useState(birthDate ? 'closed' : 'open');
+    const [isMyAreaOpen, setIsMyAreaOpen] = useState();
     function myAreaToggler() {
         setIsMyAreaOpen(isMyAreaOpen === 'closed' ? 'open' : 'closed');
     }
+
+    useEffect(() => {
+        setIsMyAreaOpen(birthDate ? 'closed' : 'open');
+    }, [birthDate]); 
 
 
     
