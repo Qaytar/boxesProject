@@ -23,13 +23,16 @@ function LogInMyAreaBtn() {
     
 
     // State variable and toggler to control 'my area' menu is opened or not
-    const [isMyAreaOpen, setIsMyAreaOpen] = useState();
+    const [isMyAreaOpen, setIsMyAreaOpen] = useState('closed');
     function myAreaToggler() {
         setIsMyAreaOpen(isMyAreaOpen === 'closed' ? 'open' : 'closed');
     }
 
     useEffect(() => {
-        setIsMyAreaOpen(birthDate ? 'closed' : 'open');
+        if (birthDate !== undefined) {
+            setIsMyAreaOpen(!birthDate ? 'open': null)
+        }
+        
     }, [birthDate]); 
 
 
