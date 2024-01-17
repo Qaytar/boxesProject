@@ -18,7 +18,7 @@ import userIcon from '../../assets/icons/others/user.png';
 function LogInMyAreaBtn() {
 
     // State variable and toggler to control 'my area' menu is opened or not
-    const [isMyAreaOpen, setIsMyAreaOpen] = useState('closed');
+    const [isMyAreaOpen, setIsMyAreaOpen] = useState('open');
     function myAreaToggler() {
         setIsMyAreaOpen(isMyAreaOpen === 'closed' ? 'open' : 'closed');
     }
