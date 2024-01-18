@@ -32,7 +32,7 @@ function LifeBoardRight(props) {
     //.. the trigger is connected to onClicks of user submitting changes to the lifeBoard
     const [triggerSave, setTriggerSave] = useState(false);
 
-    // Saves everything to db when the trigger is true. Notice if that when the 'location' of the <LifeBoard> is the HomePage, this code won't run (since user isn't logged in)
+    // Saves everything to db when the trigger is true. Notice that when the 'location' of the <LifeBoard> is the HomePage, this code won't run (since user isn't logged in)
     useEffect(() => {
         if (triggerSave && props.location === 'appPage') {
             // Sorts usedColors, then saves them to db, finally updates the state. This is done to avoid stale version react issues
@@ -50,12 +50,13 @@ function LifeBoardRight(props) {
     //A the bottom of the JSX, conditionally renders either legend or editting panels (depending on the toggle position)
     return (
         <div className={styles.wrapper}>
-            <Toggle
+            {props.location === 'appPage' ? (<Toggle
                 onClickFunction={toggleMode}
                 isState={isMode}
                 checkState={'edit'}
                 options={['legend', 'edit']}
-            />
+            />) : null}
+            
 
 
             {

@@ -166,7 +166,7 @@ function HomePage() {
                     <div className={styles.popupTitle}>How it works</div>
                     <p className={styles.tutorialText}>Simple, every circle represents a week</p>
                     <p className={styles.tutorialText}>To the right, there's a legend with the meaning of each color</p>
-                    <p className={styles.tutorialText}>Placing the cursor on top of an icon will display the note assigned to that week</p>
+                    <p className={styles.tutorialText}>Placing the cursor on top of a week with an icon on it, will display the note assigned</p>
                     <p className={styles.tutorialText}>Also, placing the cursor on top of any week will tel you the date and your age</p>
                 </div>
                 ) : null}
