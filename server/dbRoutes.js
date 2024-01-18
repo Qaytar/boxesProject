@@ -56,8 +56,7 @@ router.post('/getLifeBoard', async (req, res) => {
                     // A user is logged in but not in db yet. Return empty lifeboard
                     //const tutorialData = await User.findOne({ _id: lifeBoardTutorialFakeUserId }); Old code returning tutorial data
                     return res.json({
-                        lifeBoard: createEmptyLifeBoard(),
-                        birthDate: "not set"
+                        lifeBoard: createEmptyLifeBoard()                        
                     });
                 }
             }
@@ -84,8 +83,7 @@ router.post('/getLifeBoard', async (req, res) => {
                 // lifeBoardSampleFakeUser wasn't found in db so returning empty/valid states to have something to render
                 //console.log('No user logged in and no sampleFakeUser found - returning empty states')
                 return res.json({
-                    lifeBoard: createEmptyLifeBoard(),
-                    birthDate: "not set"
+                    lifeBoard: createEmptyLifeBoard()                    
                 });
             }
         }

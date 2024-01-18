@@ -28,9 +28,9 @@ function LogInMyAreaBtn() {
         setIsMyAreaOpen(isMyAreaOpen === 'closed' ? 'open' : 'closed');
     }
 
-    useEffect(() => {        
-            setIsMyAreaOpen(birthDate==="not set" ? 'open': null)     
-            }, [birthDate]); 
+    // useEffect(() => {        
+    //     setIsMyAreaOpen(birthDate==="not set" ? 'open': null)     
+    // }, [birthDate]); 
 
 
     
