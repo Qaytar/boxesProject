@@ -25,7 +25,7 @@ function HomePage() {
     //     secondViewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     // }
 
-    // State and handler for 'more btn' (.smallButton)
+    // State and handler for 'explore btn' (.largeButton)
     const [isLargeButtonClicked, setisLargeButtonClicked] = useState(false);
     const secondViewRef = useRef();
     const largeButtonHandler = () => {
@@ -47,7 +47,14 @@ function HomePage() {
         }, 320); // Adjust the delay as needed
     };
 
-
+    // State and handle for the hotItWorks popup
+    const [hotItWorksPopUp, sethotItWorksPopUp] = useState(null);     
+    const handleMouseEnter = (event) => {
+        sethotItWorksPopUp(true);
+    };
+    const handleMouseLeave = (event) => {
+        sethotItWorksPopUp(false);
+    };
 
 
 
@@ -134,22 +141,34 @@ function HomePage() {
                     {
                         isDesktop ? (
                             <>
-                                <div className={styles.callToAction}>
-                                    <p>Play around with the demo Life Calendar below</p>
-                                    <p className={styles.comment}>Careful, changes won't be saved</p>
-                                    <p>or</p>
-                                    <p className={styles.highLighted}><Link to="/login" className={styles.highLighted}>Log in</Link>  to access your own</p>
+                                <div className={styles.callToAction}>                                    
+                                    <p className={styles.highLighted}><Link to="/login" className={styles.highLighted}>Log in</Link>  to access your own Life Calendar</p>
                                     <p className={` ${styles.comment}`}>Credit to Tim Urban since the core idea of this project is originally his (
                                         <a className={styles.timUrbanLink} href="https://waitbutwhy.com/2014/05/life-weeks.html" target="_blank" rel="noreferrer">check his blogpost from 2014</a>)
                                     </p>
+                                    <p className={styles.comment}>
+                                        Below you can see how it looks like. 
+                                        <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                                            This is how it works
+                                        </span>
+                                    </p>                                  
+                                                                     
                                 </div>
                                 <div className={styles.lifeBoard}>
                                     <LifeBoard location={'homePage'} />
                                 </div>
                             </>
-                        ) : null
+                        ) : null                        
                     }
                 </div> : ""}
+                {hotItWorksPopUp && isThirdViewOn && isDesktop ? (
+                <div className={styles.howItWorksPopup}>
+                    <div className={styles.popupTitle}>How it works</div>
+                    <p className={styles.tutorialText}>Simple, every circle represents a week. To the right, a legend with the meaning of each color</p>
+                    <p className={styles.tutorialText}>Placing the cursor on top of an icon will display the note assigned to that week</p>
+                    <p className={styles.tutorialText}>Also, placing the cursor on top of any week will tel you the date and your age</p>
+                </div>
+                ) : null}
             </div>
         </div>
     )
