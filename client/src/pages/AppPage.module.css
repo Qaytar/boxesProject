@@ -32,15 +32,16 @@
     align-items: center;    
     flex-direction: column;
     padding: 40px;
+    width: 1200px;
 }
 
 .tutorialTitle {
     color: #ff8e4d;
     font-size: larger;
-    margin-bottom: 25px;
-    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-top: 25px;
 }
 
 .tutorialText {
-    margin: 5px 0px
+    margin: 10px 0px
 }
