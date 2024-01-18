@@ -71,12 +71,14 @@ function AppPage() {
             {displayTutorial ?
                 <div className={`${styles.tutorialPopup} ${styles.unselectable}`}>
                     <div className={styles.tutorialContainer}>
-                        <p className={styles.tutorialTitle}>How to select multiple weeks at once</p>
-                        <p className={styles.tutorialText}>Click on a week to select it, then use Shift+Click on a second week to select all weeks in between</p>
+                        <p className={styles.tutorialTitle}>General flow of the app</p>
+                        <p className={styles.tutorialText}>Select weeks by clicking on them and then add colors and notes</p>
                     </div>
                     <div className={styles.tutorialContainer}>
-                        <p className={styles.tutorialTitle}>Select all weeks of a given color</p>
-                        <p className={styles.tutorialText}>Double Click on a color to select all weeks using that color. Then you can edit the description or choose a new color</p>
+                        <p className={styles.tutorialTitle}>How to select weeks</p>
+                        <p className={styles.tutorialText}>Just click on a week to selec it (it'll turn into a square), click again to unselect</p>
+                        <p className={styles.tutorialText}>You can select multiple weeks at once by click on a first week, then while pressing SHIFT, select a second week. You'll select all the weeks in between</p>
+                        <p className={styles.tutorialText}>You can unselect multiple weeks at once with the button 'unselect weeks'</p>
                     </div>
 
 
