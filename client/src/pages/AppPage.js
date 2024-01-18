@@ -77,9 +77,22 @@ function AppPage() {
                     <div className={styles.tutorialContainer}>
                         <p className={styles.tutorialTitle}>How to select weeks</p>
                         <p className={styles.tutorialText}>Just click on a week to selec it (it'll turn into a square), click again to unselect</p>
-                        <p className={styles.tutorialText}>You can select multiple weeks at once by click on a first week, then while pressing SHIFT, select a second week. You'll select all the weeks in between</p>
-                        <p className={styles.tutorialText}>You can unselect multiple weeks at once with the button 'unselect weeks'</p>
+                        <p className={styles.tutorialText}>To select multiple weeks at once by click on a first week, then while pressing SHIFT, select a second week. You'll select all the weeks in between</p>
+                        <p className={styles.tutorialText}>To unselect multiple weeks at once with the button 'unselect weeks'</p>
+                        <p className={styles.tutorialText}>To select all weeks using a given color, on the right panel, double click on a color you are using. Then you'll be able to pick a new color or edit the description</p>
                     </div>
+                    <div className={styles.tutorialContainer}>
+                        <p className={styles.tutorialTitle}>How to edit weeks</p>
+                        <p className={styles.tutorialText}>To add a color, you will need to select one or multiple weeks, and simply pick a color and a write a description, then click on submit</p>
+                        <p className={styles.tutorialText}>To add a note, you will need to select one (only one!!!) week, and simply pick an icon and write your note, then click on submit</p>                       
+                        <p className={styles.tutorialText}>To delete changes on any selection of weeks, just use the button 'delete changes'</p>                       
+                    </div>
+                    <div className={styles.tutorialContainer}>
+                        <p className={styles.tutorialTitle}>How to visualize your life calendar</p>
+                        <p className={styles.tutorialText}>To read your notes, simple hover (place your mouse over) a week with an icon and you will see a pop up with your note</p>
+                        <p className={styles.tutorialText}>Click on 'switch to legend' to hide the editting panels and bring up a clear legend of the used colors</p>
+                    </div>
+                    
 
 
                 </div>

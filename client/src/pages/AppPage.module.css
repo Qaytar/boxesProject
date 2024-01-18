@@ -35,10 +35,9 @@
     flex-direction: column;
 }
 
-.tutorialContainer {
-    padding: 15px;
-    width: 80%;
-}
+/* .tutorialContainer {    
+    
+} */
 
 .tutorialTitle {
     color: #ff8e4d;
