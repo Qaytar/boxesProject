@@ -25,26 +25,22 @@
     transform: translate(-50%, 50%);
     background-color: #f9f9f9;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 8px 16px;
-    width: 1500px;    
+    border-radius: 4px;        
     z-index: 999;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;    
     flex-direction: column;
+    padding: 40px;
 }
-
-/* .tutorialContainer {    
-    
-} */
 
 .tutorialTitle {
     color: #ff8e4d;
     font-size: larger;
     margin-bottom: 25px;
+    margin-top: 15px;
 }
 
 .tutorialText {
-    line-height: 27px;
+    margin: 5px 0px
 }
