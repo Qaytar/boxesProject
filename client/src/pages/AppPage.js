@@ -70,7 +70,7 @@ function AppPage() {
 
             {displayTutorial ?
                 <div className={`${styles.tutorialPopup} ${styles.unselectable}`}>
-                    <div className={styles.tutorialContainer}>
+                    <div className={styles.firstTutorialContainer}>
                         <p className={styles.tutorialTitle}>General flow of the app</p>
                         <p className={styles.tutorialText}>Select weeks by clicking on them, then add colors and notes</p>
                     </div>
