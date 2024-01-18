@@ -82,7 +82,8 @@ function AppPage() {
                         <p className={styles.tutorialText}>To select all weeks using a given color, on the right panel, double click on a color you are using. Then, you could pick a new color or edit the description</p>
                     </div>
                     <div className={styles.tutorialContainer}>
-                        <p className={styles.tutorialTitle}>How to edit weeks</p>
+                        <p className={styles.tutorialTitle}>How to customize your weeks</p>
+                        <p className={styles.tutorialText}>Make sure you are on the editting panel. If you are not, click on 'switch to edit'</p>
                         <p className={styles.tutorialText}>To add a color, select one or multiple weeks and simply pick a color and write a description, then click on submit</p>
                         <p className={styles.tutorialText}>To add a note, select one (only one!!!) week and simply pick an icon and write your note, then click on submit</p>                       
                         <p className={styles.tutorialText}>To delete changes on any selection of weeks, use the button 'delete changes'</p>                       
