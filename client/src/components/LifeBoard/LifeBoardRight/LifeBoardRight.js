@@ -19,7 +19,7 @@ import { sortUsedColors } from '../../../helpers/updateWeekHelper'
 
 function LifeBoardRight(props) {
     // state and toggle for the edit vs legend panel
-    const [isMode, setIsMode] = useState('edit');
+    const [isMode, setIsMode] = useState('legend');
     const toggleMode = () => {
         setIsMode(isMode === 'edit' ? 'legend' : 'edit');
     };
