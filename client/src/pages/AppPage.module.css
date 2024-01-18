@@ -39,7 +39,7 @@
     color: #ff8e4d;
     font-size: larger;
     margin-bottom: 25px;
-    margin-top: 12px;
+    margin-top: 0px;
 }
 .firstTutorialTitle {
     color: #ff8e4d;
@@ -47,11 +47,6 @@
     margin-bottom: 25px;
     margin-top: 0px;
 }
-
-.tutorialText:first-child {
-    margin: 0px 0px
-}
-
 
 .tutorialText {
     margin: 12px 0px
