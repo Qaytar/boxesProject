@@ -217,6 +217,14 @@
 .tutorialText {
     margin: 12px 0px
 }
+.quickExplanation {
+    text-decoration: underline;
+    text-decoration-color: #ff8e4d;
+}
+
+.quickExplanation:hover {
+    text-decoration: none;
+}
 
 
 /* others */

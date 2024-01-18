@@ -147,9 +147,9 @@ function HomePage() {
                                         <a className={styles.timUrbanLink} href="https://waitbutwhy.com/2014/05/life-weeks.html" target="_blank" rel="noreferrer">check his blogpost from 2014</a>)
                                     </p>
                                     <p className={styles.comment}>
-                                        Below you can see how it looks like. 
-                                        <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                                            This is how it works
+                                        Below you can see how it looks like.&nbsp;
+                                        <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={styles.quickExplanation}>
+                                        And here a quick explanation.
                                         </span>
                                     </p>                                  
                                                                      
@@ -164,7 +164,8 @@ function HomePage() {
                 {hotItWorksPopUp && isThirdViewOn && isDesktop ? (
                 <div className={styles.howItWorksPopup}>
                     <div className={styles.popupTitle}>How it works</div>
-                    <p className={styles.tutorialText}>Simple, every circle represents a week. To the right, a legend with the meaning of each color</p>
+                    <p className={styles.tutorialText}>Simple, every circle represents a week</p>
+                    <p className={styles.tutorialText}>To the right, there's a legend with the meaning of each color</p>
                     <p className={styles.tutorialText}>Placing the cursor on top of an icon will display the note assigned to that week</p>
                     <p className={styles.tutorialText}>Also, placing the cursor on top of any week will tel you the date and your age</p>
                 </div>
