@@ -6,7 +6,7 @@
  */
 
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../contextsAndHooks/authContext';
 import { LifeBoardDataContext } from '../../contextsAndHooks/lifeBoardDataContext';
 import styles from "./LogInMyAreaBtn.module.css"
