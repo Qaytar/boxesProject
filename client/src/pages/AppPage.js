@@ -72,6 +72,7 @@ function AppPage() {
                 <div className={`${styles.tutorialPopup} ${styles.unselectable}`}>
                     <div className={styles.tutorialContainer}>
                         <p className={styles.firstTutorialTitle}>General flow of the app</p>
+                        <p className={styles.tutorialText}>Add your birthdate if you haven't. In the My Area button on the top right corner</p>
                         <p className={styles.tutorialText}>Select weeks by clicking on them, then add colors and notes</p>
                     </div>
                     <div className={styles.tutorialContainer}>
