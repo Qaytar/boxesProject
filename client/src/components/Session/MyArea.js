@@ -80,7 +80,7 @@ function MyArea(props) {
                 </div>                
                 <div className={`${styles.othersWrapper}`}>
                 <span className={`${styles.others}`} onClick={logOut}>Logout and back to Homepage</span>
-                <span className={`${styles.others}`} ><Link to="/privacyPolicy">Privacy Policy</Link></span>                
+                <span className={`${styles.others}`} ><Link to="/privacyPolicy" className={`${styles.others}`} >Privacy Policy</Link></span>                
                 <span className={`${styles.others}`} onClick={deleteDataPopupToggler} >Delete account and all data</span>
                 </div>                
             </div>
