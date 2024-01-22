@@ -236,7 +236,8 @@ router.get('/deleteAllData', async (req, res) => {
         await User.deleteOne({ userId: user.id });
         //console.log('User data deleted successfully');
 
-        // Redirect to home page after successful deletion
+        // Clean cookie and Redirect to home page after successful deletion
+        res.clearCookie('token');
         return res.redirect('https://www.lifecalendarapp.com');
         
     } catch (err) {               
