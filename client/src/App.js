@@ -14,6 +14,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/app" element={<AppPage />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicyPage />} />
         </Routes>
       </LifeBoardDataProvider>
     </AuthProvider>
