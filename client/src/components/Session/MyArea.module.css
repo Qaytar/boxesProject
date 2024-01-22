@@ -68,8 +68,9 @@ dateWrapper>button {
 }
 
 .others:hover {
-    cursor: pointer;
-    border-bottom: 1px solid #ff8e4d;
+    cursor: pointer;    
+    text-decoration: underline;
+    text-decoration-color: #ff8e4d;
 }
 
 
@@ -132,7 +133,7 @@ dateWrapper>button {
     margin-bottom: 10px;
 }
 
-.confirmationTitle .title {
+.confirmationTitle {
     margin-bottom: 40spx;
     color:#ff8e4d;
     font-size: 40px;
