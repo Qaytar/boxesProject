@@ -76,12 +76,15 @@ function MyArea(props) {
                 <span className={`${styles.others}`} >Delete account and all data</span>
                 </div>                
             </div>
-            {deleteConfirmationPopup ? (<div className={styles.deleteConfirmationPopup}>
+            {deleteConfirmationPopup === 'open' ? (<div className={styles.deleteConfirmationPopup}>
                 <p className={styles.title}>Are you sure?</p>
                 <p className={styles.subTitle}>This will permanently and irreversibly delete all your data and work you have done on your Life Calendar</p>
                 <p className={styles.subTitle}>Will also cause and inmdiate log out and redirect to the home page</p>
-                <span className={`${styles.confirmationOptions}`}>Yes, delete it all</span>
-                <span className={`${styles.confirmationOptions}`} onClick={deleteDataPopupToggler}>Cancel</span>
+                <div className={styles.options}>
+                    <span className={`${styles.confirmationOptions}`}>Yes, delete it all</span>
+                    <span className={`${styles.confirmationOptions}`} onClick={deleteDataPopupToggler}>Cancel</span>
+                </div>
+              
             </div>) : null}
             
         </div>

@@ -12,24 +12,10 @@
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-.deleteConfirmationPopup {
-    z-index: 1000;
-    width: 600px;
-    height: 450px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 6px;
-    background-color: white;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
-
 .modal:hover {
     cursor: default;
 }
+
 
 .dateWrapper {
     display: flex;
@@ -43,7 +29,7 @@
     font-size: 30px;
 }
 
-.sub {
+.subTitle {
     font-style: italic;
     margin-bottom: 15px;
     font-size: smaller;    
@@ -73,6 +59,8 @@ dateWrapper>button {
     flex-direction: row;
 }
 
+
+
 .others {
     font-size: small;
     font-style: italic;
@@ -84,11 +72,6 @@ dateWrapper>button {
     border-bottom: 1px solid #ff8e4d;
 }
 
-
-.confirmationOptions:hover {
-    cursor: pointer;
-    border-bottom: 1px solid #ff8e4d;
-}
 
 .mainButton {
     background: transparent;
@@ -109,4 +92,36 @@ dateWrapper>button {
     border-color: #ff8e4d;
     color: white;
     border-radius: 20px;
+}
+
+.deleteConfirmationPopup {
+    z-index: 10000;
+    width: 600px;
+    height: 450px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 6px;
+    background-color: white;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.deleteConfirmationPopup:hover{
+    cursor: default;
+}
+
+.confirmationOptions:hover {
+    cursor: pointer;
+    border-bottom: 1px solid #ff8e4d;
+}
+
+.confirmationOptions {
+    font-size: 40px;
+}
+
+.options {
+    margin-top: 25px;
 }
