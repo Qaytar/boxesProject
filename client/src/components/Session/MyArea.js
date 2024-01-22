@@ -73,7 +73,7 @@ function MyArea(props) {
                 <div className={`${styles.othersWrapper}`}>
                 <span className={`${styles.others}`} onClick={logOut}>Logout and back to Homepage</span>
                 <span className={`${styles.others}`} >Privacy Policy</span>                
-                <span className={`${styles.others}`} >Delete account and all data</span>
+                <span className={`${styles.others}`} onClick={deleteDataPopupToggler} >Delete account and all data</span>
                 </div>                
             </div>
             {deleteConfirmationPopup === 'open' ? (<div className={styles.deleteConfirmationPopup}>
