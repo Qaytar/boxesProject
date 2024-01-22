@@ -77,7 +77,7 @@ function MyArea(props) {
                 </div>                
             </div>
             {deleteConfirmationPopup === 'open' ? (<div className={styles.deleteConfirmationPopup}>
-                <p className={styles.title}>Are you sure?</p>
+                <p className={styles.confirmationTitle}>Are you sure?</p>
                 <p className={styles.subTitle}>This will permanently and irreversibly delete all your data and work you have done on your Life Calendar</p>
                 <p className={styles.subTitle}>Will also cause and inmdiate log out and redirect to the home page</p>
                 <div className={styles.options}>

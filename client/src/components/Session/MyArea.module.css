@@ -119,9 +119,21 @@ dateWrapper>button {
 }
 
 .confirmationOptions {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .options {
-    margin-top: 25px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.options>span {
+    margin-bottom: 10px;
+}
+
+.confirmationTitle .title {
+    margin-bottom: 40spx;
+    color:#ff8e4d;
+    font-size: 40px;
 }
