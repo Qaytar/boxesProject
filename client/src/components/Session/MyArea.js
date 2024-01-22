@@ -65,8 +65,8 @@ function MyArea(props) {
                 </div>
                 <p className={styles.title}>Others</p>
                 <span className={`${styles.others}`} onClick={logOut}>Logout and back to Homepage</span>
-                
-                <span className={`${styles.others}`} onClick={a}>Delete account and all data</span>
+                <span className={`${styles.others}`} >Privacy Policy</span>                
+                <span className={`${styles.others}`} >Delete account and all data</span>
             </div>
         </div>
     )
