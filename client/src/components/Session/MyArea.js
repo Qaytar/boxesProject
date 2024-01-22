@@ -64,9 +64,12 @@ function MyArea(props) {
                     <button className={styles.mainButton} onClick={() => { saveBirthDate(birthDate); props.onModalClick(); }}>Save</button>
                 </div>
                 <p className={styles.title}>Others</p>
+                <div className={`${styles.othersWrapper}`}>
                 <span className={`${styles.others}`} onClick={logOut}>Logout and back to Homepage</span>
                 <span className={`${styles.others}`} >Privacy Policy</span>                
                 <span className={`${styles.others}`} >Delete account and all data</span>
+                </div>
+                
             </div>
         </div>
     )

@@ -52,9 +52,16 @@ dateWrapper>button {
 
 }
 
+.othersWrapper {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
 .others {
     font-size: small;
     font-style: italic;
+    
 }
 
 .others:hover {
