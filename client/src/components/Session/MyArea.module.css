@@ -64,13 +64,16 @@ dateWrapper>button {
 .others {
     font-size: small;
     font-style: italic;
+    color: rgb(119, 119, 119)!important;
+    text-decoration: none!important;
     
 }
 
 .others:hover {
     cursor: pointer;    
-    text-decoration: underline;
-    text-decoration-color: #ff8e4d;
+    text-decoration: underline!important;
+    text-decoration-color: #ff8e4d!important;
+    color: rgb(119, 119, 119) !important;
 }
 
 
