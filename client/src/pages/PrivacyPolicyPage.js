@@ -2,6 +2,7 @@
  * PrivacyPolicyPage.js
  * 
  */
+import styles from "./PrivacyPolicyPage.module.css"
 
 function PrivacyPolicyPage() {
     return (
