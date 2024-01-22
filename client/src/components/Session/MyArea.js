@@ -13,15 +13,23 @@ import { saveBirthDate } from '../../helpers/databaseOpsHelper';
 import React, { useContext, useState } from 'react';
 
 function MyArea(props) {
-    const { setUser } = useContext(AuthContext);
+    const { setUser, user } = useContext(AuthContext);
     const { birthDate, setBirthDate } = useContext(LifeBoardDataContext)
     const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
     
-    const [deleteConfirmationPopup, setDeleteConfirmationPopup] = useState('closed');
 
-    // Handler for delete-data btn
+    // State and Handler for the 'Delete account and all data' btn. Which triggers a confirmation popup
+    const [deleteConfirmationPopup, setDeleteConfirmationPopup] = useState('closed');    
     function deleteDataPopupToggler(){
         setDeleteConfirmationPopup(deleteConfirmationPopup ==='closed' ? 'open' : 'closed')
+    }
+
+    // Handler for the Yes, delete it all btn. Which triggers a request to the relevant endpoint
+    function deleteAllData() {    
+        // setUser(null); 
+       
+        // window.location.href = `${backendUrl}/db/deleteAllData`;
+        console.log('user', user)
     }
 
     // Function to handle date change in the form
@@ -78,10 +86,10 @@ function MyArea(props) {
             </div>
             {deleteConfirmationPopup === 'open' ? (<div className={styles.deleteConfirmationPopup}>
                 <p className={styles.confirmationTitle}>Are you sure?</p>
-                <p className={styles.subTitle}>"This will permanently and irreversibly delete all the data and work you have done on your Life Calendar</p>
+                <p className={styles.subTitle}>This will permanently and irreversibly delete all the data and work you have done on your Life Calendar</p>
                 <p className={styles.subTitle}>It will also cause an immediate logout and redirect you to the home page</p>
                 <div className={styles.options}>
-                    <span className={`${styles.confirmationOptions}`}>Yes, delete it all</span>
+                    <span className={`${styles.confirmationOptions}`} onClick={deleteAllData}>Yes, delete it all</span>
                     <span className={`${styles.confirmationOptions}`} onClick={deleteDataPopupToggler}>Cancel</span>
                 </div>
               
