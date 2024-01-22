@@ -53,7 +53,7 @@ function MyArea(props) {
             <Backdrop onBackdropClick={props.onModalClick} />
             <div className={styles.modal}>
                 <div className={styles.dateWrapper}>
-                    <p>Set yor birth date and click save</p>
+                    <p className={styles.title}>Set yor birth date and click save</p>
                     <p className={styles.tutorialLocation}>If you need help to navigate the app, you can find the tutorial on the top right corner of the screen</p>
                     <input
                         type="date"
@@ -63,7 +63,10 @@ function MyArea(props) {
                     />
                     <button className={styles.mainButton} onClick={() => { saveBirthDate(birthDate); props.onModalClick(); }}>Save</button>
                 </div>
-                <span className={`${styles.logout}`} onClick={logOut}>Logout and back to Homepage</span>
+                <p className={styles.title}>Others</p>
+                <span className={`${styles.others}`} onClick={logOut}>Logout and back to Homepage</span>
+                
+                <span className={`${styles.others}`} onClick={a}>Delete account and all data</span>
             </div>
         </div>
     )

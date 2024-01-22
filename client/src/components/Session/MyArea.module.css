@@ -22,7 +22,7 @@
     align-items: center;
 }
 
-.dateWrapper>p:first-of-type {
+.title {
     margin-bottom: 25px;
     color:#ff8e4d;
     font-size: 30px;
@@ -36,7 +36,7 @@
 
 .dateWrapper>button {
     margin-top: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 }
 
 .dateWrapper>input,
@@ -52,12 +52,12 @@ dateWrapper>button {
 
 }
 
-.logout {
+.others {
     font-size: small;
     font-style: italic;
 }
 
-.logout:hover {
+.others:hover {
     cursor: pointer;
     border-bottom: 1px solid #ff8e4d;
 }
