@@ -206,5 +206,43 @@ router.post('/saveBirthDate', async (req, res) => {
     }
 });
 
+/*Listents to GET requests from the React app */
+/*Deletes all data and redirects to home page*/
+router.get('/deleteAllData', async (req, res) => {
+    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
+    res.header("Access-Control-Allow-Credentials", 'true');
+    
+    let user;
+    //First, checks for authorization. 
+    if (req.cookies.token) {
+        try {
+            const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            user = decoded.user;
+            //console.log('decoded data:', user);
+            //If the decoded token from the request contains an object called user, it's assumed the request is legit (even if user isn't in the database, see below)
+        } catch (error) {
+            console.error('Failed to decode token:', error);
+            return res.status(403).json({ error: 'Failed to decode token' });
+        }
+    }
+    //If user object isnt in the decoded token (or decodification fails).. 
+    if (!user) {
+        console.error('No user info provided');
+        return res.status(403).json({ error: 'No user info provided' });
+    }
+    //Proceeds to find the user in the db and save changes
+    try {         
+        
+        await User.deleteOne({ userId: user.id });
+        //console.log('User data deleted successfully');
+
+        // Redirect to home page after successful deletion
+        return res.redirect('https://www.lifecalendarapp.com');
+        
+    } catch (err) {               
+        return res.status(500).json({ error: 'Failed to delete data' });
+    }
+});
+
 module.exports = router;
 

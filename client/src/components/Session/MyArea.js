@@ -24,12 +24,11 @@ function MyArea(props) {
         setDeleteConfirmationPopup(deleteConfirmationPopup ==='closed' ? 'open' : 'closed')
     }
 
-    // Handler for the Yes, delete it all btn. Which triggers a request to the relevant endpoint
+    // Handler for the 'Yes, delete it all' btn. Which triggers a request to the relevant endpoint
     function deleteAllData() {    
-        // setUser(null); 
+        setUser(null); 
        
-        // window.location.href = `${backendUrl}/db/deleteAllData`;
-        console.log('user', user)
+        window.location.href = `${backendUrl}/db/deleteAllData`;        
     }
 
     // Function to handle date change in the form
