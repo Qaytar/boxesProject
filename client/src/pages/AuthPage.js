@@ -7,8 +7,7 @@
 
 
 import styles from "./AuthPage.module.css"
-const dotenv = require('dotenv');
-dotenv.config();
+
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
@@ -22,7 +21,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 console.log('clientID:',process.env.CLIENT_ID )
 //new version of auth function
 function auth() {
-    const GOOGLE_CLIENT_ID = process.env.CLIENT_ID;     
+    const GOOGLE_CLIENT_ID = process.env.REACT_APP_CLIENT_ID;     
     const REDIRECT_URI = 'https://boxesproject-server.vercel.app/auth/google/callback';
 
     const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
