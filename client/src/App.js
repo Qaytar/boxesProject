@@ -2,7 +2,7 @@ import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import AppPage from "./pages/AppPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import OAuth2Callback from '.pages/OAuth2Callback';
+import OAuth2Callback from './pages/OAuth2Callback';
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from './contextsAndHooks/authContext';
 import { LifeBoardDataProvider } from "./contextsAndHooks/lifeBoardDataContext";
