@@ -13,7 +13,7 @@ require('dotenv').config();
 //middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: ['https://boxesproject-client.vercel.app', 'https://www.lifecalendarapp.com'],
+    origin: ['https://www.lifecalendarapp.com'],
     credentials: true, // Allow cookies
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }));

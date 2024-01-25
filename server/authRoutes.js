@@ -62,9 +62,7 @@ The two endpoints that follow allow Google Authentification. /google and /google
 /* Listens to post requests from the frontend after Google sent a request there (Google's redirectURI is in the frontend)
 /* Extracts from Google code and credentials */
 /* Replies with res.redirect to the app with a cookie named 'token' holding a signed JWT */
-router.post('/google/callback', async function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
+router.post('/google/callback', async function (req, res, next) {    
     //console.info('/google/callback endpoint been hit')
     const { code } = req.body;
 
@@ -126,8 +124,6 @@ router.post('/google/callback', async function (req, res, next) {
 /*Listents to GET requests and its cookies from the React app when verification/authorization is needed */
 /*Replies with either res.redirect to login page if failure, or with user data if success*/
 router.get('/verify', (req, res) => {
-    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
     // console.info('/auth/verify has been hit')  
     // console.info('req.cookies.token', req.cookies.token);
     // console.info('process.env.JWT_SECRET', process.env.JWT_SECRET);
@@ -148,8 +144,6 @@ router.get('/verify', (req, res) => {
 /*Listents to GET requests from the React app when log out is needed */
 /*Eliminates cookies name 'token' and redirects to the homepage of the app*/
 router.get('/logout', (req, res) => {
-    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
     try {
         res.clearCookie('token');
         res.redirect('https://www.lifecalendarapp.com');

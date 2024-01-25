@@ -35,8 +35,6 @@ function createEmptyLifeBoard() {
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
 router.post('/getLifeBoard', async (req, res) => {
     //console.log('/getLifeBoard endpoint got git by a post request')
-    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
     try {
         // Check if a token exists to avoid errors when calling jwt.veritfy()
         if (req.cookies.token) {
@@ -97,8 +95,6 @@ router.post('/getLifeBoard', async (req, res) => {
 /*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
 /*Replies with a status message of the operation*/
 router.post('/saveData', async (req, res) => {
-    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
     //console.log('saveData got hit');
     const updatedLifeBoardData = req.body.lifeBoardData;
     const updatedUsedColors = req.body.usedColors;
@@ -157,8 +153,6 @@ router.post('/saveData', async (req, res) => {
 
 //Saves birthDate in db
 router.post('/saveBirthDate', async (req, res) => {
-    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
     //console.log('saveBirthDate has been hit')
     const updatedBirthDate = req.body.birthDate;
     //console.log('birthdate received', updatedBirthDate)
@@ -209,8 +203,6 @@ router.post('/saveBirthDate', async (req, res) => {
 /*Listents to GET requests from the React app */
 /*Deletes all data and redirects to home page*/
 router.get('/deleteAllData', async (req, res) => {
-    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
     
     let user;
     //First, checks for authorization. 

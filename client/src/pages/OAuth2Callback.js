@@ -22,6 +22,7 @@ const OAuth2Callback = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ code }),
+                credentials: 'include'
             }).catch(error => {
                 console.error('Error:', error);
             });
