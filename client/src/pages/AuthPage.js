@@ -11,13 +11,8 @@ import styles from "./AuthPage.module.css"
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
-// Reaches /auth/google endpoint responsible for generating (and replying with) a Google URL
-// After getting response from server, it navigates to said Google Url for users to log in to their Google Accounts
-// async function auth() {
-//     const response = await fetch(`${backendUrl}/auth/google`, { method: 'post' }, { credentials: 'include' });
-//     const data = await response.json();
-//     window.location.href = data.url; //Navigates to Google's URL
-// }
+// Generating a Google URL for users to select their account and log in
+// Then google will redirect to /oauth2callback component
 
 //new version of auth function
 function auth() {
