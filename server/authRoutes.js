@@ -32,31 +32,31 @@ router.get('/test', async function (req, res, next) {
 The two endpoints that follow allow Google Authentification. /google and /google/callback
 */
 
-/* Listens to post request from the React app when user presses Google Log In button */
-/* Replies with Google Url for user to select account and Log In*/
-router.post('/google', async function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
-    //console.info('/google endpoing has been hit')
-    //console.info('process.env.CLIENT_ID', process.env.CLIENT_ID)
-    //console.info('process.env.CLIENT_SECRET', process.env.CLIENT_SECRET)
-    //console.info('redirectURL', redirectURL)
-    try {
-        // Generates the 'google url' users will go to sign up to their Google Accounts
-        const authorizeUrl = oAuth2Client.generateAuthUrl({
-            access_type: 'offline',
-            scope: 'https://www.googleapis.com/auth/userinfo.profile  openid ',
-            prompt: 'consent'
-        });
-        //console.log('/google endpoint. Got the Google URL:', authorizeUrl)
-        // Send the authorize URL in the response
-        res.json({ url: authorizeUrl });
+// /* Listens to post request from the React app when user presses Google Log In button */
+// /* Replies with Google Url for user to select account and Log In*/
+// router.post('/google', async function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
+//     res.header("Access-Control-Allow-Credentials", 'true');
+//     //console.info('/google endpoing has been hit')
+//     //console.info('process.env.CLIENT_ID', process.env.CLIENT_ID)
+//     //console.info('process.env.CLIENT_SECRET', process.env.CLIENT_SECRET)
+//     //console.info('redirectURL', redirectURL)
+//     try {
+//         // Generates the 'google url' users will go to sign up to their Google Accounts
+//         const authorizeUrl = oAuth2Client.generateAuthUrl({
+//             access_type: 'offline',
+//             scope: 'https://www.googleapis.com/auth/userinfo.profile  openid ',
+//             prompt: 'consent'
+//         });
+//         //console.log('/google endpoint. Got the Google URL:', authorizeUrl)
+//         // Send the authorize URL in the response
+//         res.json({ url: authorizeUrl });
 
-    } catch (error) {
-        console.error('An error occurred in /google:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
+//     } catch (error) {
+//         console.error('An error occurred in /google:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
 
 
 /* Listens to get requests from Google after users log in in their Google Accounts

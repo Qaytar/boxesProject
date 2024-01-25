@@ -8,15 +8,39 @@
 
 import styles from "./AuthPage.module.css"
 
+
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
 // Reaches /auth/google endpoint responsible for generating (and replying with) a Google URL
 // After getting response from server, it navigates to said Google Url for users to log in to their Google Accounts
-async function auth() {
-    const response = await fetch(`${backendUrl}/auth/google`, { method: 'post' }, { credentials: 'include' });
-    const data = await response.json();
-    window.location.href = data.url; //Navigates to Google's URL
+// async function auth() {
+//     const response = await fetch(`${backendUrl}/auth/google`, { method: 'post' }, { credentials: 'include' });
+//     const data = await response.json();
+//     window.location.href = data.url; //Navigates to Google's URL
+// }
+
+//new version of auth function
+function auth() {
+    const GOOGLE_CLIENT_ID = process.env.CLIENT_ID; 
+    const REDIRECT_URI = 'https://boxesproject-server.vercel.app/auth/google/callback';
+
+    const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+    const options = {
+        redirect_uri: REDIRECT_URI,
+        client_id: GOOGLE_CLIENT_ID,
+        access_type: 'offline',
+        response_type: 'code',
+        prompt: 'consent',
+        scope: 'https://www.googleapis.com/auth/userinfo.profile openid'
+    };
+
+    const qs = new URLSearchParams(options);
+    const authorizeUrl = `${rootUrl}?${qs.toString()}`;
+
+    window.location.href = authorizeUrl;
 }
+
+
 // The Google Auth flow will continue like: Google will send the codes and token from succesfull auth to another endpoint (/callback)
 //.. there, the express server will handle the response from Google and prepare the JWT and reply to this frontend with a cookie named 'token' holding the signed JWT
 
