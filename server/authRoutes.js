@@ -112,10 +112,11 @@ router.post('/google/callback', async function (req, res, next) {
             partitioned: true,
         });
 
-        res.redirect(303, 'https://www.lifecalendarapp.com/app');
+        res.json({ success: true });
 
     } catch (err) {
-        return res.status(500).json({ error: 'Uknown Internal Server Error' });
+        console.error('Error processing Google callback:', err);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
     }
 });
 

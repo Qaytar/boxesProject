@@ -5,10 +5,11 @@
  * Main purpose is to send a request to backend's endpoint responsible for handling Google's code, set the JWT, etc.
  */
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const OAuth2Callback = () => {    
-
+    const navigate = useNavigate();
     useEffect(() => {
         // Extract the code from URL query
         const urlParams = new URLSearchParams(window.location.search);
@@ -23,11 +24,16 @@ const OAuth2Callback = () => {
                 },
                 body: JSON.stringify({ code }),
                 credentials: 'include'
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    navigate('/app'); // Redirect to '/app' on successful authentication
+                }
             }).catch(error => {
                 console.error('Error:', error);
             });
         }
-    }, []);
+    }, [navigate]);
 
     return (
         <div></div> 
