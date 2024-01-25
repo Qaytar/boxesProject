@@ -77,9 +77,9 @@ router.post('/google/callback', async function (req, res, next) {
         // Setting the credentials on the OAuth2 client
         await oAuth2Client.setCredentials(r.tokens);
 
-        //console.info('Tokens from Google acquired.');
+        console.info('Tokens from Google acquired.');
         const user = oAuth2Client.credentials;
-        //console.info('credentials', user);
+        console.info('credentials', user);
 
         /*Creates JWT to be send in a cookie to the client side*/
         //.. JWT works in a stateless manner. The server only holding a key and all user and session data being holded (encrypted) in the token/cookie itself, so no session data is stored anywhere else
@@ -99,7 +99,7 @@ router.post('/google/callback', async function (req, res, next) {
             },
             exp: expiryDate
         };
-        //console.log('payload:', payload);
+        console.info('payload:', payload);
 
         // Sign the JWT
         const token = jwt.sign(payload, process.env.JWT_SECRET);
@@ -117,7 +117,7 @@ router.post('/google/callback', async function (req, res, next) {
         res.redirect(303, 'https://www.lifecalendarapp.com/app');
 
     } catch (err) {
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: 'Uknown Internal Server Error' });
     }
 });
 

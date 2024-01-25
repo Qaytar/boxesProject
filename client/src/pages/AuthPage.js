@@ -18,7 +18,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 //     const data = await response.json();
 //     window.location.href = data.url; //Navigates to Google's URL
 // }
-console.log('clientID:',process.env.CLIENT_ID )
+
 //new version of auth function
 function auth() {
     const GOOGLE_CLIENT_ID = process.env.REACT_APP_CLIENT_ID;     
