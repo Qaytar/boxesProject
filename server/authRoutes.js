@@ -59,14 +59,14 @@ The two endpoints that follow allow Google Authentification. /google and /google
 // });
 
 
-/* Listens to get requests from Google after users log in in their Google Accounts
+/* Listens to post requests from the frontend after Google sent a request there (Google's redirectURI is in the frontend)
 /* Extracts from Google code and credentials */
 /* Replies with res.redirect to the app with a cookie named 'token' holding a signed JWT */
-router.get('/google/callback', async function (req, res, next) {
+router.post('/google/callback', async function (req, res, next) {
     res.header("Access-Control-Allow-Origin", 'https://www.lifecalendarapp.com');
     res.header("Access-Control-Allow-Credentials", 'true');
     //console.info('/google/callback endpoint been hit')
-    const code = req.query.code;
+    const { code } = req.body;
 
     if (!code) {
         return res.status(400).json({ error: 'No code provided' });
