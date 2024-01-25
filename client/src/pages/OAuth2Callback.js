@@ -5,10 +5,9 @@
  * Main purpose is to send a request to backend's endpoint responsible for handling Google's code, set the JWT, etc.
  */
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 
-const OAuth2Callback = () => {
-    const history = useHistory();
+
+const OAuth2Callback = () => {    
 
     useEffect(() => {
         // Extract the code from URL query
@@ -27,7 +26,7 @@ const OAuth2Callback = () => {
                 console.error('Error:', error);
             });
         }
-    }, [history]);
+    }, []);
 
     return (
         <div></div> 
