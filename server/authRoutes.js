@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
-const redirectURL = `${backendUrl}/auth/google/callback`;
+const redirectURL = 'https://www.lifecalendarapp.com/oauth2callback';
 
 const oAuth2Client = new OAuth2Client(
     process.env.CLIENT_ID,
@@ -77,9 +77,9 @@ router.post('/google/callback', async function (req, res, next) {
         // Setting the credentials on the OAuth2 client
         await oAuth2Client.setCredentials(r.tokens);
 
-        console.info('Tokens from Google acquired.');
+        //console.info('Tokens from Google acquired.');
         const user = oAuth2Client.credentials;
-        console.info('credentials', user);
+        //console.info('credentials', user);
 
         /*Creates JWT to be send in a cookie to the client side*/
         //.. JWT works in a stateless manner. The server only holding a key and all user and session data being holded (encrypted) in the token/cookie itself, so no session data is stored anywhere else
@@ -99,7 +99,7 @@ router.post('/google/callback', async function (req, res, next) {
             },
             exp: expiryDate
         };
-        console.info('payload:', payload);
+        //console.info('payload:', payload);
 
         // Sign the JWT
         const token = jwt.sign(payload, process.env.JWT_SECRET);
