@@ -22,7 +22,7 @@ console.log('clientID:',process.env.CLIENT_ID )
 //new version of auth function
 function auth() {
     const GOOGLE_CLIENT_ID = process.env.REACT_APP_CLIENT_ID;     
-    const REDIRECT_URI = 'https://boxesproject-server.vercel.app/auth/google/callback';
+    const REDIRECT_URI = 'https://www.lifecalendarapp.com/oauth2callback';
 
     const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
     const options = {
