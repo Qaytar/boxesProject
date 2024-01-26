@@ -77,7 +77,7 @@ router.post('/google/callback', async function (req, res, next) {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            // partitioned: true,
+            partitioned: true,
         });
 
         res.json({ success: true });
