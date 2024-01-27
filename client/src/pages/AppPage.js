@@ -21,8 +21,7 @@ function AppPage() {
 
     const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
-    // Protects this page from non-authenticated users. Redirecting those non-identified to /login (AuthPage.js)
-    // Can't use the user state (and instead a new check is done) because most of the times this page is reached from succesful Google Auth BUT there isn't a chance to update user state before users hit this page so it's done now even if redundant)
+    // Protects this page from non-authenticated users. Redirecting those non-identified to /login (AuthPage.js)    
     useEffect(() => {
         const checkAuthAndNavigate = async () => {
             try {

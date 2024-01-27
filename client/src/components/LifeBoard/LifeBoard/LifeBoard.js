@@ -5,16 +5,20 @@
  * Renders the RIGHT side of the application (where the editting panels are)
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import LifeBoardLeft from "../LifeBoardLeft/LifeBoardLeft"
 import LifeBoardRight from "../LifeBoardRight/LifeBoardRight";
 import styles from "./LifeBoard.module.css"
 import { WeekSelectionProvider } from '../../../contextsAndHooks/weekSelectionContext';
 import { LifeBoardDataContext } from '../../../contextsAndHooks/lifeBoardDataContext';
+import { fetchData } from '../../../helpers/databaseOpsHelper';
 
+useEffect(() => {
+    fetchData(setLifeBoardData, setUsedColors, setBirthDate);
+}, []);
 
 function LifeBoard(props) {
-    const { birthDate, lifeboarddata } = useContext(LifeBoardDataContext);
+    const { birthDate, lifeboarddata, setLifeBoardData, setUsedColors, setBirthDate } = useContext(LifeBoardDataContext);
 
     //weekSelectionContext is made available to all LifeBoard sub components. It holds an object/state with all selectedWeeks as well as function to select and deselect
     return (

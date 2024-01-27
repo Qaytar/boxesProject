@@ -58,19 +58,6 @@ function HomePage() {
 
 
 
-
-    // this code 'protects' the homepage from authenticaded users (better for them to skip it and go straigh to the application itself)
-    // const { user, loadingAuthCheck } = useContext(AuthContext);
-    // const navigate = useNavigate();
-    // useEffect(() => {
-    //     // If the checkAuth() from authContext has already finished running (loadingAuthCheck is False) 
-    //     //..and the user has resulted authenticated, navigate to /app and skip the homepage
-    //     if (!loadingAuthCheck && user) {
-    //         navigate('/app');
-    //     }
-    // }, [loadingAuthCheck, user, navigate]);
-
-
     return (
         <div className={styles.wrapper}>
             <LogInMyAreaBtn />

@@ -38,9 +38,9 @@ export const LifeBoardDataProvider = ({ children }) => {
 
     // When app mounts, stores the data of the user (from db) in the 3 states.
     //..This context is pretty global so essentially this useEffect runs very early on when the app is mounted
-    useEffect(() => {
-        fetchData(setLifeBoardData, setUsedColors, setBirthDate);
-    }, []);
+    // useEffect(() => {
+    //     fetchData(setLifeBoardData, setUsedColors, setBirthDate);
+    // }, []);
 
 
     /*
@@ -112,7 +112,7 @@ export const LifeBoardDataProvider = ({ children }) => {
     };
 
     return (
-        <LifeBoardDataContext.Provider value={{ lifeBoardData, usedColors, setUsedColors, birthDate, setBirthDate, updateWeek }}>
+        <LifeBoardDataContext.Provider value={{ setLifeBoardData, lifeBoardData, usedColors, setUsedColors, birthDate, setBirthDate, updateWeek }}>
             {children}
         </LifeBoardDataContext.Provider>
     );
