@@ -13,12 +13,14 @@ import { WeekSelectionProvider } from '../../../contextsAndHooks/weekSelectionCo
 import { LifeBoardDataContext } from '../../../contextsAndHooks/lifeBoardDataContext';
 import { fetchData } from '../../../helpers/databaseOpsHelper';
 
-useEffect(() => {
-    fetchData(setLifeBoardData, setUsedColors, setBirthDate);
-}, []);
+
 
 function LifeBoard(props) {
     const { birthDate, lifeboarddata, setLifeBoardData, setUsedColors, setBirthDate } = useContext(LifeBoardDataContext);
+
+    useEffect(() => {
+        fetchData(setLifeBoardData, setUsedColors, setBirthDate);
+    }, []);
 
     //weekSelectionContext is made available to all LifeBoard sub components. It holds an object/state with all selectedWeeks as well as function to select and deselect
     return (
