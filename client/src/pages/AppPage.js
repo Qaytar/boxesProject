@@ -30,7 +30,7 @@ function AppPage() {
                 const response = await fetch(`${backendUrl}/auth/verify`, { credentials: 'include' });
 
                 // If unauthorized, set user to null and navigate to login
-                if (response.status === 401) {
+                if (response.status === 401 || response.status === 400) {
                     setUser(null);
                     navigate('/login');
                     return;

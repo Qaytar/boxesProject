@@ -97,6 +97,10 @@ router.get('/verify', (req, res) => {
     // console.info('req.cookies.token', req.cookies.token);
     // console.info('process.env.JWT_SECRET', process.env.JWT_SECRET);
 
+    if(!req.cookies.token) {
+        res.status(400).json({ error: 'No token found. Auth Failed' })
+    }
+
     jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, token) => {
         if (err) {
             // Token validation failed            

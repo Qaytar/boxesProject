@@ -50,9 +50,9 @@ export const AuthProvider = ({ children }) => {
 
 
     //run checkAuth once and only once when the app is being mounted since this context is the 'outer' component of the app
-    useEffect(() => {
-        checkAuth();
-    }, [])
+    // useEffect(() => {
+    //     checkAuth();
+    // }, [])
 
     return (
         <AuthContext.Provider value={{ user, setUser, loadingAuthCheck }}>
