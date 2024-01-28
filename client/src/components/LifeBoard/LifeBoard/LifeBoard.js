@@ -25,7 +25,7 @@ function LifeBoard(props) {
         if (location.pathname === '/') {
             setLifeBoardData(lifeBoardExampleData.lifeBoard)
             setUsedColors(lifeBoardExampleData.usedColors)
-            setBirthDate(new Date(lifeBoardExampleData.birthDate.$date.$numberLong).toLocaleDateString())
+            setBirthDate(new Date(lifeBoardExampleData.birthDate.$date.$numberLong).toISOString())
         } else if (location.pathname === '/app') {
             fetchData(setLifeBoardData, setUsedColors, setBirthDate);
         }
@@ -44,11 +44,8 @@ function LifeBoard(props) {
                     <LifeBoardLeft />
                     <LifeBoardRight location={props.location} />
                 </div>
-
             </div>
         </WeekSelectionProvider>
-
-
     )
 }
 
