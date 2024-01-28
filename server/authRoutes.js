@@ -48,7 +48,7 @@ router.post('/google/callback', async function (req, res, next) {
         //console.info('credentials', user);
 
         /*Creates JWT to be sent to the client side to be stored in local storage*/
-        //.. JWT works in a stateless manner. The server only holding a key and all user and session data being holded (encrypted) in the token/cookie itself, so no session data is stored anywhere else
+        //.. JWT works in a stateless manner. The server only holding a key and all user and session data being holded (encrypted) in the token itself, so no session data is stored anywhere else
         const decodedIdToken = jwt.decode(user.id_token);
         if (!decodedIdToken) {
             return res.status(400).json({ error: 'Error decoding ID token' });
@@ -71,15 +71,7 @@ router.post('/google/callback', async function (req, res, next) {
         const token = jwt.sign(payload, process.env.JWT_SECRET);
         if (!token) {
             return res.status(500).json({ error: 'Error signing JWT token' });
-        }
-
-        // res.cookie('token', token, {
-        //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: 'none',
-        //     partitioned: true,
-        // });
-        // res.json({ success: true });
+        }   
 
         res.json({ success: true, token })
 
@@ -108,20 +100,5 @@ router.get('/verify', (req, res) => {
         }
     });
 });
-
-
-
-// /*Listents to GET requests from the React app when log out is needed */
-// /*Eliminates cookies name 'token' and redirects to the homepage of the app*/
-// router.get('/logout', (req, res) => {
-//     try {
-//         res.clearCookie('token');
-//         res.redirect('https://www.lifecalendarapp.com');
-//     } catch (err) {
-//         // In case clearing the cookie fails        
-//         return res.status(500).json({ error: 'Failed to clean cookie' });
-//     }
-// });
-
 
 module.exports = router;
