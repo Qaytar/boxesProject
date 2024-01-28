@@ -22,11 +22,11 @@ function LifeBoard(props) {
     const location = useLocation();  
 
     useEffect(() => {
-        if (location.pathname === '/HomePage') {
+        if (location.pathname === '/') {
             setLifeBoardData(lifeBoardExampleData.lifeBoard)
             setUsedColors(lifeBoardExampleData.usedColors)
             setBirthDate(lifeBoardExampleData.birthDate)
-        } else if (location.pathname === '/AppPage') {
+        } else if (location.pathname === '/app') {
             fetchData(setLifeBoardData, setUsedColors, setBirthDate);
         }
     }, [location.pathname]);
