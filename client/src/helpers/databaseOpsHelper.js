@@ -13,9 +13,9 @@ export async function saveData(lifeBoardData, usedColors) {
 
     try {
         const response = await fetch(`${backendUrl}/db/saveData`, {
-            method: 'POST',
-            credentials: 'include',
+            method: 'POST',            
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ lifeBoardData, usedColors })
@@ -42,9 +42,9 @@ export async function saveBirthDate(birthDate) {
 
     try {
         const response = await fetch(`${backendUrl}/db/saveBirthDate`, {
-            method: 'POST',
-            credentials: 'include',
+            method: 'POST',            
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ birthDate })
@@ -69,9 +69,9 @@ export async function fetchData(setLifeBoardData, setUsedColors, setBirthDate) {
         const response = await fetch(`${backendUrl}/db/getLifeBoard`, {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
-            },
-            credentials: 'include'
+            }            
         });
 
         if (!response.ok) {
