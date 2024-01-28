@@ -26,7 +26,14 @@ function AppPage() {
         const checkAuthAndNavigate = async () => {
             try {
                 // send request for express.js server to decode/look for the JWT token, decrypt it and reply with its payload content
-                const response = await fetch(`${backendUrl}/auth/verify`, { credentials: 'include' });
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${backendUrl}/auth/verify`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
 
                 // If unauthorized, set user to null and navigate to login
                 if (response.status === 401 || response.status === 400) {

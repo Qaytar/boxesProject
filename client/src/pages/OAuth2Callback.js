@@ -7,9 +7,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-const OAuth2Callback = () => {    
+const OAuth2Callback = () => {
     const navigate = useNavigate();
+    
     useEffect(() => {
         // Extract the code from URL query
         const urlParams = new URLSearchParams(window.location.search);
@@ -22,21 +22,24 @@ const OAuth2Callback = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ code }),
-                credentials: 'include'
-            }).then(response => response.json())
+                body: JSON.stringify({ code })
+            })
+            .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                if (data.success && data.token) {
+                    // Store the token in Local Storage
+                    localStorage.setItem('token', data.token);
                     navigate('/app'); // Redirect to '/app' on successful authentication
                 }
-            }).catch(error => {
+            })
+            .catch(error => {
                 console.error('Error:', error);
             });
         }
     }, [navigate]);
 
     return (
-        <div></div> 
+        <div></div>
     );
 };
 

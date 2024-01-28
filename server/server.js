@@ -6,15 +6,12 @@ const app = express();
 const cors = require('cors');
 const authRoutes = require('./authRoutes');
 const dbRoutes = require('./dbRoutes');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
 //middleware
-app.use(cookieParser());
 app.use(cors({
-    origin: ['https://www.lifecalendarapp.com'],
-    credentials: true, // Allow cookies
+    origin: ['https://www.lifecalendarapp.com'],   
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }));
 app.use(bodyParser.json({ limit: '2mb' })); // Increase limit

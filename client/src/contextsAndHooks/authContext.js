@@ -24,14 +24,19 @@ export const AuthProvider = ({ children }) => {
     //.. it's needed cause otherwise by the time the HomePage.js' redirecting logic runs, the checkAuth() hasn't finished yet and authenticated users 'show up' as non-authenticated and stay in HomePage.js when they should not
     const [loadingAuthCheck, setLoadingAuthCheck] = useState(true);
 
-    // reaches /auth/verify endpoint in the express.js server to validate (or not) credential sent within the cookies
-    // the endpoint returns the content of the decoded  JWT token (user object with id, name and picture)
-    // updates user state
+   
     const checkAuth = async () => {
         try {
             setLoadingAuthCheck(true);
             // send request for express.js server to decode/look for the JWT token, decrypt it and reply with its payload content
-            const response = await fetch(`${backendUrl}/auth/verify`, { credentials: 'include' });
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${backendUrl}/auth/verify`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
             if (response.ok) {
                 const data = await response.json();
@@ -48,11 +53,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-
-    //run checkAuth once and only once when the app is being mounted since this context is the 'outer' component of the app
-    // useEffect(() => {
-    //     checkAuth();
-    // }, [])
 
     return (
         <AuthContext.Provider value={{ user, setUser, loadingAuthCheck }}>

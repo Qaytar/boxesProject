@@ -26,14 +26,21 @@ function createEmptyLifeBoard() {
     return lifeBoard;
 }
 
-/*Listents to POST requests and its cookies from the React app when lifeBoard data is needed */
+/*Listents to POST requests from the React app when lifeBoard data is needed */
 /*Replies with either empty lifeBoard or the one stored in db for that specific user*/
 router.post('/getLifeBoard', async (req, res) => {
     //console.log('/getLifeBoard endpoint got git by a post request')
     try {
         // Check if a token exists to avoid errors when calling jwt.veritfy()
-        if (req.cookies.token) {
-            const { user } = jwt.verify(req.cookies.token, process.env.JWT_SECRET); // decodes JWT sent by client in the cookies to acces user and session data
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json({ error: 'No token provided' });
+        }
+
+        const token = authHeader.split(' ')[1]; // Extract the token from 'Bearer <token>'
+        const { user } = jwt.verify(token, process.env.JWT_SECRET); // Decode JWT sent by client
+
+            
             // A user is logged in
             if (user) {
                 const userData = await User.findOne({ userId: user.id });
@@ -52,7 +59,7 @@ router.post('/getLifeBoard', async (req, res) => {
                     });
                 }
             }
-        } 
+         
     } catch (error) {
         console.error("Error getting data from server:", error);
         res.status(500).json({ error: 'Failed to get data from server' });
@@ -60,7 +67,7 @@ router.post('/getLifeBoard', async (req, res) => {
 });
 
 
-/*Listents to POST requests and its cookies from the React app when changes in the lifeboard need to be saved */
+/*Listents to POST requests from the React app when changes in the lifeboard need to be saved */
 /*Replies with a status message of the operation*/
 router.post('/saveData', async (req, res) => {
     //console.log('saveData got hit');
@@ -68,19 +75,15 @@ router.post('/saveData', async (req, res) => {
     const updatedUsedColors = req.body.usedColors;
     //console.log('usedColors received:', req.body.usedColors)
 
-    let user;
+    
     //First, checks for authorization. 
-    if (req.cookies.token) {
-        try {
-            const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-            user = decoded.user;
-            //console.log('decoded data:', user);
-            //If the decoded token from the request contains an object called user, it's assumed the request is legit (even if user isn't in the database, see below)
-        } catch (error) {
-            console.error('Failed to decode token:', error);
-            return res.status(403).json({ error: 'Failed to decode token' });
-        }
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ error: 'No token provided' });
     }
+
+    const token = authHeader.split(' ')[1]; // Extract the token from 'Bearer <token>'
+    const { user } = jwt.verify(token, process.env.JWT_SECRET); // Decode JWT sent by client
     //If user object isnt in the decoded token (or decodification fails).. 
     if (!user) {
         console.error('No user info provided');
@@ -125,19 +128,14 @@ router.post('/saveBirthDate', async (req, res) => {
     const updatedBirthDate = req.body.birthDate;
     //console.log('birthdate received', updatedBirthDate)
 
-    let user;
-    //First, checks for authorization. 
-    if (req.cookies.token) {
-        try {
-            const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-            user = decoded.user;
-            //console.log('user', user)
-            //If the decoded token from the request contains an object called user, it's assumed the request is legit (even if user isn't in the database, see below)
-        } catch (error) {
-            console.error('Failed to decode token:', error);
-            return res.status(403).json({ error: 'Failed to decode token' });
-        }
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ error: 'No token provided' });
     }
+
+    const token = authHeader.split(' ')[1]; // Extract the token from 'Bearer <token>'
+    const { user } = jwt.verify(token, process.env.JWT_SECRET); // Decode JWT sent by client
+
     //If user object isnt in the decoded token (or decodification fails).. 
     if (!user) {
         console.error('No user info provided');
@@ -168,23 +166,17 @@ router.post('/saveBirthDate', async (req, res) => {
     }
 });
 
-/*Listents to GET requests from the React app */
+/*Listents to POST requests from the React app */
 /*Deletes all data and redirects to home page*/
-router.get('/deleteAllData', async (req, res) => {
+router.post('/deleteAllData', async (req, res) => {
     
-    let user;
-    //First, checks for authorization. 
-    if (req.cookies.token) {
-        try {
-            const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-            user = decoded.user;
-            //console.log('decoded data:', user);
-            //If the decoded token from the request contains an object called user, it's assumed the request is legit (even if user isn't in the database, see below)
-        } catch (error) {
-            console.error('Failed to decode token:', error);
-            return res.status(403).json({ error: 'Failed to decode token' });
+    const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json({ error: 'No token provided' });
         }
-    }
+
+        const token = authHeader.split(' ')[1]; // Extract the token from 'Bearer <token>'
+        const { user } = jwt.verify(token, process.env.JWT_SECRET); // Decode JWT sent by client
     //If user object isnt in the decoded token (or decodification fails).. 
     if (!user) {
         console.error('No user info provided');
@@ -196,9 +188,7 @@ router.get('/deleteAllData', async (req, res) => {
         await User.deleteOne({ userId: user.id });
         //console.log('User data deleted successfully');
 
-        // Clean cookie and Redirect to home page after successful deletion
-        res.clearCookie('token');
-        return res.redirect('https://www.lifecalendarapp.com');
+        return res.status(200);
         
     } catch (err) {               
         return res.status(500).json({ error: 'Failed to delete data' });

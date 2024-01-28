@@ -29,7 +29,7 @@ router.get('/test', async function (req, res, next) {
 
 
 /* Listens to post requests from the frontend (component /OAuth2Callback) which carries the Google code for authentication
-/* Replies success for a 'redirect' to the appPage from the frontend. With a cookie named 'token' holding a signed JWT */
+/* Replies success for a 'redirect' to the appPage from the frontend */
 router.post('/google/callback', async function (req, res, next) {    
     //console.info('/google/callback endpoint been hit')
     const { code } = req.body;
@@ -47,7 +47,7 @@ router.post('/google/callback', async function (req, res, next) {
         const user = oAuth2Client.credentials;
         //console.info('credentials', user);
 
-        /*Creates JWT to be send in a cookie to the client side*/
+        /*Creates JWT to be sent to the client side to be stored in local storage*/
         //.. JWT works in a stateless manner. The server only holding a key and all user and session data being holded (encrypted) in the token/cookie itself, so no session data is stored anywhere else
         const decodedIdToken = jwt.decode(user.id_token);
         if (!decodedIdToken) {
@@ -73,14 +73,15 @@ router.post('/google/callback', async function (req, res, next) {
             return res.status(500).json({ error: 'Error signing JWT token' });
         }
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'none',
-            partitioned: true,
-        });
+        // res.cookie('token', token, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: 'none',
+        //     partitioned: true,
+        // });
+        // res.json({ success: true });
 
-        res.json({ success: true });
+        res.json({ success: true, token })
 
     } catch (err) {
         console.error('Error processing Google callback:', err);
@@ -90,41 +91,37 @@ router.post('/google/callback', async function (req, res, next) {
 
 
 
-/*Listents to GET requests and its cookies from the React app when verification/authorization is needed */
+/*Listents to GET requests and a token on the header from the React app when verification/authorization is needed */
 /*Replies with either res.redirect to login page if failure, or with user data if success*/
 router.get('/verify', (req, res) => {
-    // console.info('/auth/verify has been hit')  
-    // console.info('req.cookies.token', req.cookies.token);
-    // console.info('process.env.JWT_SECRET', process.env.JWT_SECRET);
-
-    if(!req.cookies.token) {
-        res.status(400).json({ error: 'No token found. Auth Failed' })
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(400).json({ error: 'No token found. Auth Failed' });
     }
 
-    jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, token) => {
-        if (err) {
-            // Token validation failed            
-            res.status(401).json({ error: 'Authentication failed' });
-        } else {
-            // Token validation successful
-            //console.log('user', token.user)
-            res.json(token.user);
+    const token = authHeader.split(' ')[1]; // Extract the token from the 'Bearer <token>' format
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+        if (err) { // Token validation failed            
+            return res.status(401).json({ error: 'Authentication failed' });
+        } else { // Token validation successful            
+            res.json(decodedToken.user);
         }
     });
 });
 
 
-/*Listents to GET requests from the React app when log out is needed */
-/*Eliminates cookies name 'token' and redirects to the homepage of the app*/
-router.get('/logout', (req, res) => {
-    try {
-        res.clearCookie('token');
-        res.redirect('https://www.lifecalendarapp.com');
-    } catch (err) {
-        // In case clearing the cookie fails        
-        return res.status(500).json({ error: 'Failed to clean cookie' });
-    }
-});
+
+// /*Listents to GET requests from the React app when log out is needed */
+// /*Eliminates cookies name 'token' and redirects to the homepage of the app*/
+// router.get('/logout', (req, res) => {
+//     try {
+//         res.clearCookie('token');
+//         res.redirect('https://www.lifecalendarapp.com');
+//     } catch (err) {
+//         // In case clearing the cookie fails        
+//         return res.status(500).json({ error: 'Failed to clean cookie' });
+//     }
+// });
 
 
 module.exports = router;

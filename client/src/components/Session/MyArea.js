@@ -26,11 +26,31 @@ function MyArea(props) {
     }
 
     // Handler for the 'Yes, delete it all' btn. Which triggers a request to the relevant endpoint
-    function deleteAllData() {    
-        setUser(null); 
-       
-        window.location.href = `${backendUrl}/db/deleteAllData`;        
+    
+    const deleteAllData = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`${backendUrl}/db/deleteAllData`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (response.ok) {                
+                setUser(null);                
+                localStorage.removeItem('token');                
+                window.location.href = 'https://www.lifecalendarapp.com';
+            } else {
+                // Handle non-OK responses
+                console.error('Failed to delete data');                
+            }
+        } catch (error) {
+            console.error('Error during deletion:', error);            
+        }
     }
+    
 
     // Function to handle date change in the form
     function handleDateChange(event) {
@@ -41,14 +61,27 @@ function MyArea(props) {
         setBirthDate(formattedDate);
     }
 
-    //Logs user out
+    // //Logs user out
+    // function logOut() {
+    //     // Set user state to null
+    //     setUser(null);
+
+    //     //sends request to delete cookie and redirect to homepage
+    //     window.location.href = `${backendUrl}/auth/logout`;
+    // }
+
+    // Logs user out
     function logOut() {
         // Set user state to null
         setUser(null);
 
-        //sends request to delete cookie and redirect to homepage
-        window.location.href = `${backendUrl}/auth/logout`;
+        // Remove the JWT from Local Storage
+        localStorage.removeItem('token');
+
+        // Redirect to the homepage or login page        
+        window.location.href = '/';
     }
+
 
     // improves usability of date picker
     document.addEventListener('DOMContentLoaded', function () {

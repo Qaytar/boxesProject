@@ -37,7 +37,7 @@ function auth() {
 
 
 // The Google Auth flow will continue like: Google will send the codes and token from succesfull auth to another endpoint (/callback)
-//.. there, the express server will handle the response from Google and prepare the JWT and reply to this frontend with a cookie named 'token' holding the signed JWT
+//.. there, the express server will handle the response from Google and prepare the JWT
 
 
 function AuthPages() {
