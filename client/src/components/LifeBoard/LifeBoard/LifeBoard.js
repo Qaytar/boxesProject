@@ -25,7 +25,7 @@ function LifeBoard(props) {
         if (location.pathname === '/') {
             setLifeBoardData(lifeBoardExampleData.lifeBoard)
             setUsedColors(lifeBoardExampleData.usedColors)
-            setBirthDate(new Date(lifeBoardExampleData.birthDate.$date.$numberLong).toISOString())
+            setBirthDate('1997-04-09T00:00:00.000+00:00')
         } else if (location.pathname === '/app') {
             fetchData(setLifeBoardData, setUsedColors, setBirthDate);
         }
