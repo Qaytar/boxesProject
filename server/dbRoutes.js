@@ -11,11 +11,6 @@ const router = express.Router();
 const User = require('./models');
 const jwt = require('jsonwebtoken');
 
-const lifeBoardSampleFakeUserId = '65327e13b665415e36ec0c95';
-const lifeBoardTutorialFakeUserId = '6532823fb665415e36ec0c96';
-const ObjectId = require('mongoose').Types.ObjectId;
-module.exports.lifeBoardSampleFakeUserId = lifeBoardSampleFakeUserId;
-
 // Function to create an empty lifeBoard
 // returns an object with a 100 properties named r1, r2.. (rows)
 // For each row/property, there is an array of 52 objects with properties of a <Week>: color and comment.
@@ -51,40 +46,13 @@ router.post('/getLifeBoard', async (req, res) => {
                         birthDate: userData.birthDate
                     });
                 } else {
-                    // A user is logged in but not in db yet. Return empty lifeboard
-                    //const tutorialData = await User.findOne({ _id: lifeBoardTutorialFakeUserId }); Old code returning tutorial data
+                    // A user is logged in but not in db yet. Return empty lifeboard                    
                     return res.json({
                         lifeBoard: createEmptyLifeBoard()                        
                     });
                 }
             }
-        } else if (!req.cookies.token) {
-            // No user is logged in (meaning is the LifeBoard in the HomePage making the request)
-
-            //console.info('lifeBoardSampleFakeUserId', lifeBoardSampleFakeUserId)
-            //const lifeBoardSampleFakeUser = await User.findOne({ _id: lifeBoardSampleFakeUserId })
-            const lifeBoardSampleFakeUser = await User.findOne({ _id: new ObjectId(lifeBoardSampleFakeUserId) })
-                .catch(err => {
-                    console.error("Error while fetching fake user:", err);
-                    return null;
-                });
-
-            // console.info('lifeBoardSampleFakeUser', lifeBoardSampleFakeUser)
-            if (lifeBoardSampleFakeUser) {
-                //console.log('fetching and returning lifeBoardDataSample')
-                return res.json({
-                    lifeBoard: lifeBoardSampleFakeUser.lifeBoard,
-                    usedColors: lifeBoardSampleFakeUser.usedColors,
-                    birthDate: lifeBoardSampleFakeUser.birthDate
-                });
-            } else {
-                // lifeBoardSampleFakeUser wasn't found in db so returning empty/valid states to have something to render
-                //console.log('No user logged in and no sampleFakeUser found - returning empty states')
-                return res.json({
-                    lifeBoard: createEmptyLifeBoard()                    
-                });
-            }
-        }
+        } 
     } catch (error) {
         console.error("Error getting data from server:", error);
         res.status(500).json({ error: 'Failed to get data from server' });
