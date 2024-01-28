@@ -12,6 +12,7 @@ export async function saveData(lifeBoardData, usedColors) {
     //console.log('usedColors inside saveData', usedColors);
 
     try {
+        const token = localStorage.getItem('token');
         const response = await fetch(`${backendUrl}/db/saveData`, {
             method: 'POST',            
             headers: {
@@ -41,6 +42,7 @@ export async function saveBirthDate(birthDate) {
     //console.log('calling saveBirthDate, with argument:', birthDate);
 
     try {
+        const token = localStorage.getItem('token');
         const response = await fetch(`${backendUrl}/db/saveBirthDate`, {
             method: 'POST',            
             headers: {
@@ -66,6 +68,7 @@ export async function saveBirthDate(birthDate) {
 // Loads main states from db by reaching to endpoint
 export async function fetchData(setLifeBoardData, setUsedColors, setBirthDate) {
     try {
+        const token = localStorage.getItem('token');
         const response = await fetch(`${backendUrl}/db/getLifeBoard`, {
             method: 'POST',
             headers: {
