@@ -6,21 +6,30 @@
  */
 
 import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import LifeBoardLeft from "../LifeBoardLeft/LifeBoardLeft"
 import LifeBoardRight from "../LifeBoardRight/LifeBoardRight";
 import styles from "./LifeBoard.module.css"
 import { WeekSelectionProvider } from '../../../contextsAndHooks/weekSelectionContext';
 import { LifeBoardDataContext } from '../../../contextsAndHooks/lifeBoardDataContext';
 import { fetchData } from '../../../helpers/databaseOpsHelper';
+import lifeBoardExampleData from '../../../helpers/lifeBoardExampleData.json'
 
 
 
 function LifeBoard(props) {
     const { birthDate, lifeboarddata, setLifeBoardData, setUsedColors, setBirthDate } = useContext(LifeBoardDataContext);
+    const location = useLocation();  
 
     useEffect(() => {
-        fetchData(setLifeBoardData, setUsedColors, setBirthDate);
-    }, []);
+        if (location.pathname === '/HomePage') {
+            setLifeBoardData(lifeBoardExampleData.lifeBoard)
+            setUsedColors(lifeBoardExampleData.usedColors)
+            setBirthDate(lifeBoardExampleData.birthDate)
+        } else if (location.pathname === '/AppPage') {
+            fetchData(setLifeBoardData, setUsedColors, setBirthDate);
+        }
+    }, [location.pathname]);
 
     //weekSelectionContext is made available to all LifeBoard sub components. It holds an object/state with all selectedWeeks as well as function to select and deselect
     return (
