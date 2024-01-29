@@ -1,2 +1,2 @@
 # boxesProject
-readMe writting is work in progres
+readMe writting is work in progress
